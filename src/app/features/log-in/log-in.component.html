@@ -1,1 +1,23 @@
-<p>log-in works!</p>
+<app-auth-layout [WelcomeTitle]="'Welcome Back!'" [authTile]="'Log In To Your Account'" [linkTile]="'Sign Up'">
+    <form [formGroup]="logInForm" (ngSubmit)="onSubmit()">
+      <app-input-field 
+        label="Email" 
+        icon="email" 
+        [control]="emailControl" 
+        placeholder="yourmail@gmail.com">
+      </app-input-field>
+  
+      <app-input-field 
+        label="Password" 
+        type="password" 
+        icon="lock" 
+        [control]="passwordControl" 
+        placeholder="Strong Password">
+      </app-input-field>
+  
+      <button mat-button color="primary" type="submit" [disabled]="logInForm.invalid">Sign Up</button>
+      <p>Already have an account? <a routerLink="/signup" style="color: #E98925; cursor: pointer;">Sign Up</a></p>
+    </form>
+</app-auth-layout>
+
+<router-outlet></router-outlet>

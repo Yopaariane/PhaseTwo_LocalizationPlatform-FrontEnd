@@ -1,0 +1,81 @@
+.auth{
+    display: flex;
+    width: 100%;
+}
+.left-side{
+    background-image: url('/img/Background.png');
+    background-size: cover;
+    width: 44%;
+    height: 100vh;
+    position: relative;
+}
+.logo img{
+    margin: 45px 0 0 61px;
+    position: relative;
+    z-index: 1;
+}
+.Welcome_info{
+    position: absolute;
+    z-index: 10;
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    top: 0%;
+}
+.Welcome_info h1 {
+    font-size: 24px;
+    font-weight: bold;
+    color: #fff;
+}
+.Welcome_info p {
+    font-size: 16px;
+    font-weight: normal;
+    padding: 22px 0; 
+    text-align: center;
+    color: #fff;
+}
+.Welcome_info img{
+    width: calc(388 / 629 * 100%);
+    max-width: 388px;
+    height: auto;
+    max-height: 252px;
+}
+
+
+.right_side{
+    width: 56%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+    h1{
+        font-size: 24px;
+        font-weight: bold;
+        color: #000;
+        opacity: 0.8;
+    }
+    .logIn_api{
+        display: flex;
+        width: 155px;
+        justify-content: space-between;
+        margin-top: 60px;
+    }
+    .or{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        margin: 22px 0;
+        width: 47.6%;
+    }
+    .or hr {
+        flex: 1;
+        border: none;
+        border-top: 1px solid #000; 
+    }
+}

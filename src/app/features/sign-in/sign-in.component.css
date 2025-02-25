@@ -1,77 +1,26 @@
-.auth{
-    display: flex;
+form{
+    min-width: 250px;
+    width: 47.6%;
+}
+button{
     width: 100%;
-}
-.left-side{
-    background-image: url('/img/Background.png');
-    background-size: cover;
-    width: 44%;
-    height: 100vh;
-}
-.logo img{
-    margin: 45px 0 0 61px;
-}
-.Welcome_info{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-}
-.Welcome_info h1 {
-    font-size: 24px;
-    font-weight: bold;
+    background-color: #E98925;
     color: #fff;
-}
-.Welcome_info p {
+    border: none;
+    border-radius: 5px;
     font-size: 16px;
-    font-weight: normal;
-    padding: 22px 0; 
-    text-align: center;
+    height: 44px;
+    cursor: pointer;
+}
+button:hover{
+    background-color: #db7609;
     color: #fff;
 }
-.Welcome_info img{
-    width: 62%;
-    max-width: 100%;
-    height: auto;
-    max-height: 252px;
+p{
+    font-size: 14px;
+    color: #6B7280;
+    margin-top: 22px;
+} 
+a{
+    text-decoration: none;
 }
-.right_side{
-    width: 56%;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    .form{
-        width: 80%;}
-    .form{
-        width: 80%;
-    }
-    .form-group{
-        margin-bottom: 20px;
-    }
-    .form-label{
-        font-size: 20px;
-        font-weight: 500;
-        color: #000;
-    }
-    .form-input{
-        width: 100%;
-        height: 40px;
-        border: 1px solid #000;
-        border-radius: 5px;
-        padding: 0 10px;
-        font-size: 16px;
-        color: #000;
-    }
-    .form-button{
-        width: 100%;
-        height: 40px;
-        border: none;
-        border-radius: 5px;
-        background-color: #000;
-        color: #fff;
-        font-size: 16px;
-        cursor: pointer;
-    }
-}  

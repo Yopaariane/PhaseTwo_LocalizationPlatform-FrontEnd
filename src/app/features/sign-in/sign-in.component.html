@@ -1,37 +1,30 @@
-<div class="auth">
-    <div class="contain left-side">
-        <div class="logo"><img src="/img/Logo.png" alt="Logo"></div>
-        <div class="Welcome_info">
-            <h1>Welcome !</h1>
-            <p>Break language barriers effortlessly—translate, collaborate, <br>and localize with AI-powered precision, all in one intuitive <br>platform built just for you.</p>
-            <img src="img/Welcom_img.png" alt="Welcome">
-        </div>
-    </div>
-    <div class="right_side">
-        <h1>Create Your Account</h1>
-        <div class="logIn_api">
-            <img src="img/google.png" alt="Google">
-            <img src="img/github.png" alt="Github">
-            <img src="img/windows.png" alt="Windows">
-        </div>
-        <div class="or">
-            <hr>
-            <span>or</span>
-            <hr>
-        </div>
-        <div class="auth_form">
-            <div class="user_name">
-                <label for="user_name">User Name</label>
-                <input type="text" id="user_name" placeholder="Enter your user name">
-            </div>
-            <div class="email">
-                <label for="email">Email</label>
-                <input type="email" id="email" placeholder="Enter your email">
-            </div>
-            <div class="password">
-                <label for="password">Password</label>
-                <input type="password" id="password" placeholder="Enter your password">
-            </div>
-        </div>
-    </div>
-</div>
+<app-auth-layout [WelcomeTitle]="'Welcome!'" [authTile]="'Create Your Account'" [linkTile]="'Log In'">
+  <form [formGroup]="signUpForm" (ngSubmit)="onSubmit()">
+    <app-input-field 
+      label="User Name" 
+      icon="person" 
+      [control]="usernameControl" 
+      placeholder="Your Name">
+    </app-input-field>
+
+    <app-input-field 
+      label="Email" 
+      icon="email" 
+      [control]="emailControl" 
+      placeholder="yourmail@gmail.com">
+    </app-input-field>
+
+    <app-input-field 
+      label="Password" 
+      type="password" 
+      icon="lock" 
+      [control]="passwordControl" 
+      placeholder="Strong Password">
+    </app-input-field>
+
+    <button mat-button color="primary" type="submit" [disabled]="signUpForm.invalid">Sign Up</button>
+    <p>Already have an account? <a routerLink="/logIn" style="color: #E98925; cursor: pointer;">Log In</a></p>
+  </form>
+</app-auth-layout>
+
+<router-outlet></router-outlet>

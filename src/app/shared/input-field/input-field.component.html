@@ -1,0 +1,14 @@
+  <div class="input-container">
+    <mat-form-field appearance="outline">
+      <mat-label>{{ label }}</mat-label>
+      <mat-icon matPrefix>{{ icon }}</mat-icon>
+      <input matInput [type]="isPasswordVisible ? 'text' : 'password'" [formControl]="control" [placeholder]="placeholder" />
+      <mat-icon *ngIf="type === 'password'" style="cursor: pointer;" matSuffix (click)="togglePasswordVisibility()">
+        {{ isPasswordVisible ? 'visibility' : 'visibility_off' }}
+      </mat-icon>
+      <mat-error *ngIf="control.invalid && control.touched">
+        {{ label }} is required
+      </mat-error>
+    </mat-form-field>
+  </div>
+  

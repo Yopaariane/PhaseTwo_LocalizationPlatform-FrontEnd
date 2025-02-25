@@ -1,0 +1,25 @@
+.sidebar {
+    width: 290px;
+    background: #4CAF50;
+    color: white;
+    height: 100vh;
+    position: fixed;
+    align-items: center;
+  }
+  .logo{
+    width: 150px;
+    height: 76px;
+  }
+
+  .nav-item{
+    border-radius: 10px;
+    margin: 5px;
+    width: 250px;
+    text-align: center;
+  }
+
+  .nav-item:hover{
+    background-color: #FFFFFF;
+    opacity: 0.1;
+    color: #4CAF50;
+  }
