@@ -1,0 +1,22 @@
+<app-nav-bar-layout>
+    <div class="contain">
+        <app-form-container
+        [title]="'Create Term'"
+        [formGroup]="termsForm"
+        [submitButtonText]="'Save'"
+        (formSubmit)="addTerm()"
+        >
+        <div class="mb-3">
+            <label for="termt" class="form-label">Term</label>
+            <input type="text" class="form-control" id="termName" formControlName="term">
+            <div *ngIf="termsForm.get('name')?.touched && termsForm.get('name')?.invalid">
+            <small class="text-danger">term is required.</small>
+            </div>
+        </div>
+        <div class="mb-3">
+            <label for="termcontext" class="form-label">Term Context</label>
+            <textarea class="form-control" id="termcontext" rows="3" formControlName="context"></textarea>
+        </div>
+        </app-form-container>
+    </div>
+</app-nav-bar-layout>

@@ -17,41 +17,41 @@
     </div>
 
     <ul class="nav nav-pills flex-column">
-      <li class="nav-item">
-        <a href="#" class="nav-link text-white">
-          <i class="bi bi-house"></i> Dashboard
+      <li class="nav-item" routerLinkActive="active-link">
+        <a routerLink="/dashboard" class="nav-link">
+          <i class="bi bi-house-door"></i> Dashboard
         </a>
       </li>
-      <li class="nav-item">
-        <a href="#" class="nav-link text-white">
-          <i class="bi bi-person"></i> Projects
+      <li class="nav-item" routerLinkActive="active-link">
+        <a [routerLink]="['/project']" class="nav-link">
+          <i class="bi bi-folder"></i> Projects
         </a>
       </li>
-      <li class="nav-item">
-        <a href="#" class="nav-link text-white">
-          <i class="bi bi-person"></i> Contributors
+      <li class="nav-item" routerLinkActive="active-link">
+        <a href="#" class="nav-link">
+          <i class="bi bi-people"></i> Contributors
         </a>
       </li>
-      <li class="nav-item">
-        <a href="#" class="nav-link text-white">
-          <i class="bi bi-person"></i> Intergrations
+      <li class="nav-item" routerLinkActive="active-link">
+        <a href="#" class="nav-link">
+          <i class="bi bi-plug"></i> Integrations
         </a>
       </li>
       <p>Help & Support</p>
-      <li class="nav-item">
-        <a href="#" class="nav-link text-white">
-          <i class="bi bi-person"></i> Settings
+      <li class="nav-item" routerLinkActive="active-link">
+        <a [routerLink]="['/settings']" class="nav-link">
+          <i class="bi bi-gear"></i> Settings
         </a>
       </li>
-      <li class="nav-item">
-        <a href="#" class="nav-link text-white">
-          <i class="bi bi-person"></i> Help Center
+      <li class="nav-item" routerLinkActive="active-link">
+        <a href="#" class="nav-link">
+          <i class="bi bi-question-circle"></i> Help Center
         </a>
       </li>
 
-      <li class="nav-item">
-        <a href="#" class="nav-link text-white">
-          <i class="bi bi-person"></i> Log Out
+      <li class="nav-item end" routerLinkActive="active-link">
+        <a href="#" class="nav-link">
+          <i class="bi bi-box-arrow-left"></i> Log Out
         </a>
       </li>
     </ul>

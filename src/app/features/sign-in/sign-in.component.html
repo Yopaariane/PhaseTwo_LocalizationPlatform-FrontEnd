@@ -3,7 +3,7 @@
     <app-input-field 
       label="User Name" 
       icon="person" 
-      [control]="usernameControl" 
+      [control]="nameControl" 
       placeholder="Your Name">
     </app-input-field>
 
@@ -23,6 +23,7 @@
     </app-input-field>
 
     <button mat-button color="primary" type="submit" [disabled]="signUpForm.invalid">Sign Up</button>
+    <p *ngIf="signUpError" class="error" style="color: red; font-size: 14px;">{{ signUpError }}</p>
     <p>Already have an account? <a routerLink="/logIn" style="color: #E98925; cursor: pointer;">Log In</a></p>
   </form>
 </app-auth-layout>

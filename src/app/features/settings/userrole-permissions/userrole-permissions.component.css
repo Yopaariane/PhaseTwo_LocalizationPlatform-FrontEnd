@@ -1,0 +1,19 @@
+.permission{
+    max-width: 800px;
+}
+.permission-item{
+    border-bottom: 1px solid #E3E3E3;
+    padding: 10px;
+}
+h3{
+    font-size: 16px;
+    color: #000000c9;
+}
+span{
+    font-size: 14px;
+    color: #545454;
+}
+h2{
+    font-size: 14px;
+    color: #1d1d1dda;
+}

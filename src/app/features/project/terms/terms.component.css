@@ -1,0 +1,38 @@
+.search-container{
+    .btn{
+        background-color: #46B24D;
+        color: white;
+    }
+}
+
+.terms-list{
+    margin-top: 22px;
+    height: 605px;
+    .col{
+        height: 100%;
+        overflow-y: auto;
+    }
+}
+
+.terms{
+    text-align: start;
+    span{
+        background-color: #535353;
+        color: white !important;
+        text-align: start;
+        font-weight: lighter;
+        font-size: 14px !important;
+        border-bottom-right-radius: 0;
+    }
+}
+.term-title{
+    color: #6B7280;
+    width: 30%;
+}
+.custom-iconBtn{
+    border: 0;
+    background-color: transparent !important;
+  }
+.icon{
+    margin-right: 24px;
+}

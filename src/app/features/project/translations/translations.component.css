@@ -1,0 +1,18 @@
+.action-button{
+    align-items: center;
+}
+.right-side{
+    width: 50%;
+
+    .file-format{
+        cursor: pointer;
+        text-align: center;
+    }
+}
+.dropdown-item{
+    cursor: pointer;
+}
+
+.btn{
+    cursor: pointer;
+}

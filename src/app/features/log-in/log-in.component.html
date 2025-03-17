@@ -1,10 +1,10 @@
 <app-auth-layout [WelcomeTitle]="'Welcome Back!'" [authTile]="'Log In To Your Account'" [linkTile]="'Sign Up'">
     <form [formGroup]="logInForm" (ngSubmit)="onSubmit()">
       <app-input-field 
-        label="Email" 
-        icon="email" 
-        [control]="emailControl" 
-        placeholder="yourmail@gmail.com">
+        label="name" 
+        icon="person" 
+        [control]="nameControl" 
+        placeholder="yourname">
       </app-input-field>
   
       <app-input-field 
@@ -12,10 +12,11 @@
         type="password" 
         icon="lock" 
         [control]="passwordControl" 
-        placeholder="Strong Password">
+        placeholder="yourpassword">
       </app-input-field>
   
-      <button mat-button color="primary" type="submit" [disabled]="logInForm.invalid">Sign Up</button>
+      <button mat-button color="primary" type="submit" [disabled]="logInForm.invalid">Log In</button>
+      <p *ngIf="loginError" class="error" style="color: red; font-size: 14px;">{{ loginError }}</p>
       <p>Already have an account? <a routerLink="/signup" style="color: #E98925; cursor: pointer;">Sign Up</a></p>
     </form>
 </app-auth-layout>

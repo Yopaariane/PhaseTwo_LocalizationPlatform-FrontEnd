@@ -1,0 +1,59 @@
+<div class="section mt-4">
+    <div class="contain my-4 custom-container">
+      <h4 class="card-title">Import Terms and Translations</h4>
+      <div class="card-body">
+        <div class="mb-3 file">
+          <label for="fileInput" class="form-label">Drag your file here or click to choose</label>
+          <div
+            id="fileInput"
+            class="border border-2 border-dashed rounded text-center p-4 file-drop-zone"
+            [ngClass]="{'file-drop-hover': isHovering}"
+            (dragover)="onDragOver($event)"
+            (dragleave)="onDragLeave($event)"
+            (drop)="onFileDrop($event)"
+            (click)="fileInput.click()"
+          >
+            <input
+              type="file"
+              id="fileInputField"
+              #fileInput
+              style="display: none;"
+              (change)="onFileSelected($event)"
+            />
+            <i class="bi bi-file-earmark-text" style="font-size: 26px;"></i>
+            <p class="text-muted" *ngIf="!selectedFile">
+              Drag your file here or click to choose
+            </p>
+            <p *ngIf="selectedFile">
+              {{ selectedFile.name }} has been added
+            </p>
+          </div>
+        </div>
+  
+        <div class="input-group mb-3">
+            <input type="text" class="form-control" placeholder="Choose a language" [value]="selectedLanguage?.name || ''" (focus)="showDropdown = true" (blur)="hideDropdown()" readonly>
+        </div>
+        <div *ngIf="showDropdown">
+            <ul class="list-group position-absolute z-index-1">
+              <li class="list-group-item" *ngFor="let language of filteredLanguages()" (click)="selectLanguage(language)">
+                {{ language.name }}
+              </li>
+            </ul>
+        </div>
+  
+        <button class="btn custom-btn w-100" (click)="importToProject()">
+          Import to project
+        </button>
+      </div>
+    </div>
+  
+    <div class="mt-4 file-type">
+      <h5>Accepted files:</h5>
+      <ul class="list-unstyled">
+        <li><strong>JSON</strong> (.json)</li>
+        <li><strong>CSV</strong> (.csv)</li>
+        <li><strong>XLIFF</strong> (.xliff)</li>
+      </ul>
+    </div>
+  </div>
+  

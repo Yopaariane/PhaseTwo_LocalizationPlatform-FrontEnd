@@ -1,0 +1,16 @@
+.option{
+    display: flex;
+    justify-content: space-between;
+}
+p{
+    font-size: 14px;
+    color: #545454;
+}
+.custom-checkbox:checked {
+    background-color: #46B24D;
+    border-color: #46B24D;
+  }
+  
+  .custom-checkbox:checked::before {
+    background-color: #46B24D;
+  }

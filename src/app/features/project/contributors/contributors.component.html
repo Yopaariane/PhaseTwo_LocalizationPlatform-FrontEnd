@@ -1,0 +1,59 @@
+<div class="roe terms-list">
+    <div class="col" style="align-items: start; display: block;">
+        <div class="action-button d-flex justify-content-between mb-2">
+            <div class="left-side d-flex justify-content-between">
+                <button class="btn">
+                    <i class="fas fa-trash"></i>
+                </button>
+                <button class="btn">
+                    <i class="fas fa-search" style="color: #46B24D;"></i>
+                </button>
+            </div>
+            <div class="right-side">
+                <div class="dropdown">
+                    <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                      <i class="fas fa-filter"></i> Order by
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                      <li><a class="dropdown-item">Date Asc</a></li>
+                        <li><a class="dropdown-item">Date Desc</a></li>
+                        <li><a class="dropdown-item">Name Asc</a></li>
+                        <li><a class="dropdown-item">Name Desc</a></li>
+                    </ul>
+                  </div>
+                <button class="btn add-project">
+                    <i class="fas fa-plus"></i> Add Contributors
+                </button>
+            </div>
+        </div>
+
+        <table class="table text-white mb-3">
+            <thead>
+                <tr class="table-light">
+                  <th scope="col" class="terms"><span class="badge badge-custom">{{userRoleDetails.length}} Contributors</span></th>
+                  <th scope="col" class="term-title">Progress</th>
+                    <th scope="col" class="term-title" style="text-align: end;">Action</th>
+                </tr>
+                
+              </thead>
+              <tbody>
+                <tr *ngIf="userRoleDetails.length === 1">
+                  <td colspan="4">Add your first Contributor for this project</td>
+                </tr> 
+                <tr class="fw-normal" *ngFor="let detail of userRoleDetails">
+                  <td class="projects">
+                    <span style="font-weight: bold;">{{detail.user.name}}</span>
+                  </td>
+                  <td class="align-middle">
+                   {{ detail.role.name }}
+                  </td>
+                  <td class="align-middle custom-td" style="text-align: right">
+                      <button type="button" class="custom-iconBtn" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Remove language" (click)="deleteUserRole(detail.userRoleId)"><i
+                          class="fas fa-trash-alt fa-lg text-warning"></i></button>
+                  </td>
+                </tr>
+              </tbody>
+        </table>
+
+    </div>
+</div>

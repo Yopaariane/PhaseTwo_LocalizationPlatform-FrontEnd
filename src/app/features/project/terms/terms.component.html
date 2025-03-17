@@ -1,0 +1,97 @@
+<div class="row terms-list">
+    <!-- No term -->
+    <div class="col no-project" *ngIf="terms.length === 0">
+      <h3>Click on the plus button to Add your first term !</h3>
+      <button class="btn add-project" [routerLink]="['/termForm', projectId]">
+        <i class="fas fa-plus"></i>
+      </button>
+    </div>
+    <div class="col" style="align-items: start; display: block;" *ngIf="terms.length > 0">
+        <!-- header buttons -->
+        <div class="action-button d-flex justify-content-between mb-2">
+            <div class="left-side d-flex justify-content-between">
+                <button class="btn trash-btn">
+                    <i class="fas fa-trash"></i>
+                </button>
+                <button class="btn search-btn" (click)="toggleSearch()">
+                  <i class="fas fa-search"></i>
+                </button>
+                <div class="search-container" [ngClass]="{'d-none': !isSearchVisible, 'animate__animated animate__fadeIn': isSearchVisible}">
+                  <div class="row justify-content-center">
+                    <div class="">
+                      <form class="d-flex">
+                        <div class="input-group">
+                          <input class="form-control form-control" type="search" placeholder="Search" aria-label="Search">
+                          <button class="btn px-4" type="submit">
+                              <i class="bi bi-search"></i>
+                            </button>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+            </div>
+            <div class="right-side">
+                <div class="dropdown">
+                  <app-sort-dropdown></app-sort-dropdown>
+                </div>
+                <button class="btn add-project" [routerLink]="['/termForm', projectId]">
+                    <i class="fas fa-plus"></i> Add Term
+                </button>
+            </div>
+        </div>
+        <!-- table -->
+        <table class="table table-hover">
+            <thead>
+              <tr class="table-light">
+                <th scope="col" class="terms"><span class="badge badge-custom">{{terms.length}} Terms</span></th>
+                <th scope="col" class="term-title">Progress</th>
+                <th scope="col" class="term-title" style="text-align: end;">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let term of paginatedTerms" class="fw-normal">
+                  <td class="projects">
+                    <span><input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"></span>
+                    <a [attr.data-bs-toggle]="'collapse'" [attr.href]="'#collapse' + term?.id"  aria-expanded="false" [attr.aria-controls]="'collapse' + term?.id" style="text-decoration: none; color: #343a40;">
+                    <span class="ms-2">{{ term?.term || "Unknown TermS"}}</span>
+                    </a>
+                    <div class="collapse multi-collapse" [attr.id]="'collapse' + term?.id">
+                      <div *ngFor="let language of languages">
+                        <span>{{language.name}}</span>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="progress" style="width: 100%;">
+                      <div class="progress-bar bg-success" role="progressbar" [style.width.%]="term.progress" [attr.aria-valuenow]="term.progress" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    <small>{{ term.progress }}%</small>
+                  </td>
+                  <td class="align-middle custom-td" style="text-align: right">
+                    <a href="#!" data-mdb-tooltip-init title="Change language" class="icon">
+                      <i class="bi bi-pencil"></i>
+                    </a>
+                    <a href="#" data-mdb-tooltip-init title="Translation" class="icon">
+                      <i class="bi bi-translate"></i>
+                    </a>
+                        <button type="button" class="custom-iconBtn" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Remove term" (click)="deleteTerm(term.id)"><i
+                          class="fas fa-trash-alt fa-lg text-warning"></i></button>
+                  </td>
+                </tr>
+              </tbody>
+          </table>
+          <!-- NgbPagination Component -->
+            <ngb-pagination 
+            *ngIf="shouldShowPagination()"
+            [collectionSize]="terms.length"
+            [(page)]="currentPage"
+            [pageSize]="itemsPerPage"
+            (pageChange)="pageChanged($event)"
+            [maxSize]="3"
+            [rotate]="true"
+            [ellipses]="false"
+            [boundaryLinks]="true">
+            </ngb-pagination>
+      </div>
+</div>

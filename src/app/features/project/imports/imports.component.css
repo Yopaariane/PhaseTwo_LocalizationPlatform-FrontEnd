@@ -1,0 +1,46 @@
+.section{
+    display: flex;
+    justify-content: space-between;
+    background-color: white;
+    border-radius: 10px;
+    padding-left: 22px;
+    padding-right: 22px;
+    padding-top: 45px;
+    height: 600px;
+    overflow-y: auto;
+
+    .custom-container{
+        width: 60%;
+    }
+
+    .file-type{
+        width: 30%;
+        text-align: center;
+        border-left: 1px solid #B1B1B1;
+        height: 55%;
+    }
+}
+.custom-btn{
+    background-color: #46B24D;
+    color: white;
+}
+
+.file-drop-zone{
+    cursor: pointer;
+}
+.file-drop-zone:hover{
+    background-color: #d5fcd8;
+}
+
+.list-group{
+    width: 40%;
+    max-width: 300px;
+    overflow-y: auto;
+    .list-group-item{
+        cursor: pointer;
+    }
+
+    .list-group-item:hover{
+        color: #46B24D;
+    }
+}

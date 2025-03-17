@@ -1,0 +1,65 @@
+.billing{
+    max-width: 800px;
+    display: flex;
+    justify-content: space-between;
+}
+.plan{
+    padding: 20px;
+    width: 48%;
+    border: 1px solid #e0f7e2;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    h3{
+        font-size: 14px;
+        color: rgba(0, 0, 0, 0.753);
+    }
+
+    h2{
+        font-size: 16px;
+        color: #46B24D;
+        margin-bottom: 22px;
+
+        span{
+            font-size: 14px;
+            color: #545454;
+            font-weight: normal;
+        }
+    }
+}
+.billing-list{
+    width: 80%;
+    padding: 0;
+
+    span{
+        font-size: 14px;
+        color: #545454;
+        float: right;
+    }
+    i{
+        float: right;
+    }
+    .check{
+        color: #46B24D;
+    }
+    .cros{
+        color: red;
+    }
+
+    .billing-list-element{
+        list-style: none;
+        font-size: 14px;
+        margin-bottom: 22px;
+        color: #545454;
+    }
+}
+
+.btn{
+    color: white;
+    font-size: 14px;
+    background-color: #46B24D;
+    width: 100px;
+    margin: auto;
+}

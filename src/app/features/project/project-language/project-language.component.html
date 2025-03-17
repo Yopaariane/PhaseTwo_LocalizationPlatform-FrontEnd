@@ -1,0 +1,105 @@
+<div class="row terms-list">
+    <!-- No language -->
+    <div class="col no-project" *ngIf="projectLanguages.length === 0">
+      <h3>Click on the plus button to Add your first language !</h3>
+      <div class="btn-group">
+        <button class="btn add-project dropdown-toggle" type="button" id="aiTranslateDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+          <i class="fas fa-plus"></i>
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="aiTranslateDropdown" style="width: 120px;">
+          <li>
+            <div class="px-3 py-2 option-contain">
+              <div class="language-option" *ngFor="let language of filteredLanguages()" (click)="selectLanguage(language)" [class.selected]="isSelected(language.id)">
+                <option class="option" [value]="language.id">{{ language.name }}
+                    <span *ngIf="isSelected(language.id)" class="me-5 icon">&#10003;</span>
+                </option>
+              </div>
+            </div>
+          </li>
+          <li class="text-center button">
+            <button class="btn mt-2" style="background-color: #46B24D; color: white;" (click)="saveLanguages()">ADD</button>
+          </li>
+        </ul>
+    </div>
+    </div>
+    <div class="col" style="align-items: start; display: block;" *ngIf="projectLanguages.length > 0">
+        <!-- header buttons -->
+        <div class="action-button d-flex justify-content-between mb-2">
+            <div class="left-side d-flex justify-content-between">
+                <button class="btn trash-btn">
+                    <i class="fas fa-trash"></i>
+                </button>
+                <button class="btn">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+            <div class="right-side">
+                <div class="dropdown">
+                  <app-sort-dropdown></app-sort-dropdown>
+                </div>
+                <!-- Add new Languages -->
+                <div class="btn-group">
+                    <button class="btn add-project dropdown-toggle" type="button" id="aiTranslateDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                      <i class="fas fa-plus"></i> Add Language
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="aiTranslateDropdown" style="width: 120px;">
+                      <li>
+                        <div class="px-3 py-2 option-contain">
+                          <div class="language-option" *ngFor="let language of filteredLanguages()" (click)="selectLanguage(language)" [class.selected]="isSelected(language.id)">
+                            <option class="option" [value]="language.id">{{ language.name }}
+                                <span *ngIf="isSelected(language.id)" class="me-5 icon">&#10003;</span>
+                            </option>
+                          </div>
+                        </div>
+                      </li>
+                      <li class="text-center button">
+                        <button class="btn mt-2" style="background-color: #46B24D; color: white;" (click)="saveLanguages()">ADD</button>
+                      </li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+        <!-- table -->
+        <table class="table table-hover">
+            <thead>
+              <tr class="table-light">
+                <th scope="col" class="terms"><span class="badge badge-custom">{{projectLanguages.length}} Languages</span></th>
+                <th scope="col" class="term-title">Progress</th>
+                <th scope="col" class="term-title" style="text-align: end;">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let projectLanguage of paginatedProjectLanguage" class="fw-normal">
+                <td class="projects">
+                    <a [routerLink]="['/project', projectId, 'translation', projectLanguage.id]" class="link-dark">
+                  <span [class]="getFlagClass(getLanguageCodeById(projectLanguage.languageId))"></span>
+        
+                  <span class="ms-2">{{ getLanguageNameById(projectLanguage.languageId) }} <span class="lan-code">{{ getLanguageCodeById(projectLanguage.languageId) }}</span></span>
+                </a>
+                </td>
+                <td class="align-middle">
+                  <div class="progress" style="width: 100%;">
+                    <div class="progress-bar bg-success" role="progressbar" [style.width.%]="projectLanguage.progress || 0" [attr.aria-valuenow]="projectLanguage.progress || 0"
+                    aria-valuemin="0" aria-valuemax="100"></div>
+                  </div>
+                  <small>{{ projectLanguage.progress || 0 }}%</small>
+                </td>
+                <td class="align-middle custom-td" style="text-align: right">
+                    <a href="#!" data-mdb-tooltip-init title="Change language" class="icon">
+                        <i class="bi bi-pencil"></i>
+                    </a>
+                    <a href="#" data-mdb-tooltip-init title="Translation" class="icon">
+                        <i class="bi bi-translate"></i>
+                    </a>
+                    <button type="button" class="custom-iconBtn" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Remove language" (click)="deleteLanguage(projectLanguage.id)"><i
+                        class="fas fa-trash-alt fa-lg text-warning"></i></button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <!-- NgbPagination Component -->
+
+      </div>
+</div>
+

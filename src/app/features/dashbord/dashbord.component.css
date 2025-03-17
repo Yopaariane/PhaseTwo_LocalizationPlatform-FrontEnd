@@ -1,0 +1,152 @@
+.dashboard{
+    width: 95%;
+    max-width: 1550px;
+}
+.col{
+    background-color: white;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    text-align: center;
+    span{
+        color: #6B7280;
+        font-size: 20px;
+    }
+}
+.progress-grids{
+    gap: 20px;
+    .col{
+        height: 226px;
+        color: #6b7280;
+        .row{
+            margin-right: 10px;
+        }
+    }
+}
+.info-grids{
+    margin-top: 22px;
+    gap: 20px;
+    .col{
+        height: 116px;
+        img{
+            margin-right: 20px;
+        }
+        h4{
+            padding: 0;
+            font-size: 24px;
+            span{
+                font-size: 14px;
+            }
+        }
+    }
+}
+.project-list{
+    margin-top: 22px;
+    .col{
+        min-height: 480px;
+    }
+}
+
+/* project table */
+.action-button{
+    width: 100%;
+    .left-side{
+        min-width: 100px;
+        button{
+            border: none;
+        }
+        .trash-btn:hover{
+            color: red;
+        }
+    }
+
+    .right-side{
+        text-align: end;
+        display: flex;
+        min-width: 300px;
+        justify-content: space-between;
+        
+        .add-project{
+            background-color: #E98925;
+            color: white;
+        }
+        .add-project:hover{
+            background-color: #d47005;
+        }
+    }
+
+    .fa-search:hover{
+        color: #46B24D;
+    }
+}
+
+.table{
+    a{
+        text-decoration: none;
+    }
+    th{
+        font-weight: 500;
+    }
+}
+.check-box{
+    margin-right: 10px;
+}
+.projects{
+    text-align: start;
+}
+.progress{
+    height: 10px;
+}
+.status{
+    text-align: end;
+    span{
+        font-size: 14px;
+    }
+}
+
+/* Custom styles for NgbPagination */
+::ng-deep .pagination {
+    border: none;
+  }
+  
+  ::ng-deep .pagination .page-link {
+    color: #46B24D !important;
+    border: none;
+  }
+  
+  ::ng-deep .pagination .page-item.active .page-link {
+    background-color: #46B24D !important;
+    color: white !important;
+    border-radius: 5px;
+    border: none;
+  }
+  
+  ::ng-deep .pagination .page-item.disabled .page-link {
+    background-color: white !important;
+    color: #6c757d !important;
+    border: none;
+    margin-bottom: 0%;
+    padding-bottom: 0%;
+  }
+  
+.no-project{
+    display: flex;
+    flex-direction: column;
+    h3{
+        color: #6B7280;
+        font-size: 18px;
+        font-weight: bold;
+        margin-bottom: 22px;
+    }
+    .add-project{
+        border: 2px solid #E98925;
+        color: #E98925;
+    }
+    .add-project:hover{
+        border: 2px solid #d46e00;
+        color: #d46e00;
+        ;
+    }
+}

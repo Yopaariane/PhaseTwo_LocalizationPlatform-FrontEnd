@@ -1,0 +1,20 @@
+.project-form{
+    max-width: 396px;
+}
+a{
+    text-decoration: none;
+}
+h2{
+    font-size: 24px;
+    font-weight: bold;
+    color: #000;
+    opacity: 0.8;
+}
+.add-project{
+    background-color: #E98925;
+    color: white;
+    width: 100%;
+}
+.add-project:hover{
+    background-color: #d47005;
+}

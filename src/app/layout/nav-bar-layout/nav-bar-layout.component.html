@@ -7,12 +7,12 @@
 </div> -->
 
 <div class="d-flex">
-    <app-side-bar></app-side-bar>
+    <app-side-bar class="side-bar"></app-side-bar>
     <div class="content">
-        <app-top-bar></app-top-bar>
+        <app-top-bar class="top-bar"></app-top-bar>
       <div class="main-content">
-        <router-outlet></router-outlet>
+        <ng-content></ng-content>
       </div>
     </div>
-  </div>
+</div>
   

@@ -4,19 +4,56 @@
     align-items: center;
     padding: 10px;
     background: #fff;
+    /* width: calc(100% - 290px);
+    transition: width 0.3s ease; */
   }
-  
-  .profile {
-    display: flex;
-    align-items: center;
-  }
-  
-  .profile-pic {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
+  /* .sidebar-collapsed .navbar {
+    width: 100%;
+  } */
+
+  .toggel:active{
+    border: none;
   }
 
-  .ms-250 {
-    margin-left: 289px;
+  .right-side{
+    justify-content: space-between;
+    gap: 20px;
   }
+  button{
+    border: transparent !important;
+}
+
+/* Avatar */
+.no-bg {
+    background-color: transparent !important;
+    border: transparent !important;
+}  
+.initials-circle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    color: white;
+    text-transform: uppercase;
+    font-size: 14px;
+}
+.dropdown-item{
+    color: #343a40;
+    cursor: pointer;
+}
+
+
+@media (max-width: 500px) {
+  .right-side{
+    gap: 1px;
+  }
+
+  @media (max-width: 430px) {
+    .dropdown-toggle{
+        display: none;
+      }
+  }
+  
+}

@@ -1,0 +1,154 @@
+<div class="row terms-list">
+    <div class="col" style="align-items: start; display: block;">
+        <!-- header buttons -->
+        <div class="action-button d-flex justify-content-between mb-2 bg-light" style="height: 55px;">
+            <div class="btn-group custom-btn-group">
+                <button type="button" class="btn dropdown-toggle custom-button" (click)="toggleDropdown()">
+                  <span [class]="getFlagClass(languageCode)"></span><strong style="margin-left: 6px;">{{ languageName }}</strong> 
+                </button>
+                <div *ngIf="showDropdown" (click)="hideDropdown()" style="cursor: pointer; width: 80px;">
+                  <ul class="list-group position-absolute z-index-1 w-100">
+                    <li class="list-group-item" *ngFor="let language of filteredLanguages()" (click)="navigateToProjectLanguage(language.id)">
+                      <span [class]="getFlagClass(language.code)"></span> {{ language.name }}
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            <div class="right-side">
+                <div class="btn-group">
+                    <button class="btn btn-light dropdown-toggle" type="button" id="exportDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                      <i class="fas fa-file-export me-2"></i> Export
+                    </button>
+                    <ul class="dropdown-menu file-format" aria-labelledby="exportDropdown">
+                      <li *ngFor="let format of formats">
+                        <a class="dropdown-item" (click)="selectFormat(format)">{{ format.toUpperCase() }}</a>
+                      </li>
+                    </ul>
+                </div>
+
+                <div class="dropdown">
+                    <app-sort-dropdown></app-sort-dropdown>
+                </div>
+
+                <div class="btn-group">
+                    <button class="btn add-project dropdown-toggle" type="button" id="aiTranslateDropdown" data-bs-toggle="dropdown" aria-expanded="false" [disabled]="isTranslating">
+                        <i class="fas fa-robot me-2"></i> {{ isTranslating ? 'Translating...' : 'AI Translate' }}
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="aiTranslateDropdown" style="width: 300px;">
+                        <li>
+                            <div class="px-3 py-2">
+                                <label for="translationContext" class="form-label">Translation Context</label>
+                                <input type="text" class="form-control" id="translationContext" [(ngModel)]="translationContext" placeholder="Enter context">
+                            </div>
+                        </li>
+                        <li>
+                            <div class="px-3 py-2">
+                                <label for="otherSpecifications" class="form-label">Other Specifications</label>
+                                <input type="text" class="form-control" id="otherSpecifications" [(ngModel)]="otherSpecifications" placeholder="Enter specifications">
+                            </div>
+                        </li>
+                        <li class="text-center" style="width: 90%; margin: auto;">
+                            <button class="btn mt-2" style="background-color: #46B24D; color: white; width: 100%;"
+                            (click)="aiTranslate(languageCode)"
+                            >{{ isTranslating ? 'Translating...' : 'Go' }}</button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- table -->
+        <table class="table text-white mb-3">
+            <thead>
+              <tr></tr>
+            </thead>
+            <tbody> 
+                <tr class="fw-normal" *ngFor="let term of paginatedTranslation">
+                  <td class="projects">
+                    <span><input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"></span>
+                    <span class="ms-2">{{ term.term }}</span>
+                  </td>
+                  
+                  <!-- if there is no saved translation -->
+                  <td class="align-middle">
+                    <ng-container *ngIf="getTranslationForTerm(term.id); else noTranslation">
+                      <div class="form-control" id="exampleFormControlTextarea1">{{ getTranslationForTerm(term.id)?.translationText }}</div>
+                    </ng-container>
+              
+                    <ng-container *ngIf="isEditingTerm(term.id);">
+                      <textarea 
+                        class="form-control" 
+                        [(ngModel)]="draftTranslations[term.id]" 
+                        (input)="onInput(term.id)"
+                        rows="2">
+                      </textarea>
+                      <button class="btn btn-success" (click)="updateTranslation(term.id)">Update</button>
+                    </ng-container>
+              
+                    <ng-template #noTranslation>
+                      <textarea 
+                        class="form-control" 
+                        [(ngModel)]="draftTranslations[term.id]" 
+                        (input)="onInput(term.id)"
+                        [ngClass]="{'active-input': isInputActive(term.id)}"
+                        rows="2">
+                      </textarea>
+                    </ng-template>
+              
+                  </td>
+              
+                  <td class=" custom-td">
+                    <!-- Check if a translation exists for the term -->
+                    <ng-container *ngIf="getTranslationForTerm(term.id); else noTranslationIcon">
+                      <!-- If translation exists, show modify and comment buttons -->
+                      <button class="btn" (click)="toggleEdit(term.id)" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Modify">
+                        <i class="bi bi-pencil-square" style="font-size: 1.2rem; color: #0d6efd;"></i>
+                      </button>
+                      <button class="btn" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Comment" style="color: #f8994c;">
+                        <i class="bi bi-chat-dots" style="font-size: 1.2rem; color: #f8994c;"></i>
+                      </button>
+                    </ng-container>
+                  
+                    <!-- If no translation exists, show save and comment buttons -->
+                    <ng-template #noTranslationIcon>
+                      <button class="btn"
+                        [disabled]="!isInputActive(term.id)"
+                        (click)="saveTranslation(term.id)"
+                        data-bs-toggle="tooltip" 
+                        data-bs-placement="bottom" 
+                        title="Save" style="border: 0px;">
+                          <i class="bi bi-save-fill" [ngClass]="{'text-success': isInputActive(term.id), 'text-muted': !isInputActive(term.id)}" style="font-size: 1.2rem;"></i>
+                      </button>
+                      <button class="btn" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Comment" style="color: #f8994c;">
+                        <i class="bi bi-chat-dots" style="font-size: 1.2rem; color: #f8994c;"></i>
+                      </button>
+                    </ng-template>
+                  </td>        
+                </tr>
+            </tbody>
+          </table>
+
+          <div class="col-footer d-flex justify-content-between">
+            <!-- NgbPagination Component -->
+            <ngb-pagination 
+            *ngIf="shouldShowPagination()"
+            [collectionSize]="terms.length"
+            [(page)]="currentPage"
+            [pageSize]="itemsPerPage"
+            (pageChange)="pageChanged($event)"
+            [maxSize]="3"
+            [rotate]="true"
+            [ellipses]="false"
+            [boundaryLinks]="true">
+            </ngb-pagination>
+
+            
+              <button class="btn"
+              (click)="saveAllTranslations()" 
+              [disabled]="isTranslating || !hasActiveInputs()"
+              data-bs-toggle="tooltip" 
+              data-bs-placement="bottom" 
+              title="Save All" style="border: 0px;">
+                <i class="bi bi-save-fill" style="font-size: 1.2rem; color: #46B24D;"></i>
+            </button>
+          </div>
+      </div>

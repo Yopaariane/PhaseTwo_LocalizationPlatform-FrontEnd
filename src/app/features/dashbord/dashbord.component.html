@@ -1,0 +1,131 @@
+<app-nav-bar-layout>
+    <div class="dashboard">
+        <div class="grid">
+            <div class="row progress-grids">
+                <!-- used string progress -->
+                  <div class="col">
+                    <div class="row">
+                        <div class="col-md-3 col-sm-6">
+                          <app-progress-circle [progress]="stringProgress"></app-progress-circle>
+                        </div>
+                      </div>
+                    <h2>{{ totalStringNumber }}/10000 <br> <span>Used String</span></h2>  
+                  </div>
+                  <!-- global translation progress -->
+                  <div class="col">
+                    <div class="row">
+                        <div class="col-md-3 col-sm-6">
+                          <app-progress-circle [progress]="averageProgress" [borderColor]="'#46B2B2'" [textColor]="'#46B2B2'"></app-progress-circle>
+                        </div>
+                      </div>
+                    <h2>Global Translation <br>
+                        Progress </h2>
+                  </div>
+            </div>
+            <!-- info grids -->
+                <div class="row info-grids">
+                  <div class="col">
+                    <img src="/img/File Multiple.png" alt="project">
+                    <h4>{{ projects.length }}<br> <span>TOTAL <br>PROJECTS</span></h4>  
+                  </div>
+                  <div class="col">
+                    <img src="/img/People.png" alt="contributors">
+                    <h4>10 <br> <span>ASSIGNED <br>CONTRIBUTORS</span></h4>  
+                  </div>
+                  <div class="col">
+                    <img src="img/Folders.png" alt="projects">
+                    <h4>{{ projects.length }}<br> <span>OWN <br>PROJECTS</span></h4>  
+                  </div>
+                  <div class="col">
+                    <img src="/img/Users More.png" alt="organizations">
+                    <h4>2 <br> <span>ORGANIZATION</span></h4>
+                  </div>
+                </div>
+        </div>
+
+        <!-- project table -->
+        <div class="row project-list">
+            <!-- No project -->
+            <div class="col no-project" *ngIf="projects.length === 0">
+              <h3>Click on the plus button to create your first project !</h3>
+              <button class="btn add-project" routerLink="/projectsForm">
+                <i class="fas fa-plus"></i>
+              </button>
+            </div>
+            <div class="col" style="align-items: start; display: block;" *ngIf="projects.length > 0">
+                <!-- header buttons -->
+                <div class="action-button d-flex justify-content-between mb-2">
+                    <div class="left-side d-flex justify-content-between">
+                        <button class="btn trash-btn">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                        <button class="btn">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                    <div class="right-side">
+                        <div class="dropdown">
+                            <app-sort-dropdown></app-sort-dropdown>
+                        </div>
+                        <button class="btn add-project" routerLink="/projectsForm">
+                            <i class="fas fa-plus"></i> Add Project
+                        </button>
+                    </div>
+                </div>
+                <!-- table -->
+                <table class="table table-hover">
+                    <thead>
+                      <tr class="table-light">
+                        <th scope="col" class="projects">
+                            <input type="checkbox" class="form-check-input check-box" id="selectAll">
+                            <label class="form-check-label" for="selectAll">Projects</label>
+                        </th>
+                        <th scope="col">Strings</th>
+                        <th scope="col">Languages</th>
+                        <th scope="col">Progress</th>
+                        <th scope="col" class="status">Status</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                        <!-- <tr *ngIf="projects.length === 0">
+                            <td colspan="4">Click on the + button to add your first project.</td>
+                        </tr> -->
+                      <tr *ngFor="let project of paginatedProjects">
+                        <td class="projects">
+                            <input type="checkbox" class="form-check-input check-box" id="project1">
+                            <label class="form-check-label" for="project1"><a [routerLink]="['/project', project.id]" class="link-dark">{{ project.name }}</a></label>
+                        </td>
+                        <td>{{project.strings}} strings</td>
+                        <td *ngIf="project.languages">
+                        <ng-container *ngFor="let language of project.languages">
+                            <span [class]="getFlagClass(language.code)" style="margin-left: 5px;"></span>
+                        </ng-container>
+                        </td>
+                        <td>
+                        <div class="progress">
+                            <div class="progress-bar" role="progressbar" [style.width]="project.progress + '%'" [attr.aria-valuenow]="project.progress" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                        <small>{{ project.progress }}%</small>
+                        </td>
+                        <td class="status">
+                            <span>pending</span>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <!-- NgbPagination Component -->
+                    <ngb-pagination 
+                    *ngIf="shouldShowPagination()"
+                    [collectionSize]="projects.length"
+                    [(page)]="currentPage"
+                    [pageSize]="itemsPerPage"
+                    (pageChange)="pageChanged($event)"
+                    [maxSize]="6"
+                    [rotate]="true"
+                    [ellipses]="false"
+                    [boundaryLinks]="true">
+                    </ngb-pagination>
+              </div>
+        </div>
+    </div>
+</app-nav-bar-layout>

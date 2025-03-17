@@ -1,0 +1,49 @@
+<app-nav-bar-layout>
+    <div class="contain">
+        <nav class="nav mt-4">
+            <div class="project-info">
+              <div class="Translation-Progress custom-progress">
+                <div class="project-title">
+                  <h2>{{ projectName }}</h2>
+                </div>
+                <div class="progress">
+                  <div
+                    class="progress-bar bg-info"
+                    role="progressbar"
+                    [style.width]="(progress || 0) + '%'"
+                    [attr.aria-valuenow]="progress || 0"
+                    aria-valuemin="0"
+                    aria-valuemax="100">
+                  </div>
+                </div>
+                <span class="progress-text">{{ progress || 0 }}%</span>
+              </div>
+            </div>
+            <div class="link-list">
+              <ul class="custom-list">
+                <li class="nav-item1" routerLinkActive="active-link">
+                  <a class="nav-link" routerLink="languages">Languages</a>
+                </li>
+                <li class="nav-item1" routerLinkActive="active-link">
+                  <a class="nav-link" routerLink="terms">Terms</a>
+                </li>
+                <li class="nav-item1" routerLinkActive="active-link">
+                  <a class="nav-link" routerLink="contributors">Contributors</a>
+                </li>
+                <li class="nav-item1" routerLinkActive="active-link">
+                    <a class="nav-link" [routerLink]="['translation']">Translations</a>
+                </li>
+                <li class="nav-item1" style="border-left: 1px solid #898484; height: 2.8em;" routerLinkActive="active-link">
+                </li>
+                <li class="nav-item1" style="border-left: 1px solid rgba(255, 255, 255, 0.3);" routerLinkActive="active-link">
+                  <a class="nav-link" routerLink="import">Imports</a>
+                </li>
+              </ul>   
+            </div>
+          </nav>
+          
+          <div class="custom-card">
+            <router-outlet></router-outlet>
+          </div>
+    </div>      
+</app-nav-bar-layout>

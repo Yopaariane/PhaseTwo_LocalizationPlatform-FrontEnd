@@ -64,6 +64,10 @@
         width: 155px;
         justify-content: space-between;
         margin-top: 60px;
+        
+        img{
+            cursor: pointer;
+        }
     }
     .or{
         display: flex;

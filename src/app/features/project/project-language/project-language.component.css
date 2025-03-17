@@ -1,0 +1,27 @@
+.option-contain{
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.language-option{
+    text-align: center;
+    height: 30px;
+    .option{
+        cursor: pointer;
+        .icon{
+            color: #46B24D;
+        }
+    }
+
+    .option:hover{
+        color: #46B24D;
+    }
+}
+.button{
+    width: 90%;
+    margin: auto;
+
+    button{
+        width: 100%;
+    }
+}

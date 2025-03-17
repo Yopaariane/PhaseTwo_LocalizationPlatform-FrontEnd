@@ -1,0 +1,44 @@
+.profile{
+    max-width: 800px;
+}
+.setting-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 36px;
+    border-bottom: 1px solid #E3E3E3;
+    padding-bottom: 10px;
+}
+
+.profile-image {
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    margin-left: 10px;
+}
+.icons{
+    gap: 30px;
+    display: flex;
+    margin-right: 10px;
+}
+.icon{
+    margin-right: 10px;
+}
+
+.text-container {
+    flex-grow: 1;
+    margin-left: 10px ;
+
+    h3{
+        font-size: 14px;
+        color: #212121f3;
+    }
+
+    span{
+        font-size: 14px;
+    }
+}
+
+.icons, .icon {
+    margin-left: 10px;
+}

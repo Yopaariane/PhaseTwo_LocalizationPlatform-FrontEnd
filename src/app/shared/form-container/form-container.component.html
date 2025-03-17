@@ -1,0 +1,14 @@
+<div class="contain mt-5">
+    <div class="d-flex align-items-center mb-4">
+      <div>
+        <button class="btn btn-link" (click)="goBack()">
+          <i class="bi bi-arrow-left" style="font-weight: bold; color: black; font-size: 24px;" onmouseover="this.style.color='#46B24D'" onmouseout="this.style.color='black'"></i>
+        </button>
+      </div>
+      <h2>{{ title }}</h2>
+    </div>
+    <form [formGroup]="formGroup" class="project-form" (ngSubmit)="onSubmit()">
+      <ng-content></ng-content>
+      <button type="submit" class="btn add-project">{{ submitButtonText }}</button>
+    </form>
+</div>
