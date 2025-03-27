@@ -32,7 +32,9 @@
 
                 <div class="btn-group">
                     <button class="btn add-project dropdown-toggle" type="button" id="aiTranslateDropdown" data-bs-toggle="dropdown" aria-expanded="false" [disabled]="isTranslating">
-                        <i class="fas fa-robot me-2"></i> {{ isTranslating ? 'Translating...' : 'AI Translate' }}
+                      <i class="fas fa-robot me-2"></i> 
+                        <span *ngIf="isTranslating" class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="color: white; border-width: 2px;"></span>
+                      {{ isTranslating ? 'Translating...' : 'AI Translate' }}
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="aiTranslateDropdown" style="width: 300px;">
                         <li>
@@ -87,13 +89,13 @@
                     <ng-template #noTranslation>
                       <textarea 
                         class="form-control" 
+                        id="input-{{term.id}}"
                         [(ngModel)]="draftTranslations[term.id]" 
                         (input)="onInput(term.id)"
                         [ngClass]="{'active-input': isInputActive(term.id)}"
                         rows="2">
                       </textarea>
                     </ng-template>
-              
                   </td>
               
                   <td class=" custom-td">

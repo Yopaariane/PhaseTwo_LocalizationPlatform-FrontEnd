@@ -18,6 +18,7 @@ import { ExportService } from '../../../core/export.service';
 import { SortingService } from '../../../core/sorting.service';
 import { SortDropdownComponent } from '../../../shared/sort-dropdown/sort-dropdown.component';
 import { PuterAiService } from '../../../core/puter-ai.service';
+import { TranslationTaskService } from '../../../core/translation-task.service';
 
 @Component({
   selector: 'app-translations',
@@ -25,10 +26,11 @@ import { PuterAiService } from '../../../core/puter-ai.service';
   templateUrl: './translations.component.html',
   styleUrls: ['./translations.component.css', '../terms/terms.component.css', '../../dashbord/dashbord.component.css']
 })
-export class TranslationsComponent implements OnInit, OnDestroy {
+export class TranslationsComponent implements OnInit{
   projectId!: number;
   languageId!: number;
   ownerId!: number;
+  defaultLangId!: number;
   projectProgress: number | undefined;
   projectName: string | undefined;
   languageName: string | undefined;
@@ -36,7 +38,8 @@ export class TranslationsComponent implements OnInit, OnDestroy {
 
   showDropdown: boolean = false;
   languages: Language[] = [];
-  projectLanguage: ProjectLanguage[] = [];
+  projectLanguage!: ProjectLanguage;
+  projectLanguages: ProjectLanguage[] = [];
 
   translation: Translations[] = [];
   englishTranslations: Translations[] = [];
@@ -45,7 +48,7 @@ export class TranslationsComponent implements OnInit, OnDestroy {
   newComment: string = "";
   termId!: number;
 
-  draftTranslations: {[termId: number]: string} = {};
+  draftTranslations: {[Key: string]: string} = {};
   isEditing: { [termId: number]: boolean } = {};
   activeInputs: {[termId: number]: boolean} = {};
   routeId!: number;
@@ -74,30 +77,59 @@ export class TranslationsComponent implements OnInit, OnDestroy {
     private localStorage: StorageService,
     private termsService: TermsService,
     private exportService: ExportService,
-    private puterAiService: PuterAiService,
+    private translationTaskService: TranslationTaskService,
+    private projectService: ProjectService,
   ) {}
 
   ngOnInit(): void {
-    this.route.paramMap.subscribe((params) => {
-      const id = +params.get('id')!;
-      this.fetchProjectLanguageDetails(id); 
+    this.route.data.subscribe((data) => {
+      console.log('Resolved Data:', data);
+      const resolvedData = data['resolvedData'];
+      if (!resolvedData || !resolvedData.projectLanguage) {
+        console.error("Project Language is missing in resolver data.", resolvedData);
+        return;
+      }
+  
+      this.projectLanguage = resolvedData.projectLanguage;
+      this.terms = resolvedData.terms || [];
+      this.translation = resolvedData.translations || [];
+      this.englishTranslations = resolvedData.englishTranslations || [];
+  
+      // Ensure languageId and projectId are set correctly
+      this.languageId = this.projectLanguage.languageId;
+      this.projectId = this.projectLanguage.projectId;
+  
+      // Fetch language details only after languageId is set
+      if (this.languageId) {
+        this.fetchLanguageDetails(this.languageId);
+      } else {
+        console.error('Language ID is undefined.');
+      }
+  
+      this.loadLanguages(this.projectId);
+      this.loadDraftTranslations();
+      this.updatePaginatedTranslation();
     });
 
+    // Handle user data from local storage 
     const userData = this.localStorage.getitem('user');
     if (userData) {
       this.user = JSON.parse(userData);
     }
-
+  
+    // Handle sorting and translation progress
     this.sortingService.sortOrder$.subscribe(order => {
       this.sortOrder = order;
       this.sortTerms();
     });
-  }
 
-  ngOnDestroy() {
-    if (this.routerSub) {
-      this.routerSub.unsubscribe();
-    }
+    this.translationTaskService.isTranslating$.subscribe(isTranslating => {
+      this.isTranslating = isTranslating;
+    });
+
+    this.translationTaskService.translationProgress$.subscribe(progress => {
+      console.log(`Translation progress: ${progress}%`);
+    });
   }
 
 
@@ -114,47 +146,54 @@ export class TranslationsComponent implements OnInit, OnDestroy {
   
   loadTermsAndTranslations(): void {
     this.termsService.getTermsByProjectId(this.projectId).subscribe((terms) => {
-      console.log('Fetched terms:', terms);
       this.terms = terms;
       this.translationListService.getTranslationsByLanguageId(this.languageId).subscribe((translations) => {
         this.translation = translations;
         this.updatePaginatedTranslation();
       });
 
-      const englishLanguageId = 1;
-      this.translationListService.getTranslationsByLanguageId(englishLanguageId).subscribe((englishTranslations) => {
-        this.englishTranslations = englishTranslations;
+      this.projectService.getProjectById(this.projectId).subscribe((project) => {
+        this.defaultLangId = project.defaultLangId;
+
+        // const englishLanguageId = 1;
+        this.translationListService.getTranslationsByLanguageId(this.defaultLangId).subscribe((englishTranslations) => {
+          this.englishTranslations = englishTranslations;
+      });
       });
     });
   }
 
    // pagination
    pageChanged(event: any): void {
-    if (event) {
-        this.currentPage = event;
-        console.log("Current page:", this.currentPage);
-    } else {
-        this.currentPage = 1;
-    }
+    this.currentPage = event || 1;
     this.updatePaginatedTranslation();
   }
+
   updatePaginatedTranslation(): void {
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;
     const endIndex = startIndex + this.itemsPerPage;
-    
+
     this.paginatedTranslation = this.terms.slice(startIndex, endIndex);
   } 
+
   shouldShowPagination(): boolean {
     return this.terms.length > this.itemsPerPage;
   }
 
   getTranslationForTerm(termId: number): Translations | any {
-    return this.translation.find(t => t.termId === termId);
+    return this.translation.find(t => t.termId === termId && t.languageId === this.languageId);
   }
 
   onInput(termId: number): void {
     this.activeInputs[termId] = !!this.draftTranslations[termId];
+  
+    if (!this.draftTranslations[termId]) {
+      this.clearDraftTranslation(termId);
+    } else {
+      this.saveDraftTranslations();
+    }
   }
+  
 
   isInputActive(termId: number): boolean {
     return !!this.activeInputs[termId];
@@ -181,8 +220,9 @@ export class TranslationsComponent implements OnInit, OnDestroy {
       this.translationListService.createTranslation(translation as Translations).subscribe(
         (savedTranslation) => {
           this.translation.push(savedTranslation);
-          delete this.draftTranslations[termId];
-          this.activeInputs[termId] = false;
+          // delete this.draftTranslations[termId];
+          // this.activeInputs[termId] = false;
+          this.clearDraftTranslation(termId);
           this.reloadPage();
         },
         (error) => {
@@ -200,12 +240,38 @@ export class TranslationsComponent implements OnInit, OnDestroy {
         this.saveTranslation(Number(termId));
       }
     }
+    this.clearAllDraftTranslations();
+  }
+
+  private saveDraftTranslations(): void {
+    const key = `draftTranslations_${this.projectId}_${this.languageId}`;
+    this.localStorage.setitem(key, JSON.stringify(this.draftTranslations));
+  }
+  
+  private loadDraftTranslations(): void {
+    const key = `draftTranslations_${this.projectId}_${this.languageId}`;
+    const savedDrafts = this.localStorage.getitem(key);
+    if (savedDrafts) {
+      this.draftTranslations = JSON.parse(savedDrafts);
+      for (const termId in this.draftTranslations) {
+        this.activeInputs[Number(termId)] = !!this.draftTranslations[termId];
+      }
+    }
+  }
+  
+  private clearDraftTranslation(termId: number): void {
+    delete this.draftTranslations[termId];
+    this.saveDraftTranslations();
+  }
+  
+  private clearAllDraftTranslations(): void {
+    this.draftTranslations = {};
+    this.saveDraftTranslations();
   }
   
 
   reloadPage(): void {
     this.loadTermsAndTranslations()
-
   }
 
   isEditingTerm(termId: number): boolean {
@@ -228,7 +294,7 @@ export class TranslationsComponent implements OnInit, OnDestroy {
       this.translationListService.updateTranslation(translation.id, translation).subscribe(
         () => {
           this.activeInputs[termId] = false;
-          delete this.draftTranslations[termId];
+          this.clearDraftTranslation(termId);
           this.reloadPage();
           this.toggleEdit(termId);
         },
@@ -247,8 +313,8 @@ export class TranslationsComponent implements OnInit, OnDestroy {
       this.translationListService.deleteTranslation(translation.id).subscribe(
         () => {
           this.translation = this.translation.filter(t => t.termId !== termId);
-          delete this.draftTranslations[termId];
-          this.activeInputs[termId] = false;
+          this.clearDraftTranslation(termId);
+          // this.activeInputs[termId] = false;
           this.reloadPage();
         },
         (error) => {
@@ -273,12 +339,12 @@ export class TranslationsComponent implements OnInit, OnDestroy {
     });
 
     this.singleProjectService.getLanguageByProjectId(projectId).subscribe((projectLanguage: ProjectLanguage[]) => {
-      this.projectLanguage = projectLanguage;
+      this.projectLanguages = projectLanguage;
     });
   }
   filteredLanguages(): Language[] {
     return this.languages
-      .filter(lang => this.projectLanguage.some(pl => pl.languageId === lang.id));
+      .filter(lang => this.projectLanguages.some(pl => pl.languageId === lang.id));
   }
   toggleDropdown(): void {
     this.showDropdown = !this.showDropdown;
@@ -294,6 +360,9 @@ export class TranslationsComponent implements OnInit, OnDestroy {
     this.singleProjectService.getProjectLanguageByLanguageIdAndProjectId(projectId, languageId).subscribe((projectLanguage) => {
       const projectLanguageId = projectLanguage.id; 
       this.translationListService.onLanguageChanged$.next(projectLanguageId)
+
+      this.draftTranslations = {};
+      this.activeInputs = {}
       this.router.navigate(['/project', projectId, 'translation', projectLanguage.id]);
     });
   }
@@ -341,29 +410,58 @@ export class TranslationsComponent implements OnInit, OnDestroy {
     return this.englishTranslations.find(t => t.termId === termId);
   }
 
+  // async aiTranslate(targetLanguage: string): Promise<void> {
+  //   console.log('aiTranslate method called');
+  //   this.isTranslating = true;
+  
+  //   for (const term of this.terms) {
+  //     if (this.getTranslationForTerm(term.id)) continue;
+  
+  //     try {
+  //       const context = this.translationContext ? this.translationContext : '';
+  //       const specifications = this.otherSpecifications ? this.otherSpecifications : '';
+  //       const termContext = term.context ? term.context : '';
+  //       const projectName = this.projectName ? this.projectName : '';
+  //       const initialTranslation = this.getEnglishTranslationForTerm(term.id)?.translationText || '';
+  
+  //       const result = await this.puterAiService.translateText(term.term, termContext, context, specifications, projectName, initialTranslation, targetLanguage);
+  
+  //       this.draftTranslations[term.id] = result;
+  //       this.activeInputs[term.id] = true;
+  //     } catch (error) {
+  //       console.error(`Translation failed for term ${term.id}`, error);
+  //     }
+  //   }
+  
+  //   this.isTranslating = false;
+  // }
+
   async aiTranslate(targetLanguage: string): Promise<void> {
     console.log('aiTranslate method called');
-    this.isTranslating = true;
+    const context = this.translationContext ? this.translationContext : '';
+    const specifications = this.otherSpecifications ? this.otherSpecifications : '';
+    const projectName = this.projectName ? this.projectName : '';
   
-    for (const term of this.terms) {
-      if (this.getTranslationForTerm(term.id)) continue;
+    // Filter out terms that already have translations
+    const termsToTranslate = this.terms.filter(term => !this.getTranslationForTerm(term.id));
   
-      try {
-        const context = this.translationContext ? this.translationContext : '';
-        const specifications = this.otherSpecifications ? this.otherSpecifications : '';
-        const termContext = term.context ? term.context : '';
-        const projectName = this.projectName ? this.projectName : '';
-        const initialTranslation = this.getEnglishTranslationForTerm(term.id)?.translationText || '';
-  
-        const result = await this.puterAiService.translateText(term.term, termContext, context, specifications, projectName, initialTranslation, targetLanguage);
-  
-        this.draftTranslations[term.id] = result;
-        this.activeInputs[term.id] = true;
-      } catch (error) {
-        console.error(`Translation failed for term ${term.id}`, error);
-      }
+    if (termsToTranslate.length === 0) {
+      console.log('No terms to translate');
+      return;
     }
   
-    this.isTranslating = false;
+    this.isTranslating = true;
+  
+    try {
+      const draftTranslations = await this.translationTaskService.translateTerms(termsToTranslate, this.englishTranslations, targetLanguage, context, specifications, projectName);
+      this.draftTranslations = { ...this.draftTranslations, ...draftTranslations };
+      this.activeInputs = { ...this.activeInputs, ...Object.keys(draftTranslations).reduce((acc, key) => ({ ...acc, [key]: true }), {}) };
+  
+      this.saveDraftTranslations();
+    } catch (error) {
+      console.error('Error during AI translation:', error);
+    } finally {
+      this.isTranslating = false;
+    }
   }
 }

@@ -24,7 +24,7 @@ export class AuthService {
   private auth: Auth = inject(Auth);
   private firestore: Firestore = inject(Firestore);
 
-  private apiUrl = 'http://10.12.1.100:8080/api'; 
+  private apiUrl = 'http://10.12.1.83:8080/api'; 
 
   private authenticated = false;
 

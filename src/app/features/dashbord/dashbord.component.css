@@ -1,12 +1,15 @@
 .dashboard{
     width: 95%;
     max-width: 1550px;
+    .col{
+        justify-content: center;
+    }
 }
 .col{
     background-color: white;
     border-radius: 10px;
     display: flex;
-    justify-content: center;
+    /* justify-content: center; */
     align-items: center;
     padding: 20px;
     text-align: center;

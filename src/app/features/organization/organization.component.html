@@ -1,0 +1,55 @@
+<app-nav-bar-layout>
+    <div class="col d-flex flex-column custom-container">
+        <div class="action-button d-flex justify-content-between mb-2">
+            <div class="left-side d-flex justify-content-between">
+                <H3>Organization</H3>
+            </div>
+            <div class="right-side">
+                <div class="dropdown">
+                    <app-sort-dropdown></app-sort-dropdown>
+                </div>
+                <button class="btn add-project" routerLink="/projectsForm">
+                    <i class="fas fa-plus"></i> Add Organization
+                </button>
+            </div>
+        </div>
+          <div class="custom-card card-header">
+            <th scope="col" class="organizations">
+                <input type="checkbox" class="form-check-input check-box" id="selectAll">
+                <label class="form-check-label" for="selectAll">Organizations</label>
+            </th>
+            <th scope="col" class="strings">Strings</th>
+            <th scope="col" class="languages">Languages</th>
+            <th scope="col" class="progress-sec">Progress</th>
+            <th scope="col" class="action">Action</th>
+          </div>
+          <div class="custom-card card-body" *ngFor="let organization of organizations">
+            <td class="organizations">
+                <input type="checkbox" class="form-check-input check-box" id="project1">
+                <label class="form-check-label" for="project1"><a [routerLink]="['/organization', organization.id]" class="link-dark">{{ organization.name }}</a></label>
+            </td>
+            <td class="strings"> strings</td>
+            <td class="languages">
+                <ng-container *ngIf="organization.defaultLangCode">
+                  <span [class]="getFlagClass(organization.defaultLangCode)" style="margin-left: 5px;"></span>
+                </ng-container>
+              </td>
+            <td class="progress-sec">
+            <div class="progress">
+                <div class="progress-bar" role="progressbar" [style.width]="organization.progress + '%'" [attr.aria-valuenow]="organization.progress" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+            <small>{{ organization.progress }}%</small>
+            </td>
+            <td class="action">
+                <div class="d-flex justify-content-around">
+                    <button class="btn btn-outline-primary btn-sm" title="Update">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                    <button class="btn btn-outline-danger btn-sm" title="Delete">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+            </td>
+          </div>
+    </div>
+</app-nav-bar-layout>

@@ -14,6 +14,10 @@ import { SettingsComponent } from './features/settings/settings.component';
 import { GeneralSettingComponent } from './features/settings/general-setting/general-setting.component';
 import { BillingPlanComponent } from './features/settings/billing-plan/billing-plan.component';
 import { UserrolePermissionsComponent } from './features/settings/userrole-permissions/userrole-permissions.component';
+import { ResolverService } from './core/resolver/translation-resolver.service';
+import { TermResolverService } from './core/resolver/term-resolver.service';
+import { OrganizationComponent } from './features/organization/organization.component';
+import { OrganizationProjectsComponent } from './features/organization-projects/organization-projects.component';
 
 export const AppRoutes: Routes = [
     {path: 'signup', component: SignInComponent},
@@ -22,10 +26,11 @@ export const AppRoutes: Routes = [
     {path: 'projectsForm', component: ProjectFormComponent},
     {path: 'project/:id', component: ProjectComponent, children: [
         {path: 'languages', component: ProjectLanguageComponent},
-        {path: 'terms', component: TermsComponent},
+        {path: 'terms', component: TermsComponent, resolve: {terms: TermResolverService}},
         {path: 'contributors', component: ContributorsComponent},
         {path: 'import', component: ImportsComponent},
-        {path: 'translation/:id', component: TranslationsComponent},
+        {path: 'translation/:id', component: TranslationsComponent, 
+            resolve: {resolvedData: ResolverService}},
 
         {path: '', redirectTo: 'terms', pathMatch: 'full'},
     ]},
@@ -37,6 +42,9 @@ export const AppRoutes: Routes = [
        
        {path: '', redirectTo: 'general', pathMatch: 'full'} 
     ]},
+
+    {path: 'organization', component: OrganizationComponent},
+    {path: 'organization/:id', component: OrganizationProjectsComponent},
 
     {path: '', redirectTo: 'logIn', pathMatch: 'full'}
 ];

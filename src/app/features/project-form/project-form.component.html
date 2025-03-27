@@ -14,6 +14,20 @@
             </div>
         </div>
         <div class="mb-3">
+            <label for="defaultLanguage" class="form-label">Default Language</label>
+            <input type="text" class="form-control" placeholder="Choose a language" [value]="selectedLanguage?.name || 'English'" (focus)="showDropdown = true" (blur)="hideDropdown()" readonly>
+            <div *ngIf="showDropdown">
+                <ul class="list-group position-absolute z-index-1">
+                  <li class="list-group-item" *ngFor="let language of filteredLanguages()" (click)="selectLanguage(language)">
+                    {{ language.name }}
+                  </li>
+                </ul>
+            </div>
+            <div *ngIf="projectForm.get('defaultLangId')?.touched && projectForm.get('defaultLangId')?.invalid">
+            <small class="text-danger">Default language is required.</small>
+            </div>
+        </div>
+        <div class="mb-3">
             <label for="projectDescription" class="form-label">Project Description</label>
             <textarea class="form-control" id="projectDescription" rows="3" formControlName="description"></textarea>
             <div *ngIf="projectForm.get('description')?.touched && projectForm.get('description')?.invalid">

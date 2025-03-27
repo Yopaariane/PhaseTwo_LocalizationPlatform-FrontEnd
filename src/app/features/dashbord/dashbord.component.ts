@@ -109,6 +109,7 @@ export class DashbordComponent implements OnInit {
         this.projects.forEach(project => {
           this.getTotalStringCount(project.id);
           this.calculateTranslationProgress(project);
+          console.log("project language", project.languages)
         });
         // Pagination
         this.sortProjects();

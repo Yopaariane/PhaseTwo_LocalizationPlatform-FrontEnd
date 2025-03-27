@@ -1,4 +1,4 @@
-import { Component, TemplateRef, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { ProjectLanguage } from '../../../core/models/project-language.model';
 import { Terms } from '../../../core/models/term.model';
 import { FormBuilder } from '@angular/forms';
@@ -19,7 +19,7 @@ import { SortingService } from '../../../core/sorting.service';
   templateUrl: './terms.component.html',
   styleUrls: ['./terms.component.css', '../../dashbord/dashbord.component.css']
 })
-export class TermsComponent {
+export class TermsComponent implements OnInit, AfterViewInit {
   @ViewChild('addTermModal', { static: true }) addTermModal!: TemplateRef<any>;
 
   projectId: number | null = null;
@@ -45,13 +45,18 @@ export class TermsComponent {
     private sortingService: SortingService,
   ){
 
-    this.route.parent?.paramMap.subscribe(params => {
-      const id = params.get('id');
-      console.log("project id " ,id);
-      
-        this.projectId = Number(id);
-        this.loadTerms(this.projectId);
-        this.loadLanguages(this.projectId);
+    this.route.data.subscribe(data => {
+      this.terms = data['terms'];
+  
+      if (this.terms.length === 0) {
+        this.noTerms = true;
+      } else {
+        this.noTerms = false;
+        this.terms.forEach(term =>{ 
+          term['progress'] = 0;
+          this.calculateTranslationProgress(term)});
+        this.updatePaginatedTerms();
+      }
     });
   }
 
@@ -60,41 +65,55 @@ export class TermsComponent {
       this.sortOrder = order;
       this.sortTerms();
     });
+
+    this.route.parent?.paramMap.subscribe(params => {
+      this.projectId = +params.get('id')!;
+    });
+    console.log('Project ID:', this.projectId);
+  }
+
+  ngAfterViewInit(): void {
+    setTimeout(() => {
+      this.terms.forEach(term => {
+        term['progress'] = term.progress; 
+      });
+    }, 100); 
   }
 
   // Load terms in the list
-  loadTerms(projectId: number): void {
-    this.termsService.getTermsByProjectId(projectId).subscribe(
-      (terms: Terms[]) => {
-        if (terms.length === 0) {
-          this.noTerms = true;
-        } else {
-          this.noTerms = false;
-          this.terms = terms;
-          // For each term, calculate the translation progress
-        this.terms.forEach(term => {
-          this.calculateTranslationProgress(term);
-        });
-        this.updatePaginatedTerms();
-        }
-      },
-      error => {
-        console.error('Error loading project terms', error);
-      }
-    );
-  }
+  // loadTerms(projectId: number): void {
+  //   console.log('Loading terms for project:', projectId);
+  //   this.termsService.getTermsByProjectId(projectId).subscribe(
+  //     (terms: Terms[]) => {
+  //       if (terms.length === 0) {
+  //         this.noTerms = true;
+  //       } else {
+  //         this.noTerms = false;
+  //         this.terms = terms;
+  //         // For each term, calculate the translation progress
+  //       this.terms.forEach(term => {
+  //         this.calculateTranslationProgress(term);
+  //       });
+  //       this.updatePaginatedTerms();
+  //       }
+  //     },
+  //     error => {
+  //       console.error('Error loading project terms', error);
+  //     }
+  //   );
+  // }
 
-  loadLanguages(projectId: number): void {
-    this.singleProjectService.getLanguageByProjectId(projectId).subscribe((projectLanguage: ProjectLanguage[]) => {
-      this.projectLanguage = projectLanguage;
+  // loadLanguages(projectId: number): void {
+  //   this.singleProjectService.getLanguageByProjectId(projectId).subscribe((projectLanguage: ProjectLanguage[]) => {
+  //     this.projectLanguage = projectLanguage;
 
-      projectLanguage.forEach((projectLanguage) =>{
-        this.languageService.getLanguageById(projectLanguage.languageId).subscribe((languages) =>{
-          this.languages.push(languages);
-        })
-      })
-    });
-  }
+  //     projectLanguage.forEach((projectLanguage) =>{
+  //       this.languageService.getLanguageById(projectLanguage.languageId).subscribe((languages) =>{
+  //         this.languages.push(languages);
+  //       })
+  //     })
+  //   });
+  // }
 
 
   // Pagination

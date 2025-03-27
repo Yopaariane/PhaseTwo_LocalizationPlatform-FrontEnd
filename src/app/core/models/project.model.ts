@@ -10,6 +10,7 @@ export interface Project {
   description: string;
   createAt: Date;
   ownerId: number;
+  defaultLangId: number;
   strings: number;
   languages: Language[];
   progress: number;

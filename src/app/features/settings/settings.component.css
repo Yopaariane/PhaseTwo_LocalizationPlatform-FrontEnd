@@ -1,10 +1,9 @@
 .settings-cart{
     width: calc(100% - 20px);
-    height: calc(100vh - 120px);
+    min-height: calc(100vh - 120px);
     margin: 10px;
     padding: 20px;
     background-color: #fff;
-    overflow-y: auto;
 }
 .settings-cart h1{
     font-size: 20px;

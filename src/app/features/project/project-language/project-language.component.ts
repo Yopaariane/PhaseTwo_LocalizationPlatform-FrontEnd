@@ -140,15 +140,20 @@ export class ProjectLanguageComponent {
 
   // Delete Language from list
   deleteLanguage(id: number): void {
-    this.singleProjectService.deleteProjectLanguage(id).subscribe(
-      () => {
-        this.projectLanguages = this.projectLanguages.filter(lang => lang.id !== id);
-        this.loadProjectLanguages(this.projectId!);
-      },
-      error => {
-        console.error('Error deleting project language', error);
-      }
-    );
+    const projectLanguage = this.projectLanguages.find(lang => lang.languageId === id);
+    if (projectLanguage) {
+      this.singleProjectService.deleteProjectLanguage(projectLanguage.id).subscribe(
+        () => {
+          this.projectLanguages = this.projectLanguages.filter(lang => lang.languageId !== id);
+          this.updatePaginatedProjectLanguage(); 
+        },
+        error => {
+          console.error('Error deleting project language', error);
+        }
+      );
+    } else {
+      console.error('Project language not found');
+    }
   }
 
   // Add new project language
@@ -169,7 +174,10 @@ export class ProjectLanguageComponent {
   }
 
   filteredLanguages(): Language[] {
-    return this.languages.filter(lang => lang.name.toLowerCase().includes(this.selectedLanguage.toLowerCase()));
+    return this.languages.filter(lang => 
+      lang.name.toLowerCase().includes(this.selectedLanguage.toLowerCase()) &&
+      !this.projectLanguages.some(pl => pl.languageId === lang.id)
+    );
   }
 
   saveLanguages(): void {

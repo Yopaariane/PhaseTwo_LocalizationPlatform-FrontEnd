@@ -6,7 +6,7 @@ import { map, Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class ExportService {
-  private apiUrl = 'http://10.12.1.100:8080/export';
+  private apiUrl = 'http://10.12.1.83:8080/export';
 
   constructor(
     private http: HttpClient,

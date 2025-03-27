@@ -7,7 +7,7 @@ import { Translations } from './models/translation.model';
   providedIn: 'root'
 })
 export class TranslationService {
-  private apiUrl = 'http://10.12.1.100:8080/translation';
+  private apiUrl = 'http://10.12.1.83:8080/translation';
 
   onLanguageChanged$: BehaviorSubject<any> = new BehaviorSubject(null); 
 
@@ -61,6 +61,11 @@ export class TranslationService {
   // get Average Translation Progress For User
   getAverageTranslationProgressForUser(userId: number): Observable<number>{
     return this.http.get<number>(`${this.apiUrl}/translation-progress/users/${userId}`);
+  }
+
+  // get Average Translation Progress For Organization
+  getAverageTranslationProgressForOrganization(organizationId: number): Observable<number>{
+    return this.http.get<number>(`${this.apiUrl}/translation-progress/organization/${organizationId}`);  
   }
 
   // get Total String Number by user id
