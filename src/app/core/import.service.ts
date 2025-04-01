@@ -7,7 +7,7 @@ import { catchError, Observable } from 'rxjs';
 })
 export class ImportService {
 
-  private apiUrl = 'http://10.12.1.83:8080/import/upload';
+  private apiUrl = 'http://10.12.1.113:8080/import/upload';
 
   constructor(private http: HttpClient) { }
 

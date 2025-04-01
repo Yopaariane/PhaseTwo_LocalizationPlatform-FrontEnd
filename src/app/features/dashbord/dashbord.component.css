@@ -153,3 +153,18 @@
         ;
     }
 }
+
+.dashboard .custom-badge {
+    font-size: 11px !important;
+    color: #19191a !important;
+    font-weight: 200;
+    height: 10px;
+    line-height: 10px;
+    display: inline-block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding: 0 5px;
+    box-sizing: border-box;
+
+}

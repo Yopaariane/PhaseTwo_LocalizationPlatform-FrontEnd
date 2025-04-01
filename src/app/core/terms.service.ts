@@ -7,7 +7,7 @@ import { Terms } from './models/term.model';
   providedIn: 'root'
 })
 export class TermsService {
-  private apiUrl = 'http://10.12.1.83:8080/terms';
+  private apiUrl = 'http://10.12.1.113:8080/terms';
 
   constructor(private http: HttpClient) { }
 

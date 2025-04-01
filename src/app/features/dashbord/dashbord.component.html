@@ -89,8 +89,11 @@
                     <tbody>
                       <tr *ngFor="let project of paginatedProjects">
                         <td class="projects">
-                            <input type="checkbox" class="form-check-input check-box" id="project1">
-                            <label class="form-check-label" for="project1"><a [routerLink]="['/project', project.id]" class="link-dark">{{ project.name }}</a></label>
+                          <input type="checkbox" class="form-check-input check-box" id="project{{ project.id }}">
+                          <label class="form-check-label" for="project{{ project.id }}">
+                            <a [routerLink]="['/project', project.id]" class="link-dark">{{ project.name }}</a>
+                            <span *ngIf="project.roleName" class="badge bg-info custom-badge">{{ project.roleName }}</span>
+                          </label>
                         </td>
                         <td>{{project.strings}} strings</td>
                         <td *ngIf="project.languages">

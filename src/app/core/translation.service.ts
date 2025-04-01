@@ -7,7 +7,7 @@ import { Translations } from './models/translation.model';
   providedIn: 'root'
 })
 export class TranslationService {
-  private apiUrl = 'http://10.12.1.83:8080/translation';
+  private apiUrl = 'http://10.12.1.113:8080/translation';
 
   onLanguageChanged$: BehaviorSubject<any> = new BehaviorSubject(null); 
 

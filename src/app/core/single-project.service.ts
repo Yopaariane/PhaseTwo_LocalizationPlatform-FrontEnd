@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class SingleProjectService {
-  private apiUrl = 'http://10.12.1.83:8080/projectLanguages';
+  private apiUrl = 'http://10.12.1.113:8080/projectLanguages';
 
     
 

@@ -11,7 +11,9 @@ export interface Project {
   createAt: Date;
   ownerId: number;
   defaultLangId: number;
+  roleId: number;
   strings: number;
   languages: Language[];
   progress: number;
+  roleName: string;
 }

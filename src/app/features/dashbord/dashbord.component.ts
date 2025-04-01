@@ -89,27 +89,18 @@ export class DashbordComponent implements OnInit {
       this.adminId = userId; 
 
       this.projectService.getUserProjects(userId).subscribe((projects) => {
-
-        // contributor projects: Not yet functional  
-      this.userRoleService.getByUserIdAndRoleId(userId, this.roleId).subscribe((userRole) => {
-        this.userRole = userRole;
-
-        this.userRole.forEach((userRoles) =>{
-          this.projectService.getProjectById(userRoles.projectId).subscribe((roleProject) =>{
-            this.projectRoles.push({
-              projects: roleProject,
-            });
-          });
-        });
-      });
-
         this.projects = projects;
+        console.log('Projects', projects);
 
         // Fetch total string count and progress for each project
         this.projects.forEach(project => {
+          if (project.ownerId !== this.adminId) {
+            this.userRoleService.getRoleById(project.roleId).subscribe(role => {
+                project['roleName'] = role.name; 
+            });
+        }
           this.getTotalStringCount(project.id);
           this.calculateTranslationProgress(project);
-          console.log("project language", project.languages)
         });
         // Pagination
         this.sortProjects();

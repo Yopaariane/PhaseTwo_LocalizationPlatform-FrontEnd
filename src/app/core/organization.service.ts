@@ -8,7 +8,7 @@ import { Project } from './models/project.model';
   providedIn: 'root'
 })
 export class OrganizationService {
-  private apiUrl = 'http://10.12.1.83:8080/organization';
+  private apiUrl = 'http://10.12.1.113:8080/organization';
 
   constructor(private http: HttpClient) {}
 

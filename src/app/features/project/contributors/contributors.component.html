@@ -21,9 +21,42 @@
                         <li><a class="dropdown-item">Name Desc</a></li>
                     </ul>
                   </div>
-                <button class="btn add-project">
-                    <i class="fas fa-plus"></i> Add Contributors
-                </button>
+
+                <!-- Add new contributor -->
+                <div class="btn-group">
+                  <button class="btn add-project dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="fas fa-plus"></i> Add contributors
+                  </button>
+                  <ul class="dropdown-menu" style="width: 300px;" data-bs-auto-close="false">
+                    <li>
+                      <div class="px-3 py-2">
+                        <label for="translationContext" class="form-label">User Email</label>
+                        <input type="text" class="form-control" placeholder="Enter the User Email" [(ngModel)]="userEmail">
+                      </div>
+                      <div *ngIf="emailError" class="text-danger mb-3">{{ emailError }}</div>
+                    </li>
+                    <li>
+                      <div class="px-3 py-2">
+                        <label for="otherSpecifications" class="form-label">Choose a Role</label>
+                        <input type="text" class="form-control" placeholder="Choose a role" [value]="selectedRole?.name" (focus)="showDropdown = true" (blur)="hideDropdown()">
+                      </div>
+                      <div *ngIf="roleError" class="text-danger mb-3">{{ roleError }}</div>
+
+                      <div *ngIf="showDropdown">
+                        <ul class="list-group position-absolute z-index-1 w-100">
+                          <li class="list-group-item" *ngFor="let role of filteredRoles()" (click)="selectRole(role)">
+                            {{ role.name }}
+                          </li>
+                        </ul>
+                      </div>
+                    </li>
+                    
+                    <li class="text-center button">
+                      <button class="btn mt-2" style="background-color: #46B24D; color: white; width: 90%;" (click)="SaveContributor()">ADD</button>
+                    </li>
+                  </ul>
+              </div>
+
             </div>
         </div>
 

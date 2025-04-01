@@ -24,7 +24,7 @@ export class AuthService {
   private auth: Auth = inject(Auth);
   private firestore: Firestore = inject(Firestore);
 
-  private apiUrl = 'http://10.12.1.83:8080/api'; 
+  private apiUrl = 'http://10.12.1.113:8080/api'; 
 
   private authenticated = false;
 
@@ -72,6 +72,11 @@ export class AuthService {
   // Get userRole by userId and role ID
   getByUserIdAndRoleId(userId: number, roleId: number): Observable<UserRole[]> {
     return this.http.get<UserRole[]>(`${this.apiUrl}/userRoles/user/${userId}/role/${roleId}`);
+  }
+
+   // Get userRole by userId and projectID
+   getByUserIdAndProjectId(userId: number, projectId: number): Observable<UserRole[]> {
+    return this.http.get<UserRole[]>(`${this.apiUrl}/userRoles/user/${userId}/project/${projectId}`);
   }
 
   // Delete a user role by ID

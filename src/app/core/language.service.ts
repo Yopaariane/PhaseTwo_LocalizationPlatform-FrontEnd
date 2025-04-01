@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class LanguageService {
-  private apiUrl = 'http://10.12.1.83:8080/languages';
+  private apiUrl = 'http://10.12.1.113:8080/languages';
 
   constructor (private http: HttpClient){}
 
