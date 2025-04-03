@@ -3,7 +3,7 @@ name: Build and Push Frontend Image
 on:
   push:
     branches:
-      - main  # Runs the workflow when you push to the main branch
+      - main  
 
 jobs:
   build:
