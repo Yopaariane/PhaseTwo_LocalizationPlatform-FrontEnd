@@ -1,10 +1,10 @@
 # Use node to build the Angular app
-FROM node:18 AS build
+FROM node:20 AS build
 WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm ci --only=production
 COPY . .
-RUN npm run build --prod --output-path=dist
+RUN npm run build -- --output-path=/app/dist
 
 # Use nginx to serve the Angular app
 FROM nginx:alpine
