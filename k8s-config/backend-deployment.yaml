@@ -19,7 +19,7 @@ spec:
             - containerPort: 8080
           env:
             - name: SPRING_DATASOURCE_URL
-              value: jdbc:mysql://localhost:3306/localization_platform
+              value: jdbc:mysql://mysql:3306/localization_platform
             - name: SPRING_DATASOURCE_USERNAME
               value: ariane
             - name: SPRING_DATASOURCE_PASSWORD
