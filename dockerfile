@@ -2,7 +2,7 @@
 FROM node:20 AS build
 WORKDIR /app
 COPY package.json package-lock.json ./
-RUN npm install
+RUN npm ci
 COPY . .
 RUN npm run build -- ----output-path=dist/phase-two-localization-platform
 
