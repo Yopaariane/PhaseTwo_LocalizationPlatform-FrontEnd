@@ -4,7 +4,7 @@ WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm ci
 COPY . .
-RUN npm run build -- ----output-path=dist/phase-two-localization-platform
+RUN npm run build -- --output-path=dist/phase-two-localization-platform
 
 # Use nginx to serve the Angular app
 FROM nginx:alpine
