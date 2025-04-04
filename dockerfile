@@ -4,7 +4,7 @@ WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm ci --only=production
 COPY . .
-RUN npm run build -- --output-path=/app/dist
+RUN npm run build -- --output-path=dist
 
 # Use nginx to serve the Angular app
 FROM nginx:alpine
