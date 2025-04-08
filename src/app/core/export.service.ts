@@ -1,19 +1,20 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ExportService {
-  private apiUrl = 'http://10.12.1.113:8080/export';
+  private apiUrl = environment.apiUrl;
 
   constructor(
     private http: HttpClient,
   ) { }
 
   exportTranslationsToCsv(projectId: number, languageId: number): Observable<void> {
-    const url = `${this.apiUrl}/csv`;
+    const url = `${this.apiUrl}/export/csv`;
     const headers = new HttpHeaders({
       'Content-Type': 'text/csv',
     });
@@ -32,7 +33,7 @@ export class ExportService {
   }
 
   exportTranslationsToJson(projectId: number, languageId: number): Observable<void> {
-    const url = `${this.apiUrl}/json`;
+    const url = `${this.apiUrl}/export/json`;
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
     });

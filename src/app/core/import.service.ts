@@ -1,13 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ImportService {
 
-  private apiUrl = 'http://10.12.1.113:8080/import/upload';
+  private apiUrl = environment.apiUrl;
 
   constructor(private http: HttpClient) { }
 
@@ -18,10 +19,10 @@ export class ImportService {
     formData.append('languageId', languageId.toString());
     formData.append('creatorId', creatorId.toString());
 
-    return this.http.post(this.apiUrl, formData).pipe(
+    return this.http.post(`${this.apiUrl}/import/upload`, formData).pipe(
       catchError(error => {
-        console.error('File upload failed:', error);
-        throw error;
+      console.error('File upload failed:', error);
+      throw error;
       })
     );
   }

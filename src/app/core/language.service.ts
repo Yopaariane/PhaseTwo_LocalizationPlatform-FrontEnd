@@ -2,23 +2,24 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Language } from './models/langauge.model';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LanguageService {
-  private apiUrl = 'http://10.12.1.113:8080/languages';
+  private apiUrl = environment.apiUrl;
 
   constructor (private http: HttpClient){}
 
   // Get all languages
   getAllLanguages(): Observable<Language[]>{
-      return this.http.get<Language[]>(`${this.apiUrl}`);
+      return this.http.get<Language[]>(`${this.apiUrl}/languages`);
   }
 
   // Get language ById
   getLanguageById(id: number): Observable<Language> {
-      return this.http.get<Language>(`${this.apiUrl}/${id}`);
+      return this.http.get<Language>(`${this.apiUrl}/languages/${id}`);
   }
 
   getCountryCode(languageCode: string): string {

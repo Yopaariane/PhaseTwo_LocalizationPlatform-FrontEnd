@@ -8,6 +8,7 @@ spec:
   resources:
     requests:
       storage: 1Gi
+  storageClassName: standard
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -36,9 +37,17 @@ spec:
             - name: MYSQL_PASSWORD
               value: Kv66QSPQ9hagKiVY
           volumeMounts:
+            - mountPath: /docker-entrypoint-initdb.d
+              name: mysql-init-scripts
             - mountPath: /var/lib/mysql
               name: mysql-persistent-storage
       volumes:
+        - name: mysql-init-scripts
+          configMap:
+            name: mysql-init-scripts
+            items:
+              - key: localization_platform_utf8.sql
+                path: init.sql
         - name: mysql-persistent-storage
           persistentVolumeClaim:
             claimName: mysql-pvc
@@ -53,3 +62,5 @@ spec:
   ports:
     - port: 3306
       targetPort: 3306
+      nodePort: 32036 
+  type: NodePort
