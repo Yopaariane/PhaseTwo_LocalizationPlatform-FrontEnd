@@ -35,13 +35,11 @@ spec:
               value: ariane
             - name: MYSQL_PASSWORD
               value: Kv66QSPQ9hagKiVY
-          ports:
-            - containerPort: 3306
           volumeMounts:
             - mountPath: /var/lib/mysql
-              name: mysql-storage
+              name: mysql-persistent-storage
       volumes:
-        - name: mysql-storage
+        - name: mysql-persistent-storage
           persistentVolumeClaim:
             claimName: mysql-pvc
 ---
