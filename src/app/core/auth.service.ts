@@ -56,52 +56,52 @@ export class AuthService {
   // Assign a role to a user
   assignRoleToUser(userRole: UserRole): Observable<UserRole> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    return this.http.post<UserRole>(`${this.apiUrl}/userRoles`, userRole, { headers });
+    return this.http.post<UserRole>(`${this.apiUrl}/api/userRoles`, userRole, { headers });
   }
 
   // Get userRoles by user ID
   getRolesByUserId(userId: number): Observable<UserRole[]> {
-    return this.http.get<UserRole[]>(`${this.apiUrl}/userRoles/user/${userId}`);
+    return this.http.get<UserRole[]>(`${this.apiUrl}/api/userRoles/user/${userId}`);
   }
 
   // Get userRoles by project ID
   getRolesByProjectId(projectId: number): Observable<UserRole[]> {
-    return this.http.get<UserRole[]>(`${this.apiUrl}/userRoles/project/${projectId}`);
+    return this.http.get<UserRole[]>(`${this.apiUrl}/api/userRoles/project/${projectId}`);
   }
 
   // Get userRole by userId and role ID
   getByUserIdAndRoleId(userId: number, roleId: number): Observable<UserRole[]> {
-    return this.http.get<UserRole[]>(`${this.apiUrl}/userRoles/user/${userId}/role/${roleId}`);
+    return this.http.get<UserRole[]>(`${this.apiUrl}/api/userRoles/user/${userId}/role/${roleId}`);
   }
 
    // Get userRole by userId and projectID
    getByUserIdAndProjectId(userId: number, projectId: number): Observable<UserRole[]> {
-    return this.http.get<UserRole[]>(`${this.apiUrl}/userRoles/user/${userId}/project/${projectId}`);
+    return this.http.get<UserRole[]>(`${this.apiUrl}/api/userRoles/user/${userId}/project/${projectId}`);
   }
 
   // Delete a user role by ID
   deleteUserRole(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/userRoles/${id}`);
+    return this.http.delete<void>(`${this.apiUrl}/api/userRoles/${id}`);
   }
 
   // get user by id
   getUserById(userId: number): Observable<UserResponse>{
-    return this.http.get<UserResponse>(`${this.apiUrl}/${userId}`);
+    return this.http.get<UserResponse>(`${this.apiUrl}/api/${userId}`);
   }
 
   // get user by email
   getUserByEmail(email: string): Observable<UserResponse>{
-    return this.http.get<UserResponse>(`${this.apiUrl}/email/${email}`);
+    return this.http.get<UserResponse>(`${this.apiUrl}/api/email/${email}`);
   }
 
   // get role by id
   getRoleById(roleId: number): Observable<Role>{
-    return this.http.get<Role>(`${this.apiUrl}/role/${roleId}`);
+    return this.http.get<Role>(`${this.apiUrl}/api/role/${roleId}`);
   }
 
   // get all roles
   getAllRoles(): Observable<Role[]>{
-    return this.http.get<Role[]>(`${this.apiUrl}/role`);
+    return this.http.get<Role[]>(`${this.apiUrl}/api/role`);
   }
 
   // authentication with Google
