@@ -34,13 +34,13 @@ export class AuthService {
   ) { }
 
   signup(user: any): Observable<UserResponse> {
-    return this.http.post<UserResponse>(`${this.apiUrl}/register`, user).pipe(
+    return this.http.post<UserResponse>(`${this.apiUrl}/api/register`, user).pipe(
       tap(() => this.authenticated = true)
     );
   }
 
   login(credentials: any): Observable<UserResponse> {
-    return this.http.post<UserResponse>(`${this.apiUrl}/login`, credentials).pipe(
+    return this.http.post<UserResponse>(`${this.apiUrl}/api/login`, credentials).pipe(
       tap(() => this.authenticated = true)
     );
   }
