@@ -4,18 +4,21 @@ import { ProjectService } from '../../core/project.service';
 import { TranslationService } from '../../core/translation.service';
 import { ActivatedRoute, RouterLink, RouterLinkActive, RouterModule, RouterOutlet } from '@angular/router';
 import { Project } from '../../core/models/project.model';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-project',
-  imports: [NavBarLayoutComponent, RouterOutlet, RouterLinkActive, RouterLink, RouterModule],
+  imports: [NavBarLayoutComponent, RouterOutlet, RouterLinkActive, RouterLink, RouterModule, CommonModule],
   templateUrl: './project.component.html',
-  styleUrl: './project.component.css'
+  styleUrls: ['./project.component.css', '../organization-projects/organization-projects.component.css']
 })
 export class ProjectComponent implements OnInit {
   projectId: number | null = null;
   projectName: string | undefined;
   projects: Project[] = [];
   progress: number | null = null;
+  organizationName!: string;
+  organizationId!: number;
 
   constructor(
     private projectService: ProjectService,
@@ -29,6 +32,15 @@ export class ProjectComponent implements OnInit {
       if (id) {
         this.projectId = Number(id);
         this.loadProjectDetails(this.projectId);
+      }
+    });
+
+    this.route.queryParams.subscribe(params => {
+      const orgName = params['orgName'];
+      const orgId = params['orgId'];
+      if (orgName && orgId) {
+        this.organizationId = Number(orgId);
+        this.organizationName = orgName;
       }
     });
   }

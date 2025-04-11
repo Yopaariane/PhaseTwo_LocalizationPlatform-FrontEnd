@@ -1,5 +1,51 @@
 <app-nav-bar-layout>
     <div class="col d-flex flex-column custom-container">
+        <div class="projectInfo">
+            <div class="Translation-Progress custom-progress">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                      <li class="breadcrumb-item">
+                        <a [routerLink]="['/organization']">Organization</a>
+                      </li>
+                      <li class="breadcrumb-item active" aria-current="page">
+                        {{ organizationName }}
+                      </li>
+                    </ol>
+                </nav>
+              <div class="progress">
+                <div
+                  class="progress-bar bg-info"
+                  role="progressbar"
+                  [style.width]="(organizationProgress || 0) + '%'"
+                  [attr.aria-valuenow]="organizationProgress || 0"
+                  aria-valuemin="0"
+                  aria-valuemax="100">
+                </div>
+              </div>
+              <span class="progress-text">{{ organizationProgress || 0 }}%</span>
+            </div>
+          </div>
+
+          <div class="link-list">
+            <ul class="custom-list">
+              <li class="nav-item1" routerLinkActive="active-link">
+                <a class="nav-link" routerLink="org-projects">Projects</a>
+              </li>
+              <li class="nav-item1" routerLinkActive="active-link">
+                <a class="nav-link" routerLink="org-languages">Languages</a>
+              </li>
+              <li class="nav-item1" routerLinkActive="active-link">
+                <a class="nav-link" routerLink="org-contributors">Contributors</a>
+              </li>
+              <li class="nav-item1" routerLinkActive="active-link">
+                  <a class="nav-link" [routerLink]="['org-glossary']">Glossary</a>
+              </li>
+            </ul>   
+          </div>
         
+        <!-- project table -->
+        <div class="row projectList">
+            <router-outlet></router-outlet>
+        </div>
     </div>
 </app-nav-bar-layout>

@@ -1,0 +1,40 @@
+.projectInfo{
+    width: 95%;
+    margin: 20px 0;
+
+    .project-title{
+        text-align: start;
+    }
+}
+
+.projectList{
+    width: 100%;
+}
+
+.link-list{
+    width: 95%;
+    text-align: start;
+}
+
+.breadcrumb {
+    background: none;
+    padding-bottom: 5px;
+    margin: 0;
+    list-style: none;
+
+    li{
+        font-size: 20px;
+    }
+
+    a{
+        text-decoration: none;
+        color: #00000050;
+    }
+    a:hover{
+        color: #46b24d85;
+    }
+}
+.breadcrumb-item + .breadcrumb-item::before {
+    content: '/';
+    padding: 0 5px;
+}

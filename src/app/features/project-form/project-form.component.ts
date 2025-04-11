@@ -2,12 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, ReactiveFormsModule, Validator, Validators } from '@angular/forms';
 import { ProjectService } from '../../core/project.service';
 import { Project } from '../../core/models/project.model';
-import { Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { NavBarLayoutComponent } from '../../layout/nav-bar-layout/nav-bar-layout.component';
 import { CommonModule } from '@angular/common';
 import { FormContainerComponent } from '../../shared/form-container/form-container.component';
 import { Language } from '../../core/models/langauge.model';
 import { LanguageService } from '../../core/language.service';
+import { or } from 'firebase/firestore';
+import { OrganizationService } from '../../core/organization.service';
 
 @Component({
   selector: 'app-project-form',
@@ -21,25 +23,23 @@ export class ProjectFormComponent implements OnInit {
   languages: Language[] = [];
   showDropdown: boolean = false;
   selectedLanguage: Language | null = null;
+  organizationId: number | null = null;
+  orgText: string | null = null;
 
 
   constructor(
     private fb: FormBuilder,
     private router: Router,
+    private route: ActivatedRoute,
     private projectService: ProjectService,
     private languageService: LanguageService,
+    private organizationService: OrganizationService,
   ){
     this.projectForm = this.fb.group({
       name: ['', Validators.required],
-      description: ['', Validators.required],
+      description: ['', Validators.nullValidator],
       defaultLangId: [1, Validators.required],
     });
-
-    // this.loadLanguages();
-
-    // this.projectForm.valueChanges.subscribe(() => {
-    //   this.checkFormValidity();
-    // });
   }
 
   ngOnInit(): void {
@@ -48,6 +48,18 @@ export class ProjectFormComponent implements OnInit {
 
     this.projectForm.valueChanges.subscribe(() => {
       this.checkFormValidity();
+    });
+
+    this.route.queryParams.subscribe(params => {
+      const orgText = params['orgText'];
+      const orgId = params['orgId'];
+      console.log('orgText', orgText);
+      if (orgId) {
+        this.organizationId = Number(orgId);
+      }
+      if (orgText) {
+        this.orgText = orgText;
+      }
     });
   }
 
@@ -72,16 +84,32 @@ export class ProjectFormComponent implements OnInit {
 
   addProject(): void {
     if (this.projectForm.valid) {
-      const newProject = this.projectForm.value;
+      const newEntity = this.projectForm.value;
       const userId = this.getUserId();
+  
       if (userId !== null) {
-        newProject.ownerId = userId;
-        this.projectService.createProject(newProject).subscribe((project) => {
-          this.projects.push(project);
-          this.projectForm.reset();
-          this.setDefaultLanguage();
-          this.router.navigate(['/project', project.id]);
-        });
+  
+        if (this.orgText) {
+          // Save for organization
+          newEntity.userId = userId;
+          delete newEntity.description;
+          this.organizationService.createOrganization(newEntity).subscribe((organization) => {
+            console.log('Organization created:', organization);
+            this.projectForm.reset();
+            this.router.navigate(['/organization', organization.id]);
+          });
+        } else {
+          // Save for project
+          newEntity.ownerId = userId;
+          newEntity.organizationId = this.organizationId;
+          this.projectService.createProject(newEntity).subscribe((project) => {
+            console.log('Project created:', project);
+            this.projects.push(project);
+            this.projectForm.reset();
+            this.setDefaultLanguage();
+            this.router.navigate(['/project', project.id]);
+          });
+        }
       } else {
         console.error('User ID not found in local storage.');
       }

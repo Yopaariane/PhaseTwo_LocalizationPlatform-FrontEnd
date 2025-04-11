@@ -1,0 +1,69 @@
+<!-- No project -->
+<div class="col no-project" *ngIf="projects.length === 0">
+    <h3>Click on the plus button to create your first project !</h3>
+    <button class="btn add-project" [routerLink]="['/projectsForm']" [queryParams]="{ orgId: organizationId }">
+      <i class="fas fa-plus"></i>
+    </button>
+  </div>
+  <div class="col" style="align-items: start; display: block;" *ngIf="projects.length > 0">
+      <!-- header buttons -->
+      <div class="action-button d-flex justify-content-between mb-2">
+          <div class="left-side d-flex justify-content-between">
+              <button class="btn trash-btn">
+                  <i class="fas fa-trash"></i>
+              </button>
+              <button class="btn">
+                  <i class="fas fa-search"></i>
+              </button>
+          </div>
+          <div class="right-side">
+              <div class="dropdown">
+                  <app-sort-dropdown></app-sort-dropdown>
+              </div>
+              <button class="btn add-project" [routerLink]="['/projectsForm']" [queryParams]="{ orgId: organizationId }">
+                  <i class="fas fa-plus"></i> Add Project
+              </button>
+          </div>
+      </div>
+      <!-- table -->
+      <table class="table table-hover">
+          <thead>
+            <tr class="table-light">
+              <th scope="col" class="projects">
+                  <input type="checkbox" class="form-check-input check-box" id="selectAll">
+                  <label class="form-check-label" for="selectAll">Projects</label>
+              </th>
+              <th scope="col">Strings</th>
+              <th scope="col">Languages</th>
+              <th scope="col">Progress</th>
+              <th scope="col" class="status">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let project of projects">
+              <td class="projects">
+                <input type="checkbox" class="form-check-input check-box" id="project{{ project.id }}">
+                <label class="form-check-label" for="project{{ project.id }}">
+                  <a [routerLink]="['/project', project.id]" [queryParams]="{ orgName: organizationName, orgId: organizationId }" class="link-dark">{{ project.name }}</a>
+                  <span *ngIf="project.roleName" class="badge bg-info custom-badge">{{ project.roleName }}</span>
+                </label>
+              </td>
+              <td>{{project.strings}} strings</td>
+              <td *ngIf="project.languages">
+              <ng-container *ngFor="let language of project.languages">
+                  <span [class]="getFlagClass(language.code)" style="margin-left: 5px;"></span>
+              </ng-container>
+              </td>
+              <td>
+              <div class="progress">
+                  <div class="progress-bar" role="progressbar" [style.width]="project.progress + '%'" [attr.aria-valuenow]="project.progress" aria-valuemin="0" aria-valuemax="100"></div>
+              </div>
+              <small>{{ project.progress }}%</small>
+              </td>
+              <td class="status">
+                  <span>pending</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+    </div>

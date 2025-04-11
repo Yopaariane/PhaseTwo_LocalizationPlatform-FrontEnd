@@ -1,39 +1,68 @@
 <app-nav-bar-layout>
     <div class="contain">
         <app-form-container
-        [title]="'Create Project'"
-        [formGroup]="projectForm"
-        [submitButtonText]="'Save'"
-        (formSubmit)="onSubmit()"
+            [title]="orgText ? 'Create Organization' : 'Create Project'"
+            [formGroup]="projectForm"
+            [submitButtonText]="orgText ? 'Save Organization' : 'Save'"
+            (formSubmit)="onSubmit()"
         >
-        <div class="mb-3">
-            <label for="projectName" class="form-label">Project Name</label>
-            <input type="text" class="form-control" id="projectName" formControlName="name">
-            <div *ngIf="projectForm.get('name')?.touched && projectForm.get('name')?.invalid">
-            <small class="text-danger">Project name is required.</small>
+            <div class="mb-3">
+                <label for="name" class="form-label">
+                    {{ orgText ? 'Organization Name' : 'Project Name' }}
+                </label>
+                <input type="text" class="form-control" id="name" formControlName="name">
+                <div *ngIf="projectForm.get('name')?.touched && projectForm.get('name')?.invalid">
+                    <small class="text-danger">
+                        {{ orgText ? 'Organization name is required.' : 'Project name is required.' }}
+                    </small>
+                </div>
             </div>
-        </div>
-        <div class="mb-3">
-            <label for="defaultLanguage" class="form-label">Default Language</label>
-            <input type="text" class="form-control" placeholder="Choose a language" [value]="selectedLanguage?.name || 'English'" (focus)="showDropdown = true" (blur)="hideDropdown()" readonly>
-            <div *ngIf="showDropdown">
-                <ul class="list-group position-absolute z-index-1">
-                  <li class="list-group-item" *ngFor="let language of filteredLanguages()" (click)="selectLanguage(language)">
-                    {{ language.name }}
-                  </li>
-                </ul>
+            <div class="mb-3">
+                <label for="defaultLanguage" class="form-label">
+                    {{ orgText ? 'Default Language for Organization' : 'Default Language' }}
+                </label>
+                <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Choose a language"
+                    [value]="selectedLanguage?.name || 'English'"
+                    (focus)="showDropdown = true"
+                    (blur)="hideDropdown()"
+                    readonly
+                >
+                <div *ngIf="showDropdown">
+                    <ul class="list-group position-absolute z-index-1">
+                        <li
+                            class="list-group-item"
+                            *ngFor="let language of filteredLanguages()"
+                            (click)="selectLanguage(language)"
+                        >
+                            {{ language.name }}
+                        </li>
+                    </ul>
+                </div>
+                <div *ngIf="projectForm.get('defaultLangId')?.touched && projectForm.get('defaultLangId')?.invalid">
+                    <small class="text-danger">
+                        {{ orgText ? 'Default language for organization is required.' : 'Default language is required.' }}
+                    </small>
+                </div>
             </div>
-            <div *ngIf="projectForm.get('defaultLangId')?.touched && projectForm.get('defaultLangId')?.invalid">
-            <small class="text-danger">Default language is required.</small>
+            <div class="mb-3" *ngIf="!orgText">
+                <label for="description" class="form-label">
+                    Project Description
+                </label>
+                <textarea
+                    class="form-control"
+                    id="description"
+                    rows="3"
+                    formControlName="description"
+                ></textarea>
+                <div *ngIf="projectForm.get('description')?.touched && projectForm.get('description')?.invalid">
+                    <small class="text-danger">
+                        Project description is required.
+                    </small>
+                </div>
             </div>
-        </div>
-        <div class="mb-3">
-            <label for="projectDescription" class="form-label">Project Description</label>
-            <textarea class="form-control" id="projectDescription" rows="3" formControlName="description"></textarea>
-            <div *ngIf="projectForm.get('description')?.touched && projectForm.get('description')?.invalid">
-            <small class="text-danger">Project description is required.</small>
-            </div>
-        </div>
         </app-form-container>
     </div>
 </app-nav-bar-layout>

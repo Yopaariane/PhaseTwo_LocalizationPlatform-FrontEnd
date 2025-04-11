@@ -22,6 +22,7 @@ export class OrganizationComponent implements OnInit {
   organizations: Organization[] = [];
   organizationId!: number;
   defaultLanguage: string | undefined;
+  newOrganization: string = 'newOrganization';
 
   constructor(
     private organizationService: OrganizationService,
@@ -57,7 +58,7 @@ export class OrganizationComponent implements OnInit {
 
         this.organizations.forEach(organization => {
           this.fetchAverageTranslationProgressForOrganization(organization);
-          this.languageService.getLanguageById(organization.defaultLanguageId).subscribe((language: Language) => {
+          this.languageService.getLanguageById(organization.defaultLangId).subscribe((language: Language) => {
             organization.defaultLangCode = language.code;
           });
           console.log("organization language", organization.defaultLangCode);

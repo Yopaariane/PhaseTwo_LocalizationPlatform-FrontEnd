@@ -3,9 +3,21 @@
         <nav class="nav mt-4">
             <div class="project-info">
               <div class="Translation-Progress custom-progress">
-                <div class="project-title">
-                  <h2>{{ projectName }}</h2>
-                </div>
+                <nav *ngIf="organizationName; else projectTitle" aria-label="breadcrumb">
+                  <ol class="breadcrumb">
+                      <li class="breadcrumb-item">
+                          <a [routerLink]="['/organization', organizationId]">{{ organizationName }}</a>
+                      </li>
+                      <li class="breadcrumb-item active" aria-current="page">
+                          {{ projectName }}
+                      </li>
+                  </ol>
+              </nav>
+              <ng-template #projectTitle>
+                  <div class="project-title">
+                      <h2>{{ projectName }}</h2>
+                  </div>
+              </ng-template>
                 <div class="progress">
                   <div
                     class="progress-bar bg-info"

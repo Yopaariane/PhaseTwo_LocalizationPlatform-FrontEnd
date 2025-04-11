@@ -8,7 +8,7 @@
                 <div class="dropdown">
                     <app-sort-dropdown></app-sort-dropdown>
                 </div>
-                <button class="btn add-project" routerLink="/projectsForm">
+                <button class="btn add-project" [routerLink]="['/projectsForm']" [queryParams]="{ orgText: newOrganization }">
                     <i class="fas fa-plus"></i> Add Organization
                 </button>
             </div>

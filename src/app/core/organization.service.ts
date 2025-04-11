@@ -29,4 +29,8 @@ export class OrganizationService {
   getOrganizationsByUser(userId: number): Observable<Organization[]> {
     return this.http.get<Organization[]>(`${this.apiUrl}/organization/user/${userId}`);
   }
+
+  getOrganizationById(id: number): Observable<Organization> {
+    return this.http.get<Organization>(`${this.apiUrl}/organization/${id}`);
+  }
 }

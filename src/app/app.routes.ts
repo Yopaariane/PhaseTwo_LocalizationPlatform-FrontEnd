@@ -18,6 +18,10 @@ import { ResolverService } from './core/resolver/translation-resolver.service';
 import { TermResolverService } from './core/resolver/term-resolver.service';
 import { OrganizationComponent } from './features/organization/organization.component';
 import { OrganizationProjectsComponent } from './features/organization-projects/organization-projects.component';
+import { OrgProjectsComponent } from './features/organization-projects/org-projects/org-projects.component';
+import { OrgLanguagesComponent } from './features/organization-projects/org-languages/org-languages.component';
+import { OrgContributorsComponent } from './features/organization-projects/org-contributors/org-contributors.component';
+import { OrgGlossaryComponent } from './features/organization-projects/org-glossary/org-glossary.component';
 
 export const AppRoutes: Routes = [
     {path: 'signup', component: SignInComponent},
@@ -44,7 +48,14 @@ export const AppRoutes: Routes = [
     ]},
 
     {path: 'organization', component: OrganizationComponent},
-    {path: 'organization/:id', component: OrganizationProjectsComponent},
+    {path: 'organization/:id', component: OrganizationProjectsComponent, children: [
+        {path: 'org-projects', component: OrgProjectsComponent},
+        {path: 'org-languages', component: OrgLanguagesComponent},
+        {path: 'org-contributors', component: OrgContributorsComponent},
+        {path: 'org-glossary', component: OrgGlossaryComponent},
+
+        {path: '', redirectTo: 'org-projects', pathMatch: 'full'}
+    ]},
 
     {path: '', redirectTo: 'logIn', pathMatch: 'full'}
 ];

@@ -5,7 +5,7 @@ export interface Organization{
     name: string;
     createAt: Date;
     userId: number;
-    defaultLanguageId: number;
+    defaultLangId: number;
     strings: number;
     progress: number;
     defaultLangCode: string;

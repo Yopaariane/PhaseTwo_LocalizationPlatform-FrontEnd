@@ -98,7 +98,7 @@ export class DashbordComponent implements OnInit {
             this.userRoleService.getRoleById(project.roleId).subscribe(role => {
                 project['roleName'] = role.name; 
             });
-        }
+          }
           this.getTotalStringCount(project.id);
           this.calculateTranslationProgress(project);
         });
