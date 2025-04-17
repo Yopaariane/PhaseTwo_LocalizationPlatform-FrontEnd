@@ -1,0 +1,153 @@
+<div class="row terms-list">
+    <!-- No term -->
+    <div class="col no-project" *ngIf="files.length === 0">
+        <h3>Click on the plus button to upload your first file !</h3>
+        <button class="btn add-project" (click)="showUpload = true">
+          <i class="fas fa-plus"></i>
+        </button>
+      </div>
+      <div class="col" style="align-items: start; display: block;" *ngIf="files.length > 0">
+          <!-- header buttons -->
+          <div class="action-button d-flex justify-content-between mb-2">
+              <div class="left-side d-flex justify-content-between">
+                  <button class="btn trash-btn">
+                      <i class="fas fa-trash"></i>
+                  </button>
+                  <button class="btn search-btn">
+                    <i class="fas fa-search"></i>
+                  </button>
+              </div>
+
+              <div class="right-side" style="gap: 20px !important;">
+                  <div class="dropdown">
+                    <app-sort-dropdown></app-sort-dropdown>
+                  </div>
+
+                  <div class="btn-group">
+                    <button class="btn btn-light dropdown-toggle" type="button" id="exportDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fas fa-download me-2"></i> Download
+                    </button>
+                  </div>
+
+                  <button class="btn add-project" (click)="showUpload = true">
+                      <i class="fas fa-file-import me-2"></i> Import File
+                  </button>
+              </div>
+          </div>
+          <!-- table -->
+          <table class="table table-hover">
+              <thead>
+                <tr class="table-light">
+                  <th scope="col" class="file-title">File Key</th>
+                  <th scope="col" class="term-title">File Path</th>
+                  <th scope="col" class="term-title" style="text-align: end;">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                  <tr *ngFor="let file of files" class="fw-normal">
+                    <td class="projects">
+                      <span><i class="fas fa-file-alt"></i></span>
+                      <a style="text-decoration: none; color: #343a40;">
+                      <span class="ms-2">{{ file.imageKey }}</span>
+                      </a>
+                    </td>
+                    <td>
+                        <small><a [href]="file.imagePath" target="_blank" rel="noopener noreferrer">{{ file.imagePath }}</a></small>
+                    </td>
+                    <td class="align-middle custom-td" style="text-align: right">
+                      <a href="#!" data-mdb-tooltip-init title="Change language" class="icon">
+                        <i class="bi bi-pencil"></i>
+                      </a>
+                        <button type="button" class="custom-iconBtn" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Remove term"><i
+                            class="fas fa-trash-alt fa-lg text-warning"></i></button>
+                    </td>
+                  </tr>
+                </tbody>
+            </table>
+            <!-- NgbPagination Component -->
+              <ngb-pagination 
+              *ngIf="shouldShowPagination()"
+              [collectionSize]="files.length"
+              [(page)]="currentPage"
+              [pageSize]="itemsPerPage"
+              (pageChange)="pageChanged($event)"
+              [maxSize]="3"
+              [rotate]="true"
+              [ellipses]="false"
+              [boundaryLinks]="true">
+              </ngb-pagination>
+        </div>
+</div>
+
+<div class="popOver" *ngIf="showUpload">
+    <div class="close">
+      <button (click)="showUpload = false" class="text-xl font-bold bg-light border-0 text-dark fw-bold">✕</button>
+    </div>
+
+    <form [formGroup]="uploadForm" (ngSubmit)="onSubmit()" class="upload-form">
+      <div
+        id="fileInput"
+        class="mt-2 border border-2 border-dashed rounded text-center p-4 file-drop-zone"
+        [ngClass]="{'file-drop-hover': isHovering}"
+        (dragover)="onDragOver($event)"
+        (dragleave)="onDragLeave($event)"
+        (drop)="onFileDrop($event)"
+        (click)="fileInput.click()"
+      >
+        <input
+          type="file"
+          id="fileInputField"
+          #fileInput
+          style="display: none;"
+          (change)="onFileSelected($event)"
+        />
+        <i class="bi bi-file-earmark-text" style="font-size: 26px;"></i>
+        <p class="text-muted" *ngIf="!selectedFile">
+          Drag your file here or click to choose
+        </p>
+        <p *ngIf="selectedFile">
+          {{ selectedFile.name }} has been added
+        </p>
+      </div>
+
+      <div class="text-key mt-4">
+        <label for="file-key">File key</label>
+        <input
+          type="text"
+          id="file-key"
+          class="mt-2 border border-gray-300 rounded px-3 py-2 form-control"
+          placeholder="Enter the file key"
+          formControlName="newImageKey"
+        />
+      </div>
+
+      <!-- <select
+        class="mt-4 border border-gray-300 rounded px-3 py-2 form-control"
+        [(ngModel)]="selectedLanguage"
+        formControlName="language"
+      >
+        <option value="" disabled selected>Select the file language</option>
+        <option *ngFor="let language of filteredLanguages()" [ngValue]="language">
+          {{ language.name }}
+        </option>
+      </select> -->
+      <div class="input-group mt-4">
+        <input type="text" class="form-control" placeholder="Choose a language" [value]="selectedLanguage?.name || ''" (focus)="showDropdown = true" (blur)="hideDropdown()" readonly>
+    </div>
+    <div *ngIf="showDropdown">
+        <ul class="list-group position-absolute z-index-1">
+          <li class="list-group-item" *ngFor="let language of filteredLanguages()" (click)="selectLanguage(language)">
+            {{ language.name }}
+          </li>
+        </ul>
+    </div>
+
+      <button
+        type="submit"
+        class="upload-btn"
+      >
+        Upload
+      </button>
+    </form>
+  </div>
+  

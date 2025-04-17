@@ -3,7 +3,7 @@
         <nav class="nav mt-4">
             <div class="project-info">
               <div class="Translation-Progress custom-progress">
-                <nav *ngIf="organizationName; else projectTitle" aria-label="breadcrumb">
+                <nav *ngIf="organizationName; else projectTitles" aria-label="breadcrumb">
                   <ol class="breadcrumb">
                       <li class="breadcrumb-item">
                           <a [routerLink]="['/organization', organizationId]">{{ organizationName }}</a>
@@ -13,7 +13,7 @@
                       </li>
                   </ol>
               </nav>
-              <ng-template #projectTitle>
+              <ng-template #projectTitles>
                   <div class="project-title">
                       <h2>{{ projectName }}</h2>
                   </div>
@@ -44,6 +44,9 @@
                 </li>
                 <li class="nav-item1" routerLinkActive="active-link">
                     <a class="nav-link" [routerLink]="['translation']">Translations</a>
+                </li>
+                <li class="nav-item1" routerLinkActive="active-link">
+                  <a class="nav-link" [routerLink]="['files']">Files</a>
                 </li>
                 <li class="nav-item1" style="border-left: 1px solid #898484; height: 2.8em;" routerLinkActive="active-link">
                 </li>

@@ -22,6 +22,7 @@ import { OrgProjectsComponent } from './features/organization-projects/org-proje
 import { OrgLanguagesComponent } from './features/organization-projects/org-languages/org-languages.component';
 import { OrgContributorsComponent } from './features/organization-projects/org-contributors/org-contributors.component';
 import { OrgGlossaryComponent } from './features/organization-projects/org-glossary/org-glossary.component';
+import { FilesComponent } from './features/project/files/files.component';
 
 export const AppRoutes: Routes = [
     {path: 'signup', component: SignInComponent},
@@ -35,6 +36,7 @@ export const AppRoutes: Routes = [
         {path: 'import', component: ImportsComponent},
         {path: 'translation/:id', component: TranslationsComponent, 
             resolve: {resolvedData: ResolverService}},
+        {path: 'files', component: FilesComponent},
 
         {path: '', redirectTo: 'terms', pathMatch: 'full'},
     ]},

@@ -1,6 +1,6 @@
 export const environment = {
     production: true,
-    apiUrl: 'http://192.168.59.104:32035',
+    apiUrl: 'http://192.168.59.104:31815',
 
 
   firebaseConfig: {

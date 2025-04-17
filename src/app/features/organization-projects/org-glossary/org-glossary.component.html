@@ -1,1 +1,120 @@
-<p>org-glossary works!</p>
+<!-- header buttons -->
+<div class="action-button d-flex justify-content-between mb-2">
+    <div class="left-side d-flex justify-content-between">
+        <button class="btn trash-btn">
+            <i class="fas fa-trash"></i>
+        </button>
+        <button class="btn">
+            <i class="fas fa-search"></i>
+        </button>
+    </div>
+    <div class="right-side">
+        <div class="dropdown">
+            <app-sort-dropdown></app-sort-dropdown>
+        </div>
+        <button class="btn add-project btn-default pull-left" (click)="addRow()">
+            <i class="fas fa-plus"></i> Add Row
+        </button>
+    </div>
+</div>
+
+<div class="contain">
+    <div class="row clearfix">
+        <div class="col-md-12 column">
+            <form [formGroup]="formGroup">
+                <table class="table table-bordered table-hover" id="tab_logic">
+                  <thead>
+                    <tr>
+                      <th class="text-center">#</th>
+                      <th class="text-center">Terms</th>
+                      <th class="text-center">Initial Translation</th>
+                      <th class="text-center">Context</th>
+                      <th class="text-center">Translatable</th>
+                      <th class="text-center">Comment</th>
+                      <th class="text-center">Status</th>
+                      <th class="text-center">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody formArrayName="rows"  *ngFor="let row of rows.controls; let index = index">
+                    <tr [formGroupName]="index">
+                      <td>{{ index + 1 }}</td>
+              
+                      <!-- Term -->
+                      <td>
+                        <span *ngIf="!row.get('isEditing')?.value">{{ row.get('term')?.value }}</span>
+                        <input *ngIf="row.get('isEditing')?.value" type="text" formControlName="term" class="form-control" placeholder="Enter a glossary term" aria-label="Term" />
+                      </td>
+              
+                      <!-- Translation -->
+                      <td>
+                        <span *ngIf="!row.get('isEditing')?.value">{{ row.get('initial_translation')?.value }}</span>
+                        <input *ngIf="row.get('isEditing')?.value" type="text" formControlName="initial_translation" class="form-control" placeholder="Enter initial translation" aria-label="initial_translation" />
+                      </td>
+              
+                      <!-- Context -->
+                      <td>
+                        <span *ngIf="!row.get('isEditing')?.value">{{ row.get('context')?.value }}</span>
+                        <input *ngIf="row.get('isEditing')?.value" type="text" formControlName="context" class="form-control" placeholder="Explain the context" aria-label="Context" />
+                      </td>
+              
+                      <!-- Translatable -->
+                      <td>
+                        <span *ngIf="!row.get('isEditing')?.value">{{ row.get('translatable')?.value }}</span>
+                        <select *ngIf="row.get('isEditing')?.value" formControlName="translatable" class="form-control" aria-label="Translatable">
+                          <option value="yes">Yes</option>
+                          <option value="no">No</option>
+                        </select>
+                      </td>
+              
+                      <!-- Comment -->
+                      <td>
+                        <span *ngIf="!row.get('isEditing')?.value">{{ row.get('comment')?.value }}</span>
+                        <input *ngIf="row.get('isEditing')?.value" type="text" formControlName="comment" class="form-control" placeholder="Optional comment" aria-label="Comment" />
+                      </td>
+              
+                      <!-- Status -->
+                      <td>
+                        <span *ngIf="!row.get('isEditing')?.value" [ngStyle]="{'color': getStatusColor(row.get('status')?.value)}">
+                          {{ row.get('status')?.value }}
+                        </span>
+                        <select *ngIf="row.get('isEditing')?.value" formControlName="status" class="form-control" aria-label="status">
+                          <option value="Pending" [ngStyle]="{'color': getStatusColor('Pending')}">Pending</option>
+                          <option value="Approved" [ngStyle]="{'color': getStatusColor('Approved')}">Approved</option>
+                          <option value="NotApproved" [ngStyle]="{'color': getStatusColor('NotApproved')}">NotApproved</option>
+                        </select>
+                      </td>
+              
+                      <!-- Actions -->
+                      <td class="d-flex gap-1 justify-content-center align-items-center">
+                        <!-- Save -->
+                        <button *ngIf="row.get('isEditing')?.value"
+                                type="button"
+                                class="btn btn-success custom-btn"
+                                
+                                (click)="onSubmit(index)"
+                                >
+                          <i class="fas fa-save" style="color: #46B24D;" aria-label="Save"></i>
+                        </button>
+              
+                        <!-- Edit -->
+                        <button *ngIf="!row.get('isEditing')?.value"
+                                type="button"
+                                class="btn btn-primary custom-btn"
+                                (click)="editRow(index)">
+                          <i class="fas fa-edit" style="color: rgb(17, 174, 247);" aria-label="Edit"></i>
+                        </button>
+              
+                        <!-- Delete -->
+                        <button type="button"
+                                class="btn btn-danger custom-btn"
+                                (click)="deleteRow(index)">
+                          <i class="fas fa-trash" style="color: red;" aria-label="Delete"></i>
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </form>              
+        </div>
+    </div>
+</div>

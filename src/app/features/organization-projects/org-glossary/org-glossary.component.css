@@ -1,0 +1,25 @@
+.action-button{
+    margin: auto;
+    margin-top: 25px;
+    margin-bottom: 20px  !important;
+    width: 97% !important;
+    
+}
+
+.contain{
+    margin: auto;
+    width: 97%;
+}
+
+.text-center{
+    color: #6B7280;
+}
+.right-side{
+    min-width: 200px !important;
+    gap: 10px;
+}
+
+.custom-btn{
+    background-color: transparent !important;
+    border: none !important;
+}

@@ -137,6 +137,7 @@
 .no-project{
     display: flex;
     flex-direction: column;
+    justify-content: center;
     h3{
         color: #6B7280;
         font-size: 18px;
