@@ -131,11 +131,11 @@ export class ProjectLanguageComponent {
   // Language name and code
   getLanguageNameById(id: number): string {
     const language = this.languages.find(lang => lang.id === id);
-    return language ? language.name : 'Unknown Language'; // Handle the case where the language is not found
+    return language ? language.name : 'Unknown Language'; 
   }
   getLanguageCodeById(id: number): string {
     const language = this.languages.find(lang => lang.id === id);
-    return language ? language.code : 'Unknown Language'; // Handle the case where the language is not found
+    return language ? language.code : 'Unknown Language'; 
   }
 
   // Delete Language from list

@@ -52,6 +52,7 @@ export class OrgGlossaryComponent implements OnInit {
 
   createRow(data: any = {}): FormGroup {
     const row = this.fb.group({
+      id: [data.id || null],
       term: [data.term || '', Validators.required],
       initial_translation: [data.initial_translation || '', Validators.required],
       context: [data.context || '', Validators.required],
@@ -75,15 +76,23 @@ export class OrgGlossaryComponent implements OnInit {
   deleteRow(index: number): void {
     const row = this.rows.at(index);
     const id = row.get('id')?.value;
-
+  
     if (id) {
-      this.glossaryService.deleteGlossary(id).subscribe(() => {
-        this.rows.removeAt(index);
-        this.saveToLocalStorage();
+      this.glossaryService.deleteGlossary(id).subscribe({
+        next: () => {
+          this.rows.removeAt(index); 
+          this.saveToLocalStorage(); 
+          console.log(`Glossary with ID ${id} deleted successfully.`);
+        },
+        error: (err) => {
+          console.error(`Error deleting glossary with ID ${id}:`, err);
+          alert('Failed to delete the glossary. Please try again.');
+        }
       });
     } else {
       this.rows.removeAt(index);
       this.saveToLocalStorage();
+      console.warn('Glossary ID is missing. Row deleted locally but not from the database.');
     }
   }
 
@@ -153,7 +162,7 @@ export class OrgGlossaryComponent implements OnInit {
     this.glossaryService.getGlosssaryByOrganizationId(organizationId).subscribe(glossaries => {
       this.rows.clear(); 
       glossaries.forEach(glossary => {
-        this.rows.push(this.createRow({ ...glossary, isEditing: false }));
+        this.rows.push(this.createRow({ ...glossary, id: glossary.id, isEditing: false }));
       });
       this.saveToLocalStorage();
     });

@@ -23,8 +23,8 @@ export class TermsService {
   }
 
   // delete Term
-  deleteTerm(id: number): Observable<void>{
-    return this.http.delete<void>(`${this.apiUrl}/terms/${id}`);
+  deleteTerm(id: number, userId: number): Observable<void>{
+    return this.http.delete<void>(`${this.apiUrl}/terms/${id}/user/${userId}`);
   }
 
   // get Term By Id

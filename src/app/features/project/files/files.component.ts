@@ -9,6 +9,8 @@ import { SortDropdownComponent } from '../../../shared/sort-dropdown/sort-dropdo
 import { Form, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbPagination } from '@ng-bootstrap/ng-bootstrap';
 import { Language } from '../../../core/models/project.model';
+import { SingleProjectService } from '../../../core/single-project.service';
+import { ProjectLanguage } from '../../../core/models/project-language.model';
 
 @Component({
   selector: 'app-files',
@@ -27,12 +29,14 @@ export class FilesComponent implements OnInit {
   currentPage = 1;
   itemsPerPage = 6;
   paginatedFiles: LocalizedImage[] = [];
+  projectLanguages: ProjectLanguage[] = [];
 
   selectedFile: File | null = null;
   selectedLanguage: Language | null = null;
   showUpload = false;
   isHovering = false;
   languages: Language[] = [];
+  languageId!: number;
   uploadForm!: FormGroup
   newImageKey!: string;
   showDropdown: boolean = false;
@@ -43,6 +47,7 @@ export class FilesComponent implements OnInit {
     private localizedFilesService: LocalizedImageService,
     private languageService: LanguageService,
     private fb: FormBuilder,
+    private singleProjectService: SingleProjectService,
   ) { }
 
   ngOnInit(): void {
@@ -54,7 +59,9 @@ export class FilesComponent implements OnInit {
       this.projectId = +params.get('id')!;
     });
     this.loadFiles(this.projectId);
-    this.loadLanguages();
+    // this.loadLanguages();
+    this.loadProjectLanguages(this.projectId);
+
   }
 
   loadFiles(projectId: number): void {
@@ -111,11 +118,11 @@ export class FilesComponent implements OnInit {
       this.selectedFile = input.files[0];
     }
   }
-  loadLanguages(): void {
-      this.languageService.getAllLanguages().subscribe((languages: Language[]) => {
-        this.languages = languages;
-      });
-  }
+  // loadLanguages(): void {
+  //     this.languageService.getAllLanguages().subscribe((languages: Language[]) => {
+  //       this.languages = languages;
+  //     });
+  // }
   hideDropdown(): void {
     setTimeout(() => {
       this.showDropdown = false;
@@ -150,4 +157,60 @@ export class FilesComponent implements OnInit {
       alert('Please select a file, a language, and provide a file key.');
     }
   }
+
+  loadProjectLanguages(projectId: number): void {
+    this.singleProjectService.getLanguageByProjectId(projectId).subscribe(
+      (projectLanguages: ProjectLanguage[]) => {
+        this.projectLanguages = projectLanguages;
+  
+        this.languages = [];
+  
+        projectLanguages.forEach(pl => {
+          this.languageService.getLanguageById(pl.languageId).subscribe({
+            next: (language: Language) => {
+              this.languages.push(language); 
+            },
+            error: (error) => {
+              console.error('Error loading language:', error);
+            }
+          });
+        });
+      },
+      error => {
+        console.error('Error loading project languages:', error);
+      }
+    );
+  }
+
+  downloadExportedImages(projectId: number, languageId: number): void {
+    this.projectId = projectId;
+    this.localizedFilesService.export(projectId, languageId).subscribe(blob => {
+      const a = document.createElement('a');
+      const objectUrl = URL.createObjectURL(blob);
+      a.href = objectUrl;
+      a.download = `image-export-${projectId}-${languageId}.json`;
+      a.click();
+      URL.revokeObjectURL(objectUrl);
+    });
+   console.log('Exported images for project:', projectId, 'and language:', languageId);
+  }
+
+  onLanguageDownload(languageId: number): void {
+    if (this.projectId && languageId) {
+      this.downloadExportedImages(this.projectId, languageId);
+    } else {
+      alert('Error: Project ID or Language ID is missing.');
+    }
+  }
+
+  deleteFile(id: number): void {
+    if (confirm('Are you sure you want to delete this file?')) {
+      this.localizedFilesService.deleteImage(id).subscribe(() => {
+        this.loadFiles(this.projectId);
+      }, error => {
+        console.error('Error deleting file:', error);
+      });
+    }
+  }
+  
 }

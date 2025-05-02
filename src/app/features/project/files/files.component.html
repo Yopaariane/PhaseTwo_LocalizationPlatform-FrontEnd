@@ -25,8 +25,15 @@
 
                   <div class="btn-group">
                     <button class="btn btn-light dropdown-toggle" type="button" id="exportDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="fas fa-download me-2"></i> Download
+                      <i class="fas fa-download me-2"></i> Download
                     </button>
+                    <ul class="dropdown-menu" aria-labelledby="exportDropdown">
+                      <li *ngFor="let language of languages">
+                        <a class="dropdown-item"(click)="onLanguageDownload(language.id)">
+                          {{ language.name }}
+                        </a>
+                      </li>
+                    </ul>
                   </div>
 
                   <button class="btn add-project" (click)="showUpload = true">
@@ -58,7 +65,7 @@
                       <a href="#!" data-mdb-tooltip-init title="Change language" class="icon">
                         <i class="bi bi-pencil"></i>
                       </a>
-                        <button type="button" class="custom-iconBtn" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Remove term"><i
+                        <button type="button" class="custom-iconBtn" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Remove term" (click)="deleteFile(file.id)"><i
                             class="fas fa-trash-alt fa-lg text-warning"></i></button>
                     </td>
                   </tr>
@@ -121,25 +128,15 @@
         />
       </div>
 
-      <!-- <select
-        class="mt-4 border border-gray-300 rounded px-3 py-2 form-control"
-        [(ngModel)]="selectedLanguage"
-        formControlName="language"
-      >
-        <option value="" disabled selected>Select the file language</option>
-        <option *ngFor="let language of filteredLanguages()" [ngValue]="language">
-          {{ language.name }}
-        </option>
-      </select> -->
-      <div class="input-group mt-4">
-        <input type="text" class="form-control" placeholder="Choose a language" [value]="selectedLanguage?.name || ''" (focus)="showDropdown = true" (blur)="hideDropdown()" readonly>
+    <div class="input-group mt-4">
+      <input type="text" class="form-control" placeholder="Choose a language" [value]="selectedLanguage?.name || ''" (focus)="showDropdown = true" (blur)="hideDropdown()" readonly>
     </div>
     <div *ngIf="showDropdown">
-        <ul class="list-group position-absolute z-index-1">
-          <li class="list-group-item" *ngFor="let language of filteredLanguages()" (click)="selectLanguage(language)">
-            {{ language.name }}
-          </li>
-        </ul>
+      <ul class="list-group position-absolute z-index-1">
+        <li class="list-group-item" *ngFor="let language of filteredLanguages()" (click)="selectLanguage(language)">
+          {{ language.name }}
+        </li>
+      </ul>
     </div>
 
       <button

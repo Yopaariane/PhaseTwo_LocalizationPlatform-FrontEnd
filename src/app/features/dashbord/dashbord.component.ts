@@ -14,6 +14,8 @@ import { CommonModule } from '@angular/common';
 import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 import { SortingService } from '../../core/sorting.service';
 import { SortDropdownComponent } from '../../shared/sort-dropdown/sort-dropdown.component';
+import { Organization } from '../../core/models/organization.model';
+import { OrganizationService } from '../../core/organization.service';
 
 
 @Component({
@@ -25,6 +27,7 @@ import { SortDropdownComponent } from '../../shared/sort-dropdown/sort-dropdown.
 export class DashbordComponent implements OnInit {
   projects: Project[] = [];
   userRole: UserRole[] = [];
+  organizations: Organization[] = [];
   totalStringCount: number | undefined;
   adminId!: number;
   roleId: number = 2;
@@ -49,6 +52,7 @@ export class DashbordComponent implements OnInit {
     private languageService: LanguageService,
     private userRoleService: AuthService,
     private sortingService: SortingService,
+    private organizationService: OrganizationService,
   ) {}
 
   ngOnInit(): void {
@@ -105,6 +109,14 @@ export class DashbordComponent implements OnInit {
         // Pagination
         this.sortProjects();
         this.updatePaginatedProjects();
+      });
+
+      this.organizationService.getOrganizationsByUser(userId).subscribe((organizations) => {
+        this.organizations = organizations;
+      });
+
+      this.userRoleService.getRolesByUserId(userId).subscribe((userRoles) => {
+        this.userRole = userRoles;
       });
 
     } else {

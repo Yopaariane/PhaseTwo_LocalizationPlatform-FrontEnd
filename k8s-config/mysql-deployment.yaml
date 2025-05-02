@@ -1,3 +1,4 @@
+# PersistentVolumeClaim for MySQL data
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
@@ -10,15 +11,16 @@ spec:
       storage: 1Gi
   storageClassName: standard
 ---
+# MySQL Deployment
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: mysql
 spec:
+  replicas: 1
   selector:
     matchLabels:
       app: mysql
-  replicas: 1
   template:
     metadata:
       labels:
@@ -36,22 +38,17 @@ spec:
               value: ariane
             - name: MYSQL_PASSWORD
               value: Kv66QSPQ9hagKiVY
+          ports:
+            - containerPort: 3306
           volumeMounts:
-            - mountPath: /docker-entrypoint-initdb.d
-              name: mysql-init-scripts
-            - mountPath: /var/lib/mysql
-              name: mysql-persistent-storage
+            - name: mysql-storage
+              mountPath: /var/lib/mysql
       volumes:
-        - name: mysql-init-scripts
-          configMap:
-            name: mysql-init-scripts
-            items:
-              - key: localization_platform_utf8.sql
-                path: init.sql
-        - name: mysql-persistent-storage
+        - name: mysql-storage
           persistentVolumeClaim:
             claimName: mysql-pvc
 ---
+# MySQL Service
 apiVersion: v1
 kind: Service
 metadata:
@@ -62,5 +59,44 @@ spec:
   ports:
     - port: 3306
       targetPort: 3306
-      nodePort: 32036 
+      nodePort: 32036
   type: NodePort
+---
+# ConfigMap with Flyway SQL migrations
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: flyway-migrations
+data:
+  V1__init.sql: |
+    -- Your Flyway migration script
+    CREATE TABLE IF NOT EXISTS test_table (
+      id INT PRIMARY KEY AUTO_INCREMENT,
+      name VARCHAR(100) NOT NULL
+    );
+---
+# Flyway Job to apply DB migrations
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: flyway-migrate
+spec:
+  template:
+    spec:
+      containers:
+        - name: flyway
+          image: flyway/flyway:latest
+          args:
+            - -url=jdbc:mysql://mysql:3306/localization_platform
+            - -user=ariane
+            - -password=Kv66QSPQ9hagKiVY
+            - -locations=filesystem:/flyway/sql
+            - migrate
+          volumeMounts:
+            - name: migration-scripts
+              mountPath: /flyway/sql
+      restartPolicy: OnFailure
+      volumes:
+        - name: migration-scripts
+          configMap:
+            name: flyway-migrations

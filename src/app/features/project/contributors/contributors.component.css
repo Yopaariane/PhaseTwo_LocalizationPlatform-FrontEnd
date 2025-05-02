@@ -1,3 +1,52 @@
 .list-group-item{
     cursor: pointer;
 }
+
+.right-side{
+    gap: 40px;
+}
+
+.terms{
+    width: 25%;
+}
+
+.custom-td{
+    text-align: right;
+    max-width: 100px !important;
+
+    .custom-iconBtn{
+        margin-left: 22px;
+        cursor: pointer;
+        font-size: 14px;
+    }
+}
+
+.contributors{
+    display: flex;
+    justify-content: start;
+    align-items: center;
+}
+.userName{
+    margin-left: 10px;
+    font-size: 18px;
+    color: #6B7280;
+    font-weight: 500;
+}
+
+.initials-circle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    color: white;
+    text-transform: uppercase;
+    font-size: 14px;
+
+    span{
+        color: white !important;
+        font-size: 14px !important;
+        font-weight: 500;
+    }
+}

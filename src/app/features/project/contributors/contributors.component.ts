@@ -1,10 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { UserRole } from '../../../core/models/user-role.model';
 import { AuthService, Role, UserResponse } from '../../../core/auth.service';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { SortingService } from '../../../core/sorting.service';
-import { PuterAiService } from '../../../core/puter-ai.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
@@ -14,11 +13,19 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
   styleUrls: ['./contributors.component.css', '../terms/terms.component.css', '../../dashbord/dashbord.component.css']
 })
 export class ContributorsComponent {
+
+  @Input() userRoleDetails: any[] = []; 
+  @Input() userField: string = 'user'; 
+  @Input() roleField: string = 'role'; 
+  @Input() projectField: string = 'projectName';
+  @Input() showProjectColumn: boolean = false;
+
+
   userRoles: UserRole[] = [];
   role: Role[] = [];
   projectId: number | null = null;
   userDetailsList = [];
-  userRoleDetails: { userRoleId: number, user: any, role: any }[] = [];
+  // userRoleDetails: { userRoleId: number, user: any, role: any }[] = [];
   userEmail: string = "";
 
   sortOrder: string = 'Date Asc';
@@ -27,6 +34,9 @@ export class ContributorsComponent {
   emailError: string | null = null;
   roleError: string | null = null;
 
+  showPopper: boolean = false;
+  popperTimeout: any;
+
   constructor(
     private authService: AuthService,
     private route: ActivatedRoute,
@@ -34,6 +44,7 @@ export class ContributorsComponent {
   ) {}
 
   ngOnInit(): void {
+
     this.route.parent?.paramMap.subscribe(params => {
       const id = params.get('id');
       if (id) {
@@ -62,6 +73,12 @@ export class ContributorsComponent {
             user: user,
             role: roleDetail
           });
+
+          if (this.userRoleDetails.length === 1) {
+            this.showPopperWithTimeout();
+          }else {
+            this.showPopper = false;
+          }
         });
       });
     });
@@ -104,7 +121,8 @@ export class ContributorsComponent {
       this.showDropdown = false;
     }, 200);
   }
-  selectRole(role: Role): void {
+  selectRole(role: Role, event: Event): void {
+    event.stopPropagation();
     this.selectedRole = role;
     this.showDropdown = true;
   }
@@ -145,5 +163,43 @@ export class ContributorsComponent {
   clearErrors(): void {
     this.emailError = null;
     this.roleError = null;
+  }
+
+  // user initials and color
+  getUserInitials(name: string): string {
+    if (!name) return '';
+
+    const nameParts = name.trim().split(' ');
+
+    if (nameParts.length > 1) {
+      return nameParts[0][0] + nameParts[1][0];
+    } else {
+      return nameParts[0].slice(0, 2).toUpperCase();
+    }
+  }
+  getUserColor(name: string): string {
+    const colors = ['#FF5733', '#33B5E5', '#FFBB33', '#2BBBAD', '#FFC107'];
+    let sumOfCharCodes = 0;
+
+    for (let i = 0; i < name.length; i++) {
+      sumOfCharCodes += name.charCodeAt(i);
+    }
+
+    return colors[sumOfCharCodes % colors.length];
+  }
+
+  // popper handling
+  showPopperWithTimeout(): void {
+    this.showPopper = true;
+
+    this.popperTimeout = setTimeout(() => {
+      this.showPopper = false;
+    }, 10000);
+  }
+
+  ngOnDestroy(): void {
+    if (this.popperTimeout) {
+      clearTimeout(this.popperTimeout);
+    }
   }
 }

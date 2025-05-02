@@ -24,9 +24,16 @@
 
                 <!-- Add new contributor -->
                 <div class="btn-group">
-                  <button class="btn add-project dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  <button class="btn add-project dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" (click)="this.showPopper = !this.showPopper">
                     <i class="fas fa-plus"></i> Add contributors
                   </button>
+
+                  <!-- Popper -->
+                    <div *ngIf="showPopper" class="popper bg-dark text-white border rounded shadow p-3 position-absolute" style="top: 100%; left: -20%; z-index: 1050; width: 200px; border-color: #1d1d1dc7;">
+                    <div class="arrow" style="position: absolute; top: -10px; left: 65px; width: 0; height: 0; border-left: 10px solid transparent; border-right: 10px solid transparent; border-bottom: 10px solid #333;"></div>
+                    <p class="mb-2">Add contributors to collaborate effectively!</p>
+                    </div>
+
                   <ul class="dropdown-menu" style="width: 300px;" data-bs-auto-close="false">
                     <li>
                       <div class="px-3 py-2">
@@ -44,7 +51,7 @@
 
                       <div *ngIf="showDropdown">
                         <ul class="list-group position-absolute z-index-1 w-100">
-                          <li class="list-group-item" *ngFor="let role of filteredRoles()" (click)="selectRole(role)">
+                          <li class="list-group-item" *ngFor="let role of filteredRoles()" (click)="selectRole(role, $event)">
                             {{ role.name }}
                           </li>
                         </ul>
@@ -64,26 +71,43 @@
             <thead>
                 <tr class="table-light">
                   <th scope="col" class="terms"><span class="badge badge-custom">{{userRoleDetails.length}} Contributors</span></th>
-                  <th scope="col" class="term-title">Progress</th>
-                    <th scope="col" class="term-title" style="text-align: end;">Action</th>
+                  <th *ngIf="showProjectColumn" scope="col" class="term-title">Project</th>
+                  <th scope="col" class="term-title">Role</th>
+                  <th scope="col" class="term-title" style="text-align: end;">Action</th>
                 </tr>
                 
               </thead>
               <tbody>
-                <tr *ngIf="userRoleDetails.length === 1">
-                  <td colspan="4">Add your first Contributor for this project</td>
-                </tr> 
                 <tr class="fw-normal" *ngFor="let detail of userRoleDetails">
-                  <td class="projects">
-                    <span style="font-weight: bold;">{{detail.user.name}}</span>
+                  <td class="contributors">
+                    <div
+                      class="initials-circle"
+                      [ngStyle]="{ 'background-color': getUserColor(detail[userField]?.name) }"
+                    >
+                      <span>{{ getUserInitials(detail[userField]?.name) }}</span>
+                    </div>
+                    <span class="userName">{{detail[userField]?.name}}</span>
+                  </td>
+                  <td *ngIf="showProjectColumn" class="align-middle">
+                    {{ detail[projectField] }}
                   </td>
                   <td class="align-middle">
-                   {{ detail.role.name }}
+                   {{ detail[roleField]?.name }}
                   </td>
-                  <td class="align-middle custom-td" style="text-align: right">
-                      <button type="button" class="custom-iconBtn" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Remove language" (click)="deleteUserRole(detail.userRoleId)"><i
-                          class="fas fa-trash-alt fa-lg text-warning"></i></button>
-                  </td>
+                    <td class="align-middle custom-td">
+                      <!-- Modification button -->
+                      <button type="button" class="custom-iconBtn" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Modify contributor">
+                        <i class="fas fa-edit fa-lg" style="color: rgb(37, 188, 248);"></i>
+                      </button>
+                      <!-- Trash button -->
+                      <button type="button" class="custom-iconBtn" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Remove contributor" (click)="deleteUserRole(detail.userRoleId)">
+                        <i class="fas fa-trash-alt fa-lg text-warning"></i>
+                      </button>
+                      <!-- Messaging button -->
+                      <button type="button" class="custom-iconBtn" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Message contributor">
+                        <i class="fas fa-envelope fa-lg" style="color: #46B24D;"></i>
+                      </button>
+                    </td>
                 </tr>
               </tbody>
         </table>

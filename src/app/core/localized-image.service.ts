@@ -21,6 +21,12 @@ export class LocalizedImageService {
     return this.http.post<LocalizedImage>(`${this.apiUrl}/image/upload`, formData);
   }
 
+  export(projectId: number, languageId: number): Observable<Blob> {
+    return this.http.get(`${this.apiUrl}/image/export/project/${projectId}/language/${languageId}`, {
+      responseType: 'blob'
+    });
+  }
+
   getImageById(id: number): Observable<LocalizedImage> {
     return this.http.get<LocalizedImage>(`${this.apiUrl}/image/${id}`);
   }

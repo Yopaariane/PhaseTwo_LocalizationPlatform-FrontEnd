@@ -12,6 +12,7 @@ import { NgbPagination } from '@ng-bootstrap/ng-bootstrap';
 import { CommonModule } from '@angular/common';
 import { SortDropdownComponent } from '../../../shared/sort-dropdown/sort-dropdown.component';
 import { SortingService } from '../../../core/sorting.service';
+import { StorageService } from '../../../core/storage.service';
 
 @Component({
   selector: 'app-terms',
@@ -43,6 +44,7 @@ export class TermsComponent implements OnInit, AfterViewInit {
     private singleProjectService: SingleProjectService,
     private languageService: LanguageService,
     private sortingService: SortingService,
+    private localStirageService: StorageService,
   ){
 
     this.route.data.subscribe(data => {
@@ -152,17 +154,30 @@ export class TermsComponent implements OnInit, AfterViewInit {
     return terms ? terms.term : 'Unknown Term';
   }
 
+  getUserId(): number | null {
+    const user = localStorage.getItem('user');
+    if (user) {
+      return JSON.parse(user).id;
+    }
+    return null;
+  }
+
   // Delete term
   deleteTerm(id: number): void {
-    this.termsService.deleteTerm(id).subscribe(
-      () => {
-        this.terms = this.terms.filter(term => term.id !== id);
-        this.reloadPage();
-      },
-      error => {
-        console.error('Error deleting term:');
-      }
-    );
+    const userId = this.getUserId();
+    if (userId !== null) {
+      this.termsService.deleteTerm(id, userId).subscribe(
+        () => {
+          this.terms = this.terms.filter(term => term.id !== id);
+          this.reloadPage();
+        },
+        error => {
+          console.error('Error deleting term:');
+        }
+      );
+    } else {
+      console.error('User ID is null. Cannot delete term.');
+    }
   }
 
   reloadPage(): void {

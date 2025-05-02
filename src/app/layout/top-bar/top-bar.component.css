@@ -4,12 +4,7 @@
     align-items: center;
     padding: 10px;
     background: #fff;
-    /* width: calc(100% - 290px);
-    transition: width 0.3s ease; */
   }
-  /* .sidebar-collapsed .navbar {
-    width: 100%;
-  } */
 
   .toggel:active{
     border: none;
