@@ -72,7 +72,8 @@
             <tbody>
               <tr *ngFor="let projectLanguage of paginatedProjectLanguage" class="fw-normal">
                 <td class="projects">
-                    <a [routerLink]="['/project', projectId, 'translation', projectLanguage.id]" class="link-dark">
+                    <a [routerLink]="['/project', projectId, 'translation', projectLanguage.id]"
+                    [queryParams]="{ defaultLangId: defaultLangId }" class="link-dark">
                   <span [class]="getFlagClass(getLanguageCodeById(projectLanguage.languageId))"></span>
         
                   <span class="ms-2">{{ getLanguageNameById(projectLanguage.languageId) }} <span class="lan-code">{{ getLanguageCodeById(projectLanguage.languageId) }}</span></span>

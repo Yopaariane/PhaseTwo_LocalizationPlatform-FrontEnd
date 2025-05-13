@@ -10,6 +10,7 @@ import { Language } from '../../core/models/langauge.model';
 import { LanguageService } from '../../core/language.service';
 import { or } from 'firebase/firestore';
 import { OrganizationService } from '../../core/organization.service';
+import { LoadingService } from '../../core/loading.service';
 
 @Component({
   selector: 'app-project-form',
@@ -34,6 +35,7 @@ export class ProjectFormComponent implements OnInit {
     private projectService: ProjectService,
     private languageService: LanguageService,
     private organizationService: OrganizationService,
+    private loadingService: LoadingService,
   ){
     this.projectForm = this.fb.group({
       name: ['', Validators.required],
@@ -91,19 +93,23 @@ export class ProjectFormComponent implements OnInit {
   
         if (this.orgText) {
           // Save for organization
+          this.loadingService.show('Loading languages...');
           newEntity.userId = userId;
           delete newEntity.description;
           this.organizationService.createOrganization(newEntity).subscribe((organization) => {
+            this.loadingService.hide();
             console.log('Organization created:', organization);
             this.projectForm.reset();
             this.router.navigate(['/organization', organization.id]);
           });
         } else {
           // Save for project
+          this.loadingService.show('Loading languages...');
           newEntity.ownerId = userId;
           newEntity.organizationId = this.organizationId;
           this.projectService.createProject(newEntity).subscribe((project) => {
             console.log('Project created:', project);
+            this.loadingService.hide();
             this.projects.push(project);
             this.projectForm.reset();
             this.setDefaultLanguage();
@@ -136,7 +142,7 @@ export class ProjectFormComponent implements OnInit {
   }
   selectLanguage(language: Language): void {
     this.selectedLanguage = language;
-    this.projectForm.patchValue({ defaultLanguage: language.id });
+    this.projectForm.patchValue({ defaultLangId: language.id });
     this.showDropdown = false;
   }
 

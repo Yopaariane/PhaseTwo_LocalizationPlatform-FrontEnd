@@ -17,13 +17,18 @@
         text-align: start;
     }
 }
+.link-list{
+    width: 100%;
+}
 .custom-list{
     display: flex;
     list-style: none;
     padding: 0%;
+    /* width: 100%; */
+
 
     .nav-item1{
-        margin-right: 35px;
+        margin-right: 1%;
         cursor: pointer;
         .nav-link{
             color: inherit;
@@ -41,4 +46,8 @@
     width: 92%;
     margin: auto;
     border-radius: 10px;
+}
+
+@media (max-width: 768px) {
+    
 }

@@ -5,6 +5,7 @@ import { TranslationService } from '../../core/translation.service';
 import { ActivatedRoute, RouterLink, RouterLinkActive, RouterModule, RouterOutlet } from '@angular/router';
 import { Project } from '../../core/models/project.model';
 import { CommonModule } from '@angular/common';
+import { LoadingService } from '../../core/loading.service';
 
 @Component({
   selector: 'app-project',
@@ -24,6 +25,7 @@ export class ProjectComponent implements OnInit {
     private projectService: ProjectService,
     private translationService: TranslationService,
     private route: ActivatedRoute,
+    private loadingService: LoadingService,
   ){}
 
   ngOnInit(): void {

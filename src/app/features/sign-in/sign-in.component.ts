@@ -6,6 +6,7 @@ import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { AuthLayoutComponent } from '../../shared/auth-layout/auth-layout.component';
 import { StorageService } from '../../core/storage.service';
 import { CommonModule } from '@angular/common';
+import { LoadingService } from '../../core/loading.service';
 
 @Component({
     selector: 'app-sign-in',
@@ -21,6 +22,7 @@ export class SignInComponent {
     private fb: FormBuilder, 
     private authService: AuthService,
     private router: Router,
+    private loadingService: LoadingService,
     private localStorage: StorageService) {
     this.signUpForm = this.fb.group({
       name: ['', Validators.required],
@@ -44,13 +46,16 @@ export class SignInComponent {
 
   onSubmit() {
     if (this.signUpForm.valid) {
+      this.loadingService.show('Signing In...');
       this.authService.signup(this.signUpForm.value).subscribe({
         next: (data: UserResponse) => {
+          this.loadingService.hide();
           console.log('User signed up successfully:', data);
           this.localStorage.setitem('user', JSON.stringify(data));
           this.router.navigate(['/dashboard']);
         },
         error: (error) => {
+          this.loadingService.hide();
           console.error('Error:', error);
           this.signUpError = 'Sign up failed: ' + (error.error || error.message || 'Unknown error');
         }

@@ -7,6 +7,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { StorageService } from '../../core/storage.service';
+import { LoadingService } from '../../core/loading.service';
 
 @Component({
     selector: 'app-log-in',
@@ -23,12 +24,13 @@ export class LogInComponent {
   constructor(private fb: FormBuilder, 
     private authService: AuthService, 
     private router: Router, 
+    private loadingService: LoadingService,
     private localStorage: StorageService) {}
 
   ngOnInit(): void {
     this.logInForm = this.fb.group({
       name: ['', Validators.required],
-      password: ['', [Validators.required, Validators.minLength(6)]]
+      password: ['', [Validators.required, Validators.minLength(4)]]
     });
   }
   
@@ -42,13 +44,16 @@ export class LogInComponent {
 
     onSubmit() {
         if (this.logInForm.valid) {
+          this.loadingService.show('Loging In...');
           this.authService.login(this.logInForm.value).subscribe({
             next: (data: UserResponse) => {
+              this.loadingService.hide();
               console.log('User logged in successfully:', data);
               this.localStorage.setitem('user', JSON.stringify(data));
               this.router.navigate(['/dashboard']);
             },
             error: (error) => {
+              this.loadingService.hide();
               console.error('Error:', error);
               this.loginError = 'Login failed: ' + (error.error || error.message || 'Unknown error');
             }

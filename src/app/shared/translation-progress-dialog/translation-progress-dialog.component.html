@@ -1,0 +1,18 @@
+<div class="dialog-content">
+    <h3 *ngIf="!data.isCompleted">Translation in Progress</h3>
+    <h3 *ngIf="data.isCompleted">Translation Completed</h3>
+  
+    <div *ngIf="!data.isCompleted">
+      <p>Translation is {{ data.progress | number: '1.0-0' }}% complete. You can continue working while waiting.</p>
+      <mat-progress-bar mode="determinate" [value]="data.progress"></mat-progress-bar>
+    </div>
+  
+    <div *ngIf="data.isCompleted">
+      <mat-icon color="primary" class="success-icon">check_circle</mat-icon>
+      <p>All translations have been successfully completed!</p>
+    </div>
+  
+    <div class="dialog-actions">
+      <button mat-button (click)="closeDialog()">Close</button>
+    </div>
+  </div>

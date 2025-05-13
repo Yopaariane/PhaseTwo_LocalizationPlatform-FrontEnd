@@ -6,6 +6,7 @@ import { ImportService } from '../../../core/import.service';
 import { SingleProjectService } from '../../../core/single-project.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { LoadingService } from '../../../core/loading.service';
 
 @Component({
   selector: 'app-imports',
@@ -27,7 +28,8 @@ export class ImportsComponent {
     private languageService: LanguageService,
     private importService: ImportService,
     private singleProjectService: SingleProjectService,
-    private router: Router
+    private router: Router,
+    private loadingService: LoadingService,
   ){}
 
   ngOnInit(): void {
@@ -102,12 +104,15 @@ export class ImportsComponent {
 
   importToProject() {
     if (this.selectedFile && this.projectId && this.selectedLanguage) {
+      this.loadingService.show('uploading file...');
       this.importService.uploadFile(this.selectedFile, this.projectId, this.selectedLanguage.id, this.creatorId)
         .subscribe({
           next: () => {
+            this.loadingService.hide();
             alert('File imported successfully!');
           },
           error: (error) => {
+            this.loadingService.hide();
             alert('Error importing file: ' + error.message);
           }
         });

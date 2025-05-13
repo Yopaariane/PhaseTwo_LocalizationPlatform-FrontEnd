@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { SingleProjectService } from '../../../core/single-project.service';
 import { LanguageService } from '../../../core/language.service';
 import { TranslationService } from '../../../core/translation.service';
@@ -11,6 +11,9 @@ import { CommonModule } from '@angular/common';
 import { forkJoin } from 'rxjs';
 import { SortDropdownComponent } from '../../../shared/sort-dropdown/sort-dropdown.component';
 import { SortingService } from '../../../core/sorting.service';
+import { LoadingService } from '../../../core/loading.service';
+import { Project } from '../../../core/models/project.model';
+import { ProjectService } from '../../../core/project.service';
 
 @Component({
   selector: 'app-project-language',
@@ -33,12 +36,14 @@ export class ProjectLanguageComponent {
   projectName: string | undefined;
   translations: Translations[] = [];
   terms: Terms[] = []
+  project: Project[] = [];
 
   currentPage = 1;
   itemsPerPage = 9;
   paginatedProjectLanguage: ProjectLanguage[] = [];
 
   sortOrder: string = 'Date Asc';
+  defaultLangId!: number;
   
   constructor(
     private route: ActivatedRoute,
@@ -46,6 +51,8 @@ export class ProjectLanguageComponent {
     private languageService: LanguageService,
     private translationListService: TranslationService,
     private sortingService: SortingService,
+    private loadingService: LoadingService,
+    private projectService: ProjectService,
   ){}
 
   ngOnInit(): void {
@@ -58,6 +65,16 @@ export class ProjectLanguageComponent {
       }
     });
 
+    const resolvedData = this.route.snapshot.data['projectLanguage'];
+    this.projectLanguages = resolvedData.projectLanguages;
+    this.languages = resolvedData.languages;
+
+    this.noLanguages = this.projectLanguages.length === 0;
+
+    this.projectLanguages.forEach(pl => {
+      this.updateLanguageProgress(pl.languageId);
+    });
+    
     this.sortingService.sortOrder$.subscribe(order => {
       this.sortOrder = order;
       this.sortProjectLanguages();
@@ -65,8 +82,10 @@ export class ProjectLanguageComponent {
   }
 
   loadProjectLanguages(projectId: number): void {
+    this.loadingService.show('Loading languages...');
     this.singleProjectService.getLanguageByProjectId(projectId).subscribe(
       (projectLanguages: ProjectLanguage[]) => {
+        this.loadingService.hide();
         if (projectLanguages.length === 0) {
           this.noLanguages = true;
         } else {
@@ -82,7 +101,15 @@ export class ProjectLanguageComponent {
         }
       },
       error => {
+        this.loadingService.hide();
         console.error('Error loading project languages', error);
+      }
+    );
+
+    this.projectService.getProjectById(projectId).subscribe(
+      (project) => {
+        this.defaultLangId = project.defaultLangId;
+        console.log('Default Language ID:', this.defaultLangId);
       }
     );
   }
@@ -110,11 +137,12 @@ export class ProjectLanguageComponent {
     if (this.projectId) {
       this.translationListService.getTranslationProgressForLanguage(languageId, this.projectId).subscribe(
         (progress: number) => {
-          // progress
-          const projectLanguage = this.projectLanguages.find(pl => pl.languageId === languageId);
-          if (projectLanguage) {
-            projectLanguage.progress = progress;
-          }
+          setTimeout(() => {
+            const projectLanguage = this.projectLanguages.find(pl => pl.languageId === languageId);
+            if (projectLanguage) {
+              projectLanguage.progress = progress;
+            }
+          }, 100);
         },
         error => {
           console.error(`Error fetching translation progress for language ${languageId}`, error);
@@ -140,10 +168,12 @@ export class ProjectLanguageComponent {
 
   // Delete Language from list
   deleteLanguage(id: number): void {
+    this.loadingService.show('deleting...');
     const projectLanguage = this.projectLanguages.find(lang => lang.languageId === id);
     if (projectLanguage) {
       this.singleProjectService.deleteProjectLanguage(projectLanguage.id).subscribe(
         () => {
+          this.loadingService.hide();
           this.projectLanguages = this.projectLanguages.filter(lang => lang.languageId !== id);
           this.updatePaginatedProjectLanguage(); 
         },
@@ -194,11 +224,13 @@ export class ProjectLanguageComponent {
       );
 
       if (newProjectLanguages.length > 0) {
+        this.loadingService.show('adding...');
         const saveRequests = newProjectLanguages.map(pl => this.singleProjectService.assignLanguageToProject(pl));
         forkJoin(saveRequests).subscribe(() => {
+          this.loadingService.hide();
           // Reload the project languages after saving
           this.loadProjectLanguages(this.projectId!);
-          this.selectedLanguageIds = []; // Clear selected languages after saving
+          this.selectedLanguageIds = []; 
         });
       }
     }

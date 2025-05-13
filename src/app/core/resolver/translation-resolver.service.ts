@@ -33,7 +33,9 @@ export class ResolverService implements Resolve<{
     englishTranslations: Translations[]
   }> {
     const id = +route.paramMap.get('id')!;
-    const englishLanguageId = 1;
+    const defaultLangId = +route.queryParamMap.get('defaultLangId')!;
+    // const englishLanguageId = 1;
+    console.log("default language id", defaultLangId);
 
     return this.singleprojectService.getProjectLanguageById(id).pipe(
       switchMap((projectLanguage: ProjectLanguage) => {
@@ -45,7 +47,7 @@ export class ResolverService implements Resolve<{
           projectLanguage: of(projectLanguage),
           terms: this.termsService.getTermsByProjectId(projectLanguage.projectId),
           translations: this.translationService.getTranslationsByLanguageId(projectLanguage.languageId),
-          englishTranslations: this.translationService.getTranslationsByLanguageId(englishLanguageId)
+          englishTranslations: this.translationService.getTranslationsByLanguageId(defaultLangId)
         });
       }), 
       take(1)

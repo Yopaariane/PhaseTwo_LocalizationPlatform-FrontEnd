@@ -7,16 +7,20 @@ import { MatButton } from '@angular/material/button';
 import { StorageService } from '../../core/storage.service';
 import { SideBarComponent } from '../side-bar/side-bar.component';
 import { RouterLink, RouterModule } from '@angular/router';
+import { AiAssistantComponent } from '../../shared/ai-assistant/ai-assistant.component';
 
 @Component({
   selector: 'app-top-bar',
-  imports: [CommonModule, SideBarComponent, RouterLink, RouterModule],
+  imports: [CommonModule, SideBarComponent, RouterLink, RouterModule, AiAssistantComponent],
   templateUrl: './top-bar.component.html',
   styleUrl: './top-bar.component.css'
 })
 export class TopBarComponent {
   showDropdown = false;
   showSidebar = false;
+  showDropdownSidebar: boolean = false;
+  showAiAssistant: boolean = false;
+
 
   constructor(
       private localStorage: StorageService
@@ -72,20 +76,37 @@ export class TopBarComponent {
       this.showDropdown = false;
     }
 
-    // side nav logic
-    toggleSidebar(): void {
-      this.showSidebar = !this.showSidebar;
+    // sidebar
+    toggleDropdownSidebar() {
+      this.showDropdownSidebar = !this.showDropdownSidebar;
     }
   
-    hideSidebar(): void {
-      this.showSidebar = false;
+    closeDropdownSidebar() {
+      this.showDropdownSidebar = false;
     }
-  
+
     @HostListener('document:click', ['$event'])
     onDocumentClick(event: MouseEvent): void {
-      const target = event.target as HTMLElement;
-      if (!target.closest('.navbar-toggler') && !target.closest('app-side-bar')) {
-        this.hideSidebar();
-      }
+    const target = event.target as HTMLElement;
+    const sidebarElement = document.querySelector('.side-bar-dropdown');
+    const togglerElement = document.querySelector('.navbar-toggler');
+
+    if (
+      this.showDropdownSidebar &&
+      sidebarElement &&
+      !sidebarElement.contains(target) &&
+      togglerElement &&
+      !togglerElement.contains(target)
+    ) {
+      this.closeDropdownSidebar();
     }
+  }
+
+  toggleAiAssistant() {
+    this.showAiAssistant = !this.showAiAssistant;
+  }
+
+  closeAiAssistant(){
+    this.showAiAssistant = false;
+  }
 }

@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/phase-two-localization-platform",
+            "outputPath": "dist/easy-translate",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
@@ -107,5 +107,8 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": false
   }
 }

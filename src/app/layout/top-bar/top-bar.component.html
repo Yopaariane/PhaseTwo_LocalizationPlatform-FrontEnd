@@ -1,17 +1,6 @@
-<!-- <mat-toolbar class="topnav">
-    <button mat-icon-button>
-      <mat-icon>menu</mat-icon>
-    </button>
-    <span class="spacer"></span>
-    <div class="profile">
-      <span class="username">username</span>
-      <img src="img/profile.jpg" alt="Profile" class="profile-pic"> 
-    </div>
-  </mat-toolbar> -->
-
-  <nav class="navbar navbar-expand-lg">
+<nav class="navbar navbar-expand-lg">
     <div class="container-fluid">
-    <button class="navbar-toggler toggel" type="button" (click)="toggleSidebar()">
+    <button class="navbar-toggler toggel" type="button" (click)="toggleDropdownSidebar()">
       <span class="navbar-toggler-icon"></span>
     </button>
     <button class="btn" type="button">
@@ -19,8 +8,8 @@
     </button>
 
       <div class="ms-auto d-flex right-side">
-        <button class="btn" type="button">
-            <img src="/img/chat-icon.png" alt="">
+        <button class="btn" type="button" (click)="toggleAiAssistant()">
+          <img src="/img/chat-icon.png" alt="">
         </button>
         <button class="btn" type="button">
             <i class="bi bi-bell position-relative">
@@ -59,5 +48,17 @@
     </div>
   </nav>
   
+  <!-- Sidebar in dropdown mode -->
+<app-side-bar
+*ngIf="showDropdownSidebar"
+class="side-bar-dropdown"
+[dropdownMode]="true"
+(closeSidebar)="closeDropdownSidebar()"
+></app-side-bar>
 
-  <app-side-bar *ngIf ="showSidebar" class="side-bar"></app-side-bar>
+<app-ai-assistant
+*ngIf="showAiAssistant"
+class="ai-assistant"
+[dropdownMode]="true"
+(closeAssistant)="closeAiAssistant()"
+></app-ai-assistant>

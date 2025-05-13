@@ -1,14 +1,14 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Language } from '../../../core/models/langauge.model';
 import { ProjectLanguage } from '../../../core/models/project-language.model';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ProjectService } from '../../../core/project.service';
 import { TranslationService } from '../../../core/translation.service';
 import { LanguageService } from '../../../core/language.service';
 import { SingleProjectService } from '../../../core/single-project.service';
 import { Translations } from '../../../core/models/translation.model';
 import { Terms } from '../../../core/models/term.model';
-import { filter, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { StorageService } from '../../../core/storage.service';
 import { TermsService } from '../../../core/terms.service';
 import { NgbPagination } from '@ng-bootstrap/ng-bootstrap';
@@ -17,8 +17,8 @@ import { FormsModule } from '@angular/forms';
 import { ExportService } from '../../../core/export.service';
 import { SortingService } from '../../../core/sorting.service';
 import { SortDropdownComponent } from '../../../shared/sort-dropdown/sort-dropdown.component';
-import { PuterAiService } from '../../../core/puter-ai.service';
 import { TranslationTaskService } from '../../../core/translation-task.service';
+import { LoadingService } from '../../../core/loading.service';
 
 @Component({
   selector: 'app-translations',
@@ -79,6 +79,7 @@ export class TranslationsComponent implements OnInit{
     private exportService: ExportService,
     private translationTaskService: TranslationTaskService,
     private projectService: ProjectService,
+    private loadingService: LoadingService,
   ) {}
 
   ngOnInit(): void {
@@ -145,19 +146,22 @@ export class TranslationsComponent implements OnInit{
   }
   
   loadTermsAndTranslations(): void {
+    this.loadingService.show('Loading translations...');
     this.termsService.getTermsByProjectId(this.projectId).subscribe((terms) => {
       this.terms = terms;
       this.translationListService.getTranslationsByLanguageId(this.languageId).subscribe((translations) => {
+        this.loadingService.hide();
         this.translation = translations;
         this.updatePaginatedTranslation();
       });
 
       this.projectService.getProjectById(this.projectId).subscribe((project) => {
         this.defaultLangId = project.defaultLangId;
+        console.log('Default Language ID:', this.defaultLangId);
 
-        // const englishLanguageId = 1;
         this.translationListService.getTranslationsByLanguageId(this.defaultLangId).subscribe((englishTranslations) => {
           this.englishTranslations = englishTranslations;
+          console.log('English Translations:', this.englishTranslations);
       });
       });
     });
@@ -213,19 +217,20 @@ export class TranslationsComponent implements OnInit{
         languageId: this.languageId,
         creatorId: this.user?.id,
       };
+      this.loadingService.show('Saving...');
   
       // Logging to check values before sending the request
       console.log('Saving translation with payload:', translation);
   
       this.translationListService.createTranslation(translation as Translations).subscribe(
         (savedTranslation) => {
+          this.loadingService.hide();
           this.translation.push(savedTranslation);
-          // delete this.draftTranslations[termId];
-          // this.activeInputs[termId] = false;
           this.clearDraftTranslation(termId);
           this.reloadPage();
         },
         (error) => {
+          this.loadingService.hide();
           console.error('Error saving translation:', error);
         }
       );
@@ -341,6 +346,10 @@ export class TranslationsComponent implements OnInit{
     this.singleProjectService.getLanguageByProjectId(projectId).subscribe((projectLanguage: ProjectLanguage[]) => {
       this.projectLanguages = projectLanguage;
     });
+
+    this.projectService.getProjectById(this.projectId).subscribe((project) => {
+      this.defaultLangId = project.defaultLangId;
+    });
   }
   filteredLanguages(): Language[] {
     return this.languages
@@ -356,14 +365,20 @@ export class TranslationsComponent implements OnInit{
   }
 
   navigateToProjectLanguage(languageId: number): void {
+    this.loadingService.show('Loading...');
     const projectId = this.projectId; 
+    const defaultLangId = this.defaultLangId;
+
     this.singleProjectService.getProjectLanguageByLanguageIdAndProjectId(projectId, languageId).subscribe((projectLanguage) => {
+      this.loadingService.hide();
       const projectLanguageId = projectLanguage.id; 
       this.translationListService.onLanguageChanged$.next(projectLanguageId)
 
       this.draftTranslations = {};
       this.activeInputs = {}
-      this.router.navigate(['/project', projectId, 'translation', projectLanguage.id]);
+      this.router.navigate(['/project', projectId, 'translation', projectLanguage.id],
+        { queryParams: { defaultLangId } }
+      );
     });
   }
 
@@ -410,39 +425,12 @@ export class TranslationsComponent implements OnInit{
     return this.englishTranslations.find(t => t.termId === termId);
   }
 
-  // async aiTranslate(targetLanguage: string): Promise<void> {
-  //   console.log('aiTranslate method called');
-  //   this.isTranslating = true;
-  
-  //   for (const term of this.terms) {
-  //     if (this.getTranslationForTerm(term.id)) continue;
-  
-  //     try {
-  //       const context = this.translationContext ? this.translationContext : '';
-  //       const specifications = this.otherSpecifications ? this.otherSpecifications : '';
-  //       const termContext = term.context ? term.context : '';
-  //       const projectName = this.projectName ? this.projectName : '';
-  //       const initialTranslation = this.getEnglishTranslationForTerm(term.id)?.translationText || '';
-  
-  //       const result = await this.puterAiService.translateText(term.term, termContext, context, specifications, projectName, initialTranslation, targetLanguage);
-  
-  //       this.draftTranslations[term.id] = result;
-  //       this.activeInputs[term.id] = true;
-  //     } catch (error) {
-  //       console.error(`Translation failed for term ${term.id}`, error);
-  //     }
-  //   }
-  
-  //   this.isTranslating = false;
-  // }
-
   async aiTranslate(targetLanguage: string): Promise<void> {
     console.log('aiTranslate method called');
     const context = this.translationContext ? this.translationContext : '';
     const specifications = this.otherSpecifications ? this.otherSpecifications : '';
     const projectName = this.projectName ? this.projectName : '';
   
-    // Filter out terms that already have translations
     const termsToTranslate = this.terms.filter(term => !this.getTranslationForTerm(term.id));
   
     if (termsToTranslate.length === 0) {

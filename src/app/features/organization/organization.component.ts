@@ -11,6 +11,7 @@ import { LanguageService } from '../../core/language.service';
 import { Language, Project } from '../../core/models/project.model';
 import { ProjectService } from '../../core/project.service';
 import { TranslationService } from '../../core/translation.service';
+import { LoadingService } from '../../core/loading.service';
 
 @Component({
   selector: 'app-organization',
@@ -30,6 +31,7 @@ export class OrganizationComponent implements OnInit {
     private languageService: LanguageService,
     private projectService: ProjectService,
     private translationService: TranslationService,
+    private loadingService: LoadingService,
   ) {}
 
   ngOnInit(): void {
@@ -49,9 +51,11 @@ export class OrganizationComponent implements OnInit {
   }
 
   loadOrganizations(): void {
+    this.loadingService.show('Loading organizations...');
     const userId = this.getUserId();
     if (userId !== null) {
       this.organizationService.getOrganizationsByUser(userId).subscribe((organizations) => {
+        this.loadingService.hide();
         this.organizations = organizations;
 
         console.log('Organizations', this.organizations);
@@ -66,6 +70,7 @@ export class OrganizationComponent implements OnInit {
 
       });
     } else {
+      this.loadingService.hide();
       console.log('User not found');
     }
   } 

@@ -5,6 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { SortingService } from '../../../core/sorting.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { LoadingService } from '../../../core/loading.service';
 
 @Component({
   selector: 'app-contributors',
@@ -25,7 +26,6 @@ export class ContributorsComponent {
   role: Role[] = [];
   projectId: number | null = null;
   userDetailsList = [];
-  // userRoleDetails: { userRoleId: number, user: any, role: any }[] = [];
   userEmail: string = "";
 
   sortOrder: string = 'Date Asc';
@@ -41,9 +41,13 @@ export class ContributorsComponent {
     private authService: AuthService,
     private route: ActivatedRoute,
     private sortingService: SortingService,
+    private loadingService: LoadingService,
   ) {}
 
   ngOnInit(): void {
+    const resolvedData = this.route.snapshot.data['contributors'];
+    this.userRoles = resolvedData.userRoles;
+    this.role = resolvedData.roles;
 
     this.route.parent?.paramMap.subscribe(params => {
       const id = params.get('id');
@@ -62,7 +66,9 @@ export class ContributorsComponent {
   }
 
   getUserRolesByProjectId(projectId: number): void {
+    this.loadingService.show('Loading contributors...');
     this.authService.getRolesByProjectId(projectId).subscribe((roles) => {
+      this.loadingService.hide();
       this.userRoles = roles;
 
     this.userRoles.forEach((role) => {
@@ -194,7 +200,7 @@ export class ContributorsComponent {
 
     this.popperTimeout = setTimeout(() => {
       this.showPopper = false;
-    }, 10000);
+    }, 1000);
   }
 
   ngOnDestroy(): void {

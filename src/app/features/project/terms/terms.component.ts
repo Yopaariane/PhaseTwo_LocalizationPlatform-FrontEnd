@@ -79,7 +79,7 @@ export class TermsComponent implements OnInit, AfterViewInit {
       this.terms.forEach(term => {
         term['progress'] = term.progress; 
       });
-    }, 100); 
+    }, 10); 
   }
 
   // Load terms in the list

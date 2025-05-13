@@ -8,6 +8,7 @@
     padding-top: 45px;
     height: 600px;
     overflow-y: auto;
+    position: relative;
 
     .custom-container{
         width: 60%;
@@ -33,6 +34,9 @@
 }
 
 .list-group{
+    position: absolute;
+    top: 53%;
+    left: 22px;
     width: 40%;
     max-width: 300px;
     overflow-y: auto;

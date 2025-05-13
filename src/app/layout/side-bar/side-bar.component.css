@@ -3,18 +3,21 @@
     background: #46B24D;
     color: white;
     height: 100vh;
+    overflow-y: auto;
     align-items: center;
   }
 
+  .container{
+    height: 12%;}
+
   .logo{
     width: 150px;
-    height: 76px;
+    height: 75%;
   }
   .nav{
-    /* text-align: center; */
     width: 90%;
     p{
-        margin-top: 45px;
+        margin-top: 20%;
         margin-bottom: 0;
         font-size: 14px;
         margin-left: 20px;
@@ -23,12 +26,12 @@
 
   .nav-item{
     border-radius: 10px;
-    margin-top: 22px;
-    gap: 10px;
+    margin-top: 15%;
+    gap: 8%;
     width: 100%;
   }
   .end{
-    margin-top: 200px;
+    margin-top: 50%;
     }
 
   .nav-item:hover{
@@ -57,5 +60,10 @@
   @media (max-width: 1519px) {
     .sidebar {
       width: 230px;
+    }
+  }
+  @media (max-height: 730px) {
+    .end {
+      margin-top: 20%;
     }
   }

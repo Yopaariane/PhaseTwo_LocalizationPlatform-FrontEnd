@@ -33,8 +33,8 @@
         <div class="input-group mb-3">
             <input type="text" class="form-control" placeholder="Choose a language" [value]="selectedLanguage?.name || ''" (focus)="showDropdown = true" (blur)="hideDropdown()" readonly>
         </div>
-        <div *ngIf="showDropdown">
-            <ul class="list-group position-absolute z-index-1">
+        <div *ngIf="showDropdown" style="background-color: blue;">
+            <ul class="list-group z-index-1" style="background-color: aqua;">
               <li class="list-group-item" *ngFor="let language of filteredLanguages()" (click)="selectLanguage(language)">
                 {{ language.name }}
               </li>

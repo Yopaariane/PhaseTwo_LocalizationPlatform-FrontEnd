@@ -23,6 +23,8 @@ import { OrgLanguagesComponent } from './features/organization-projects/org-lang
 import { OrgContributorsComponent } from './features/organization-projects/org-contributors/org-contributors.component';
 import { OrgGlossaryComponent } from './features/organization-projects/org-glossary/org-glossary.component';
 import { FilesComponent } from './features/project/files/files.component';
+import { ProjectLanguageResolverService } from './core/resolver/project-language-resolver.service';
+import { ContributorsResolverService } from './core/resolver/contributors-resolver.service';
 
 export const AppRoutes: Routes = [
     {path: 'signup', component: SignInComponent},
@@ -30,9 +32,9 @@ export const AppRoutes: Routes = [
     {path: 'dashboard', component: DashbordComponent},
     {path: 'projectsForm', component: ProjectFormComponent},
     {path: 'project/:id', component: ProjectComponent, children: [
-        {path: 'languages', component: ProjectLanguageComponent},
+        {path: 'languages', component: ProjectLanguageComponent, resolve: {projectLanguage: ProjectLanguageResolverService}},
         {path: 'terms', component: TermsComponent, resolve: {terms: TermResolverService}},
-        {path: 'contributors', component: ContributorsComponent},
+        {path: 'contributors', component: ContributorsComponent, resolve: {contributors: ContributorsResolverService}},
         {path: 'import', component: ImportsComponent},
         {path: 'translation/:id', component: TranslationsComponent, 
             resolve: {resolvedData: ResolverService}},

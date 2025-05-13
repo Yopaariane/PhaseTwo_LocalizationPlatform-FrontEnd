@@ -16,6 +16,7 @@ import { SortingService } from '../../core/sorting.service';
 import { SortDropdownComponent } from '../../shared/sort-dropdown/sort-dropdown.component';
 import { Organization } from '../../core/models/organization.model';
 import { OrganizationService } from '../../core/organization.service';
+import { LoadingService } from '../../core/loading.service';
 
 
 @Component({
@@ -53,6 +54,7 @@ export class DashbordComponent implements OnInit {
     private userRoleService: AuthService,
     private sortingService: SortingService,
     private organizationService: OrganizationService,
+    private loadingService: LoadingService,
   ) {}
 
   ngOnInit(): void {
@@ -90,9 +92,11 @@ export class DashbordComponent implements OnInit {
   loadProjects(): void {
     const userId = this.getUserId();
     if (userId !== null) {
+      this.loadingService.show('Loading projects...');
       this.adminId = userId; 
 
       this.projectService.getUserProjects(userId).subscribe((projects) => {
+        this.loadingService.hide();
         this.projects = projects;
         console.log('Projects', projects);
 

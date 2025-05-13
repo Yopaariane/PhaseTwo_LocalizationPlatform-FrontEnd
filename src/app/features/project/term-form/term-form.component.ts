@@ -6,6 +6,7 @@ import { Terms } from '../../../core/models/term.model';
 import { NavBarLayoutComponent } from '../../../layout/nav-bar-layout/nav-bar-layout.component';
 import { FormContainerComponent } from '../../../shared/form-container/form-container.component';
 import { CommonModule } from '@angular/common';
+import { LoadingService } from '../../../core/loading.service';
 
 @Component({
   selector: 'app-term-form',
@@ -22,6 +23,7 @@ export class TermFormComponent {
     private route: ActivatedRoute,
     private termsService: TermsService,
     private fb: FormBuilder,
+    private loadingService: LoadingService,
   ){
     this.route.paramMap.subscribe(params => {
       const projectId = params.get('projectId');
@@ -47,10 +49,12 @@ export class TermFormComponent {
     console.log('projectId:', this.projectId);
 
     if (this.termsForm.valid) {
+      this.loadingService.show('adding term...');
       const newTerm = { ...this.termsForm.value, projectId: this.projectId }; 
        
       this.termsService.createTerms(newTerm).subscribe((terms) => {
         this.terms.push(terms);
+        this.loadingService.hide();
         this.termsForm.reset();
         this.reloadPage();
       });
