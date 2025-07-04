@@ -11,6 +11,10 @@ button{
     font-size: 16px;
     height: 44px;
     cursor: pointer;
+    justify-content: center;
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 button:hover{
     background-color: #db7609;
@@ -24,3 +28,26 @@ p{
 a{
     text-decoration: none;
 }
+
+/* loader */
+.loader {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: inline-block;
+  border-top: 3px solid #FFF;
+  border-right: 3px solid transparent;
+  margin-left: 2px;
+  align-items: center;
+  box-sizing: border-box;
+  animation: rotation 0.5s linear infinite;
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+} 

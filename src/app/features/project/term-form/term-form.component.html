@@ -7,14 +7,14 @@
         (formSubmit)="addTerm()"
         >
         <div class="mb-3">
-            <label for="termt" class="form-label">Term</label>
+            <label for="termt" class="form-label">{{'Terms' | translate}}</label>
             <input type="text" class="form-control" id="termName" formControlName="term">
             <div *ngIf="termsForm.get('name')?.touched && termsForm.get('name')?.invalid">
-            <small class="text-danger">term is required.</small>
+            <small class="text-danger">{{'TERM_REQUIRED' | translate}}</small>
             </div>
         </div>
         <div class="mb-3">
-            <label for="termcontext" class="form-label">Term Context</label>
+            <label for="termcontext" class="form-label">{{'TERM_CONTEXT' | translate}}</label>
             <textarea class="form-control" id="termcontext" rows="3" formControlName="context"></textarea>
         </div>
         </app-form-container>

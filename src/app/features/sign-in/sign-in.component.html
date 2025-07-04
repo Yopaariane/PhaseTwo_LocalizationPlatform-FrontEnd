@@ -1,30 +1,40 @@
-<app-auth-layout [WelcomeTitle]="'Welcome!'" [authTile]="'Create Your Account'" [linkTile]="'Log In'">
+<app-auth-layout 
+  [WelcomeTitle]="'WELCOME' | translate" 
+  [authTile]="'CREATE_YOUR_ACCOUNT' | translate" 
+  [linkTile]="'LOGIN' | translate">
   <form [formGroup]="signUpForm" (ngSubmit)="onSubmit()">
     <app-input-field 
-      label="User Name" 
+      label="{{'USER_NAME' | translate}}" 
       icon="person" 
       [control]="nameControl" 
-      placeholder="Your Name">
+      placeholder="{{'YOUR_NAME' | translate}}">
     </app-input-field>
 
     <app-input-field 
-      label="Email" 
+      label="{{'EMAIL' | translate}}" 
       icon="email" 
       [control]="emailControl" 
-      placeholder="yourmail@gmail.com">
+      placeholder="{{'YOUR_EMAIL' | translate}}">
     </app-input-field>
 
     <app-input-field 
-      label="Password" 
+      label="{{'PASSWORD' | translate}}" 
       type="password" 
       icon="lock" 
       [control]="passwordControl" 
-      placeholder="Strong Password">
+      placeholder="{{'STRONG_PASSWORD' | translate}}">
     </app-input-field>
 
-    <button mat-button color="primary" type="submit" [disabled]="signUpForm.invalid">Sign Up</button>
+    <button mat-button color="primary" type="submit" [disabled]="signUpForm.invalid">
+      {{ 'SIGN_UP' | translate }} <span *ngIf="isLoading" class="loader"></span>
+    </button>
     <p *ngIf="signUpError" class="error" style="color: red; font-size: 14px;">{{ signUpError }}</p>
-    <p>Already have an account? <a routerLink="/logIn" style="color: #E98925; cursor: pointer;">Log In</a></p>
+    <p>
+      {{ 'HAS_ACCOUNT' | translate }}
+      <a routerLink="/logIn" style="color: #E98925; cursor: pointer;">
+        {{ 'LOGIN' | translate }}
+      </a>
+    </p>
   </form>
 </app-auth-layout>
 

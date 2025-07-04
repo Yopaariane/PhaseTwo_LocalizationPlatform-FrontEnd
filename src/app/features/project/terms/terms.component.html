@@ -1,7 +1,7 @@
 <div class="row terms-list">
     <!-- No term -->
     <div class="col no-project" *ngIf="terms.length === 0">
-      <h3>Click on the plus button to Add your first term !</h3>
+      <h3>{{'ADD_TERM_MASSAGE' | translate}}</h3>
       <button class="btn add-project" [routerLink]="['/termForm', projectId]">
         <i class="fas fa-plus"></i>
       </button>
@@ -21,7 +21,7 @@
                     <div class="">
                       <form class="d-flex">
                         <div class="input-group">
-                          <input class="form-control form-control" type="search" placeholder="Search" aria-label="Search">
+                          <input class="form-control form-control" type="search" placeholder="{{'SEARCH' | translate}}" aria-label="Search">
                           <button class="btn px-4" type="submit">
                               <i class="bi bi-search"></i>
                             </button>
@@ -36,7 +36,7 @@
                   <app-sort-dropdown></app-sort-dropdown>
                 </div>
                 <button class="btn add-project" [routerLink]="['/termForm', projectId]">
-                    <i class="fas fa-plus"></i> Add Term
+                    <i class="fas fa-plus"></i> {{'ADD_TERM' | translate}}
                 </button>
             </div>
         </div>
@@ -44,9 +44,9 @@
         <table class="table table-hover">
             <thead>
               <tr class="table-light">
-                <th scope="col" class="terms"><span class="badge badge-custom">{{terms.length}} Terms</span></th>
-                <th scope="col" class="term-title">Progress</th>
-                <th scope="col" class="term-title" style="text-align: end;">Action</th>
+                <th scope="col" class="terms"><span class="badge badge-custom">{{terms.length}} {{'Terms' | translate}}</span></th>
+                <th scope="col" class="term-title">{{'PROGRESS' | translate}}</th>
+                <th scope="col" class="term-title" style="text-align: end;">{{'ACTION' | translate}}</th>
               </tr>
             </thead>
             <tbody>

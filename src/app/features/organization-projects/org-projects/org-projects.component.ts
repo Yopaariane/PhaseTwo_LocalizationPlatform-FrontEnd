@@ -8,10 +8,11 @@ import { OrganizationService } from '../../../core/organization.service';
 import { CommonModule } from '@angular/common';
 import { SortDropdownComponent } from '../../../shared/sort-dropdown/sort-dropdown.component';
 import { Organization } from '../../../core/models/organization.model';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-org-projects',
-  imports: [RouterLink, CommonModule, SortDropdownComponent],
+  imports: [RouterLink, CommonModule, SortDropdownComponent, TranslateModule],
   templateUrl: './org-projects.component.html',
   styleUrls: ['./org-projects.component.css', '../../dashbord/dashbord.component.css']
 })

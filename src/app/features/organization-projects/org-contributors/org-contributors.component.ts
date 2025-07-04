@@ -9,10 +9,11 @@ import { Project } from '../../../core/models/project.model';
 import { AuthService } from '../../../core/auth.service';
 import { UserRole } from '../../../core/models/user-role.model';
 import { ContributorsComponent } from '../../project/contributors/contributors.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-org-contributors',
-  imports: [CommonModule, FormsModule, ContributorsComponent],
+  imports: [CommonModule, FormsModule, ContributorsComponent, TranslateModule],
   templateUrl: './org-contributors.component.html',
   styleUrl: './org-contributors.component.css'
 })

@@ -7,10 +7,11 @@ import { NavBarLayoutComponent } from '../../../layout/nav-bar-layout/nav-bar-la
 import { FormContainerComponent } from '../../../shared/form-container/form-container.component';
 import { CommonModule } from '@angular/common';
 import { LoadingService } from '../../../core/loading.service';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-term-form',
-  imports: [FormContainerComponent, ReactiveFormsModule, CommonModule, NavBarLayoutComponent],
+  imports: [FormContainerComponent, ReactiveFormsModule, CommonModule, NavBarLayoutComponent, TranslateModule],
   templateUrl: './term-form.component.html',
   styleUrl: './term-form.component.css'
 })

@@ -1,23 +1,26 @@
-<app-auth-layout [WelcomeTitle]="'Welcome Back!'" [authTile]="'Log In To Your Account'" [linkTile]="'Sign Up'">
+<app-auth-layout 
+  [WelcomeTitle]="'ACCOUNT_WELCOME' | translate" 
+  [authTile]="'LOGIN_TO_YOUR_ACCOUNT' | translate" 
+  [linkTile]="'SIGNUP' | translate">
     <form [formGroup]="logInForm" (ngSubmit)="onSubmit()">
       <app-input-field 
-        label="name" 
+        label="{{'USER_NAME' | translate}}" 
         icon="person" 
         [control]="nameControl" 
-        placeholder="yourname">
+        placeholder="{{'YOUR_NAME' | translate}}">
       </app-input-field>
   
       <app-input-field 
-        label="Password" 
+        label="{{'PASSWORD' | translate}}" 
         type="password" 
         icon="lock" 
         [control]="passwordControl" 
-        placeholder="yourpassword">
+        placeholder="{{'STRONG_PASSWORD' | translate}}">
       </app-input-field>
   
-      <button mat-button color="primary" type="submit" [disabled]="logInForm.invalid">Log In</button>
+      <button mat-button color="primary" type="submit" [disabled]="logInForm.invalid">{{'LOGIN' | translate}}<span *ngIf="isLoading" class="loader"></span></button>
       <p *ngIf="loginError" class="error" style="color: red; font-size: 14px;">{{ loginError }}</p>
-      <p>Already have an account? <a routerLink="/signup" style="color: #E98925; cursor: pointer;">Sign Up</a></p>
+      <p>{{'NO_ACCOUNT' | translate}}<a routerLink="/signup" style="color: #E98925; cursor: pointer;">{{'SIGNUP' | translate}}</a></p>
     </form>
 </app-auth-layout>
 

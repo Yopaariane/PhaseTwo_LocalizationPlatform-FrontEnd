@@ -14,10 +14,11 @@ import { SortingService } from '../../../core/sorting.service';
 import { LoadingService } from '../../../core/loading.service';
 import { Project } from '../../../core/models/project.model';
 import { ProjectService } from '../../../core/project.service';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-project-language',
-  imports: [RouterLink, CommonModule, SortDropdownComponent],
+  imports: [RouterLink, CommonModule, SortDropdownComponent, TranslateModule],
   templateUrl: './project-language.component.html',
   styleUrls: ['./project-language.component.css',
     '../terms/terms.component.css', '../../dashbord/dashbord.component.css'

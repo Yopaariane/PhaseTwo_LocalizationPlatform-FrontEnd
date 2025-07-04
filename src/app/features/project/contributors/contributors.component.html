@@ -1,4 +1,4 @@
-<div class="roe terms-list">
+<!-- <div class="roe terms-list"> -->
     <div class="col" style="align-items: start; display: block;">
         <div class="action-button d-flex justify-content-between mb-2">
             <div class="left-side d-flex justify-content-between">
@@ -15,37 +15,37 @@
                       <i class="fas fa-filter"></i> Order by
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                      <li><a class="dropdown-item">Date Asc</a></li>
-                        <li><a class="dropdown-item">Date Desc</a></li>
-                        <li><a class="dropdown-item">Name Asc</a></li>
-                        <li><a class="dropdown-item">Name Desc</a></li>
+                      <li><a class="dropdown-item">{{'ORDER_BY_Date_Asc' | translate}}</a></li>
+                        <li><a class="dropdown-item">{{'ORDER_BY_Date_Desc' | translate}}</a></li>
+                        <li><a class="dropdown-item">{{'ORDER_BY_NAME_Asc' | translate}}</a></li>
+                        <li><a class="dropdown-item">{{'ORDER_BY_NAME_Desc' | translate}}</a></li>
                     </ul>
                   </div>
 
                 <!-- Add new contributor -->
                 <div class="btn-group">
-                  <button class="btn add-project dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" (click)="this.showPopper = !this.showPopper">
-                    <i class="fas fa-plus"></i> Add contributors
+                  <button class="btn add-project dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" (click)="this.showPopper = this.showPopper">
+                    <i class="fas fa-plus"></i> {{'ADD_CONTRIBUTORS' | translate}}
                   </button>
 
                   <!-- Popper -->
                     <div *ngIf="showPopper" class="popper bg-dark text-white border rounded shadow p-3 position-absolute" style="top: 100%; left: -20%; z-index: 1050; width: 200px; border-color: #1d1d1dc7;">
-                    <div class="arrow" style="position: absolute; top: -10px; left: 65px; width: 0; height: 0; border-left: 10px solid transparent; border-right: 10px solid transparent; border-bottom: 10px solid #333;"></div>
-                    <p class="mb-2">Add contributors to collaborate effectively!</p>
+                      <div class="arrow" style="position: absolute; top: -10px; left: 65px; width: 0; height: 0; border-left: 10px solid transparent; border-right: 10px solid transparent; border-bottom: 10px solid #333;"></div>
+                      <p class="mb-2">{{'NO_CONTRIBUTORS' | translate}}</p>
                     </div>
 
                   <ul class="dropdown-menu" style="width: 300px;" data-bs-auto-close="false">
                     <li>
                       <div class="px-3 py-2">
-                        <label for="translationContext" class="form-label">User Email</label>
-                        <input type="text" class="form-control" placeholder="Enter the User Email" [(ngModel)]="userEmail">
+                        <label for="translationContext" class="form-label">{{'User_Email' | translate}}</label>
+                        <input type="text" class="form-control" placeholder="{{'Enter_User_Email' | translate}}" [(ngModel)]="userEmail">
                       </div>
                       <div *ngIf="emailError" class="text-danger mb-3">{{ emailError }}</div>
                     </li>
                     <li>
                       <div class="px-3 py-2">
                         <label for="otherSpecifications" class="form-label">Choose a Role</label>
-                        <input type="text" class="form-control" placeholder="Choose a role" [value]="selectedRole?.name" (focus)="showDropdown = true" (blur)="hideDropdown()">
+                        <input type="text" class="form-control" placeholder="{{'Choose_Role' | translate}}" [value]="selectedRole?.name" (focus)="showDropdown = true" (blur)="hideDropdown()">
                       </div>
                       <div *ngIf="roleError" class="text-danger mb-3">{{ roleError }}</div>
 
@@ -59,7 +59,7 @@
                     </li>
                     
                     <li class="text-center button">
-                      <button class="btn mt-2" style="background-color: #46B24D; color: white; width: 90%;" (click)="SaveContributor()">ADD</button>
+                      <button class="btn mt-2" style="background-color: #46B24D; color: white; width: 90%;" (click)="SaveContributor()">{{'ADD' | translate}}</button>
                     </li>
                   </ul>
               </div>
@@ -70,10 +70,10 @@
         <table class="table text-white mb-3">
             <thead>
                 <tr class="table-light">
-                  <th scope="col" class="terms"><span class="badge badge-custom">{{userRoleDetails.length}} Contributors</span></th>
-                  <th *ngIf="showProjectColumn" scope="col" class="term-title">Project</th>
-                  <th scope="col" class="term-title">Role</th>
-                  <th scope="col" class="term-title" style="text-align: end;">Action</th>
+                  <th scope="col" class="terms"><span class="badge badge-custom">{{userRoleDetails.length}} {{'CONTRIBUTORS' | translate}}</span></th>
+                  <th *ngIf="showProjectColumn" scope="col" class="term-title">{{'PROJECTS' | translate}}</th>
+                  <th scope="col" class="term-title">{{'ROLE' | translate}}</th>
+                  <th scope="col" class="term-title" style="text-align: end;">{{'ACTION' | translate}}</th>
                 </tr>
                 
               </thead>
@@ -94,23 +94,23 @@
                   <td class="align-middle">
                    {{ detail[roleField]?.name }}
                   </td>
-                    <td class="align-middle custom-td">
-                      <!-- Modification button -->
-                      <button type="button" class="custom-iconBtn" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Modify contributor">
-                        <i class="fas fa-edit fa-lg" style="color: rgb(37, 188, 248);"></i>
-                      </button>
-                      <!-- Trash button -->
-                      <button type="button" class="custom-iconBtn" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Remove contributor" (click)="deleteUserRole(detail.userRoleId)">
-                        <i class="fas fa-trash-alt fa-lg text-warning"></i>
-                      </button>
-                      <!-- Messaging button -->
-                      <button type="button" class="custom-iconBtn" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Message contributor">
-                        <i class="fas fa-envelope fa-lg" style="color: #46B24D;"></i>
-                      </button>
-                    </td>
+                  <td class="align-middle custom-td">
+                    <!-- Modification button -->
+                    <button type="button" class="custom-iconBtn" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Modify contributor">
+                      <i class="fas fa-edit fa-lg" style="color: rgb(37, 188, 248);"></i>
+                    </button>
+                    <!-- Trash button -->
+                    <button type="button" class="custom-iconBtn" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Remove contributor" (click)="deleteUserRole(detail.userRoleId)">
+                      <i class="fas fa-trash-alt fa-lg text-warning"></i>
+                    </button>
+                    <!-- Messaging button -->
+                    <button type="button" class="custom-iconBtn" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Message contributor">
+                      <i class="fas fa-envelope fa-lg" style="color: #46B24D;"></i>
+                    </button>
+                  </td>
                 </tr>
               </tbody>
         </table>
-
+        <span class="loader" *ngIf="isLoading"></span>
     </div>
-</div>
+<!-- </div> -->

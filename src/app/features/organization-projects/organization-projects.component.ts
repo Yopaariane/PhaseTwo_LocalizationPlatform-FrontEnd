@@ -10,10 +10,11 @@ import { TermsService } from '../../core/terms.service';
 import { TranslationService } from '../../core/translation.service';
 import { SortDropdownComponent } from '../../shared/sort-dropdown/sort-dropdown.component';
 import { LanguageService } from '../../core/language.service';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-organization-projects',
-  imports: [NavBarLayoutComponent, CommonModule, RouterLink, RouterOutlet, RouterLinkActive],
+  imports: [NavBarLayoutComponent, CommonModule, RouterLink, RouterOutlet, RouterLinkActive, TranslateModule],
   templateUrl: './organization-projects.component.html',
   styleUrls:[ './organization-projects.component.css',
     '../organization/organization.component.css', '../dashbord/dashbord.component.css', '../project/project.component.css'

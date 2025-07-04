@@ -1,9 +1,9 @@
 <div class="section mt-4">
     <div class="contain my-4 custom-container">
-      <h4 class="card-title">Import Terms and Translations</h4>
+      <h4 class="card-title">{{'IMORT_TERMS' | translate}}</h4>
       <div class="card-body">
         <div class="mb-3 file">
-          <label for="fileInput" class="form-label">Drag your file here or click to choose</label>
+          <label for="fileInput" class="form-label">{{'DRAG_FILE' | translate}}</label>
           <div
             id="fileInput"
             class="border border-2 border-dashed rounded text-center p-4 file-drop-zone"
@@ -22,16 +22,16 @@
             />
             <i class="bi bi-file-earmark-text" style="font-size: 26px;"></i>
             <p class="text-muted" *ngIf="!selectedFile">
-              Drag your file here or click to choose
+              {{'DRAG_FILE' | translate}}
             </p>
             <p *ngIf="selectedFile">
-              {{ selectedFile.name }} has been added
+              {{ selectedFile.name }} {{'HAS_BEEN_ADDED' | translate}}
             </p>
           </div>
         </div>
   
         <div class="input-group mb-3">
-            <input type="text" class="form-control" placeholder="Choose a language" [value]="selectedLanguage?.name || ''" (focus)="showDropdown = true" (blur)="hideDropdown()" readonly>
+            <input type="text" class="form-control" placeholder="{{'Choose_Language' | translate}}" [value]="selectedLanguage?.name || ''" (focus)="showDropdown = true" (blur)="hideDropdown()" readonly>
         </div>
         <div *ngIf="showDropdown" style="background-color: blue;">
             <ul class="list-group z-index-1" style="background-color: aqua;">
@@ -42,13 +42,13 @@
         </div>
   
         <button class="btn custom-btn w-100" (click)="importToProject()">
-          Import to project
+          {{'IMPORT_PROJECT' | translate}}
         </button>
       </div>
     </div>
   
     <div class="mt-4 file-type">
-      <h5>Accepted files:</h5>
+      <h5>{{'ACCEPTED_FILE_TYPES' | translate}}</h5>
       <ul class="list-unstyled">
         <li><strong>JSON</strong> (.json)</li>
         <li><strong>CSV</strong> (.csv)</li>

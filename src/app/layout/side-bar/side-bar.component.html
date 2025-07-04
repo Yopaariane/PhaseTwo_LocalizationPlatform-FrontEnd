@@ -9,39 +9,39 @@
     <ul class="nav nav-pills flex-column">
       <li class="nav-item" routerLinkActive="active-link">
         <a routerLink="/dashboard" class="nav-link">
-          <i class="bi bi-house-door"></i> Dashboard
+          <i class="bi bi-house-door"></i> {{'DASHBOARD' | translate}}
         </a>
       </li>
       <li class="nav-item" routerLinkActive="active-link">
         <a [routerLink]="['/project']" class="nav-link">
-          <i class="bi bi-folder"></i> Projects
+          <i class="bi bi-folder"></i> {{'PROJECTS' | translate}}
         </a>
       </li>
       <li class="nav-item" routerLinkActive="active-link">
         <a [routerLink]="['/organization']" class="nav-link">
-          <i class="bi bi-people"></i> Organization
+          <i class="bi bi-people"></i> {{'ORGANIZATION' | translate}}
         </a>
       </li>
       <li class="nav-item" routerLinkActive="active-link">
-        <a href="#" class="nav-link">
-          <i class="bi bi-plug"></i> Integrations
+        <a [routerLink]="['/integration']" class="nav-link">
+          <i class="bi bi-plug"></i> {{'INTEGRATIONS' | translate}}
         </a>
       </li>
-      <p>Help & Support</p>
+      <p>{{'HELP_SUPPORT' | translate}}</p>
       <li class="nav-item" routerLinkActive="active-link">
         <a [routerLink]="['/settings']" class="nav-link">
-          <i class="bi bi-gear"></i> Settings
+          <i class="bi bi-gear"></i> {{'SETTINGS' | translate}}
         </a>
       </li>
       <li class="nav-item" routerLinkActive="active-link">
-        <a href="#" class="nav-link">
-          <i class="bi bi-question-circle"></i> Help Center
+        <a [routerLink]="['/help-center']" class="nav-link">
+          <i class="bi bi-question-circle"></i> {{'HELP_CENTER' | translate}}
         </a>
       </li>
 
       <li class="nav-item end" routerLinkActive="active-link">
         <a href="#" class="nav-link">
-          <i class="bi bi-box-arrow-left"></i> Log Out
+          <i class="bi bi-box-arrow-left"></i> {{'LOGOUT' | translate}}
         </a>
       </li>
     </ul>

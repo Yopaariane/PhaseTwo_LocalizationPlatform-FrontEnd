@@ -6,10 +6,11 @@ import { CommonModule } from '@angular/common';
 import { SortingService } from '../../../core/sorting.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LoadingService } from '../../../core/loading.service';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-contributors',
-  imports: [CommonModule, ReactiveFormsModule, FormsModule],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule, TranslateModule],
   templateUrl: './contributors.component.html',
   styleUrls: ['./contributors.component.css', '../terms/terms.component.css', '../../dashbord/dashbord.component.css']
 })
@@ -36,6 +37,7 @@ export class ContributorsComponent {
 
   showPopper: boolean = false;
   popperTimeout: any;
+  isLoading: boolean = false;
 
   constructor(
     private authService: AuthService,
@@ -66,9 +68,11 @@ export class ContributorsComponent {
   }
 
   getUserRolesByProjectId(projectId: number): void {
-    this.loadingService.show('Loading contributors...');
+    // this.loadingService.show('Loading contributors...');
+    this.isLoading = true;
     this.authService.getRolesByProjectId(projectId).subscribe((roles) => {
-      this.loadingService.hide();
+      // this.loadingService.hide();
+      this.isLoading = false;
       this.userRoles = roles;
 
     this.userRoles.forEach((role) => {
@@ -200,7 +204,7 @@ export class ContributorsComponent {
 
     this.popperTimeout = setTimeout(() => {
       this.showPopper = false;
-    }, 1000);
+    }, 2000);
   }
 
   ngOnDestroy(): void {

@@ -8,10 +8,11 @@ import { StorageService } from '../../core/storage.service';
 import { SideBarComponent } from '../side-bar/side-bar.component';
 import { RouterLink, RouterModule } from '@angular/router';
 import { AiAssistantComponent } from '../../shared/ai-assistant/ai-assistant.component';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-top-bar',
-  imports: [CommonModule, SideBarComponent, RouterLink, RouterModule, AiAssistantComponent],
+  imports: [CommonModule, SideBarComponent, RouterLink, RouterModule, AiAssistantComponent, TranslateModule],
   templateUrl: './top-bar.component.html',
   styleUrl: './top-bar.component.css'
 })
@@ -20,13 +21,22 @@ export class TopBarComponent {
   showSidebar = false;
   showDropdownSidebar: boolean = false;
   showAiAssistant: boolean = false;
+  user: { id: number, name: string } | null = null;
 
+  languages = [
+    {code: 'en', name: 'English', flag: '/img/easy-translate-en.png' },
+    {code: 'fr', name: 'French', flag: '/img/easy-translate-fr.png' },
+    {code: 'de', name: 'German', flag: '/img/easy-translate-de.png' },
+  ];
+  selectedLang = this.languages[0];
 
   constructor(
-      private localStorage: StorageService
-    ) { }
+      private localStorage: StorageService,
+      private translate: TranslateService
+    ) { 
+      this.selectedLang = this.languages.find(l => l.code === this.translate.currentLang) || this.languages[0];
+    }
 
-    user: { id: number, name: string } | null = null;
 
     ngOnInit() {
       const userData = this.localStorage.getitem('user');
@@ -108,5 +118,15 @@ export class TopBarComponent {
 
   closeAiAssistant(){
     this.showAiAssistant = false;
+  }
+
+  switchLanguage(lang: any) {
+    console.log('Switching language to', lang.code);
+    this.selectedLang = lang;
+    this.translate.use(lang.code).subscribe({
+      next: () => console.log('Language switched to', lang.code),
+      error: err => console.error('Error switching language:', err)
+    });
+    this.localStorage.setitem('lang', lang.code);
   }
 }

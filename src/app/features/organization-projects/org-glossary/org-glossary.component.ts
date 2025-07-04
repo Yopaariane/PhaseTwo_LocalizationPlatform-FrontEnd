@@ -4,10 +4,11 @@ import { FormArray, FormBuilder, FormGroup, NgModelGroup, ReactiveFormsModule, V
 import { SortDropdownComponent } from '../../../shared/sort-dropdown/sort-dropdown.component';
 import { ActivatedRoute} from '@angular/router';
 import { GlossaryService } from '../../../core/glossary.service';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-org-glossary',
-  imports: [CommonModule, ReactiveFormsModule, SortDropdownComponent],
+  imports: [CommonModule, ReactiveFormsModule, SortDropdownComponent, TranslateModule],
   templateUrl: './org-glossary.component.html',
   styleUrls: ['./org-glossary.component.css', '../../dashbord/dashbord.component.css']
 })

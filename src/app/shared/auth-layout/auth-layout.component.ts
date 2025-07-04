@@ -1,12 +1,13 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { AuthService } from '../../core/auth.service';
 import { SocialLoginModule } from '@abacritt/angularx-social-login';
+import { TranslateModule } from '@ngx-translate/core';
 
 declare const google: any;
 
 @Component({
   selector: 'app-auth-layout',
-  imports: [SocialLoginModule],
+  imports: [SocialLoginModule, TranslateModule],
   templateUrl: './auth-layout.component.html',
   styleUrls: ['./auth-layout.component.css',
                 '../../features/sign-in/sign-in.component.css'

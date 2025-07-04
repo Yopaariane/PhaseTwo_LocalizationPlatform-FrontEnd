@@ -13,7 +13,7 @@
             <app-sort-dropdown></app-sort-dropdown>
         </div>
         <button class="btn add-project btn-default pull-left" (click)="addRow()">
-            <i class="fas fa-plus"></i> Add Row
+            <i class="fas fa-plus"></i> {{'Add_Row' | translate}}
         </button>
     </div>
 </div>
@@ -26,13 +26,13 @@
                   <thead>
                     <tr>
                       <th class="text-center">#</th>
-                      <th class="text-center">Terms</th>
-                      <th class="text-center">Initial Translation</th>
-                      <th class="text-center">Context</th>
-                      <th class="text-center">Translatable</th>
-                      <th class="text-center">Comment</th>
-                      <th class="text-center">Status</th>
-                      <th class="text-center">Action</th>
+                      <th class="text-center">{{'Terms' | translate}}</th>
+                      <th class="text-center">{{'Initial_Translation' | translate}}</th>
+                      <th class="text-center">{{'Context' | translate}}</th>
+                      <th class="text-center">{{'TRANSLATIONS' | translate}}</th>
+                      <th class="text-center">{{'Comment' | translate}}</th>
+                      <th class="text-center">{{'STATUS' | translate}}</th>
+                      <th class="text-center">{{'ACTION' | translate}}</th>
                     </tr>
                   </thead>
                   <tbody formArrayName="rows"  *ngFor="let row of rows.controls; let index = index">
@@ -42,34 +42,34 @@
                       <!-- Term -->
                       <td>
                         <span *ngIf="!row.get('isEditing')?.value">{{ row.get('term')?.value }}</span>
-                        <input *ngIf="row.get('isEditing')?.value" type="text" formControlName="term" class="form-control" placeholder="Enter a glossary term" aria-label="Term" />
+                        <input *ngIf="row.get('isEditing')?.value" type="text" formControlName="term" class="form-control" placeholder="{{'ENTER_TERMS' | translate}}" aria-label="Term" />
                       </td>
               
                       <!-- Translation -->
                       <td>
                         <span *ngIf="!row.get('isEditing')?.value">{{ row.get('initial_translation')?.value }}</span>
-                        <input *ngIf="row.get('isEditing')?.value" type="text" formControlName="initial_translation" class="form-control" placeholder="Enter initial translation" aria-label="initial_translation" />
+                        <input *ngIf="row.get('isEditing')?.value" type="text" formControlName="initial_translation" class="form-control" placeholder="{{'ENTER_TRANSLATION' | translate}}" aria-label="initial_translation" />
                       </td>
               
                       <!-- Context -->
                       <td>
                         <span *ngIf="!row.get('isEditing')?.value">{{ row.get('context')?.value }}</span>
-                        <input *ngIf="row.get('isEditing')?.value" type="text" formControlName="context" class="form-control" placeholder="Explain the context" aria-label="Context" />
+                        <input *ngIf="row.get('isEditing')?.value" type="text" formControlName="context" class="form-control" placeholder="{{'Context' | translate}}" aria-label="Context" />
                       </td>
               
                       <!-- Translatable -->
                       <td>
                         <span *ngIf="!row.get('isEditing')?.value">{{ row.get('translatable')?.value }}</span>
                         <select *ngIf="row.get('isEditing')?.value" formControlName="translatable" class="form-control" aria-label="Translatable">
-                          <option value="yes">Yes</option>
-                          <option value="no">No</option>
+                          <option value="yes">{{'YES' | translate}}</option>
+                          <option value="no">{{'NO' | translate}}</option>
                         </select>
                       </td>
               
                       <!-- Comment -->
                       <td>
                         <span *ngIf="!row.get('isEditing')?.value">{{ row.get('comment')?.value }}</span>
-                        <input *ngIf="row.get('isEditing')?.value" type="text" formControlName="comment" class="form-control" placeholder="Optional comment" aria-label="Comment" />
+                        <input *ngIf="row.get('isEditing')?.value" type="text" formControlName="comment" class="form-control" placeholder="{{'OPTIONAL_COMMENT' | translate}}" aria-label="Comment" />
                       </td>
               
                       <!-- Status -->
@@ -78,9 +78,9 @@
                           {{ row.get('status')?.value }}
                         </span>
                         <select *ngIf="row.get('isEditing')?.value" formControlName="status" class="form-control" aria-label="status">
-                          <option value="Pending" [ngStyle]="{'color': getStatusColor('Pending')}">Pending</option>
-                          <option value="Approved" [ngStyle]="{'color': getStatusColor('Approved')}">Approved</option>
-                          <option value="NotApproved" [ngStyle]="{'color': getStatusColor('NotApproved')}">NotApproved</option>
+                          <option value="Pending" [ngStyle]="{'color': getStatusColor('Pending')}">{{'PENDING' | translate}}</option>
+                          <option value="Approved" [ngStyle]="{'color': getStatusColor('Approved')}">{{'APPROVED' | translate}}</option>
+                          <option value="NotApproved" [ngStyle]="{'color': getStatusColor('NotApproved')}">{{'REJECTED' | translate}}</option>
                         </select>
                       </td>
               

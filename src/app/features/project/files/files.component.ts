@@ -11,10 +11,11 @@ import { NgbPagination } from '@ng-bootstrap/ng-bootstrap';
 import { Language } from '../../../core/models/project.model';
 import { SingleProjectService } from '../../../core/single-project.service';
 import { ProjectLanguage } from '../../../core/models/project-language.model';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-files',
-  imports: [CommonModule, SortDropdownComponent, ReactiveFormsModule, NgbPagination, FormsModule],
+  imports: [CommonModule, SortDropdownComponent, ReactiveFormsModule, NgbPagination, FormsModule, TranslateModule],
   templateUrl: './files.component.html',
   styleUrls: ['./files.component.css', 
     '../../dashbord/dashbord.component.css', 

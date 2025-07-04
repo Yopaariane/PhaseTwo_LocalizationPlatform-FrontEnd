@@ -1,0 +1,55 @@
+<app-nav-bar-layout>
+    <div class="row info-grids">
+        <div class="col" (click)="openPopOver('GitHub')">
+            <img src="/img/github (2).png" alt="github">
+            <h4>GITHUB</h4>
+            <p>{{'GITHUB_INTEGRATION_DESCRIPTION' | translate}}</p>
+        </div>
+        <div class="col" (click)="openPopOver('ChatGPT')">
+            <img src="/img/chatgpt.png" alt="chatgpt">
+            <h4>CHATGPT</h4>
+            <p>{{'CHATGPT_INTEGRATION_DESCRIPTION' | translate}}</p>
+        </div>
+        <div class="col" (click)="openPopOver('Deepseek')">
+            <img src="/img/deepseek.png" alt="deepseek">
+            <h4>DEEPSEEK</h4>
+            <p>{{'DEEPSEEK_INTEGRATION_DESCRIPTION' | translate}}</p>
+        </div>
+        <div class="col" (click)="openPopOver('Claude')">
+            <img src="/img/claude-ai.png" alt="claude-Ai">
+            <h4>CLAUDE</h4>
+            <p>{{'CLAUDE_INTEGRATION_DESCRIPTION' | translate}}</p>
+        </div>
+        <div class="col" (click)="openPopOver('GitLab')">
+            <img src="/img/gitlab.png" alt="gitlab">
+            <h4>GITLAB</h4>
+            <p>{{'GITLAB_INTEGRATION_DESCRIPTION' | translate}}</p>
+        </div>
+    </div>
+
+    <div class="popOver shadow-lg rounded-3 p-4 bg-white" *ngIf="showPopOver">
+        <div class="d-flex justify-content-between align-items-center mb-3 popOver-head">
+            <h5 class="mb-0 fw-semibold"> {{ selectedIntegration }} Integration </h5>
+            <button class="btn-close" aria-label="Close" (click)="showPopOver = false"></button>
+        </div>
+        <div class="popOver-body mb-3">
+            <label for="api-key" class="form-label fw-medium">Enter your API key to integrate:</label>
+            <input id="api-key" type="text" class="form-control mb-2" placeholder="Paste your API key here">
+        </div>
+        <div class="form-check mb-2">
+            <input class="form-check-input" type="radio" name="apiKeyUsage" id="useOnce" checked>
+            <label class="form-check-label" for="useOnce">
+                Use only this time
+            </label>
+        </div>
+        <div class="form-check mb-3">
+            <input class="form-check-input" type="radio" name="apiKeyUsage" id="useEveryTime">
+            <label class="form-check-label" for="useEveryTime">
+                Use every time (you can remove it later in settings)
+            </label>
+        </div>
+        <div class="d-grid">
+            <button class="btn upload-btn" type="button">Integrate</button>
+        </div>
+    </div>
+</app-nav-bar-layout>

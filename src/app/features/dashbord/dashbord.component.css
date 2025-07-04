@@ -26,6 +26,9 @@
         .row{
             margin-right: 10px;
         }
+        h2{
+                max-width: 20rem;
+            }
     }
 }
 .info-grids{
@@ -69,7 +72,8 @@
         text-align: end;
         display: flex;
         min-width: 300px;
-        justify-content: space-between;
+        gap: 10px;
+        justify-content: end;
         
         .add-project{
             background-color: #E98925;
@@ -169,3 +173,24 @@
     box-sizing: border-box;
 
 }
+
+/* component loader */
+.loader {
+  width: 68px;
+  height: 68px;
+  border-radius: 70%;
+  display: inline-block;
+  border-top: 3px solid #46B24D;
+  border-right: 3px solid transparent;
+  box-sizing: border-box;
+  animation: rotation 0.5s linear infinite;
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}  

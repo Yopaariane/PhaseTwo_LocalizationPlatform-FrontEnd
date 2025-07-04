@@ -11,10 +11,11 @@ import { LanguageService } from '../../core/language.service';
 import { or } from 'firebase/firestore';
 import { OrganizationService } from '../../core/organization.service';
 import { LoadingService } from '../../core/loading.service';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-project-form',
-  imports: [ReactiveFormsModule, NavBarLayoutComponent, CommonModule, FormContainerComponent],
+  imports: [ReactiveFormsModule, NavBarLayoutComponent, CommonModule, FormContainerComponent, TranslateModule],
   templateUrl: './project-form.component.html',
   styleUrl: './project-form.component.css'
 })

@@ -28,4 +28,4 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: ariane965/translation_frontend:latest2
+          tags: ariane965/translation_frontend:latest3

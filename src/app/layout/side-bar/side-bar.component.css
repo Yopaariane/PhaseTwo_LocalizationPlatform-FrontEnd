@@ -11,14 +11,14 @@
     height: 12%;}
 
   .logo{
-    width: 150px;
-    height: 75%;
+    width: 120px;
+    height: 65%;
   }
   .nav{
     width: 90%;
     p{
         margin-top: 20%;
-        margin-bottom: 0;
+        margin-bottom: 10px;
         font-size: 14px;
         margin-left: 20px;
     }
@@ -26,8 +26,8 @@
 
   .nav-item{
     border-radius: 10px;
-    margin-top: 15%;
-    gap: 8%;
+    margin-top: 10%;
+    /* gap: 8%; */
     width: 100%;
   }
   .end{
@@ -46,8 +46,7 @@
     display: flex;
     justify-content: start;
     i{
-      margin-right: 20px;
-
+      margin-right: 15px;
     }
   }
   .active-link{
@@ -64,6 +63,22 @@
   }
   @media (max-height: 730px) {
     .end {
-      margin-top: 20%;
+      margin-top: 40% !important;
+    }
+
+    .logo{
+      width: 100px;
+      height: calc(75% - 10px);
+    }
+
+    p{
+        margin-top:  15% !important;
+        font-weight: lighter !important;
+    }
+
+    .nav-item{
+      border-radius: 10px;
+      margin-top: 8%;
+      font-weight: lighter !important;
     }
   }

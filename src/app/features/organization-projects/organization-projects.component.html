@@ -5,7 +5,7 @@
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
                       <li class="breadcrumb-item">
-                        <a [routerLink]="['/organization']">Organization</a>
+                        <a [routerLink]="['/organization']">{{'ORGANIZATION' | translate}}</a>
                       </li>
                       <li class="breadcrumb-item active" aria-current="page">
                         {{ organizationName }}
@@ -27,18 +27,18 @@
           </div>
 
           <div class="link-list">
-            <ul class="custom-list">
-              <li class="nav-item1" routerLinkActive="active-link">
-                <a class="nav-link" routerLink="org-projects">Projects</a>
+            <ul class="custom-list organization-link">
+              <li class="nav-item" routerLinkActive="active-link">
+                <a class="nav-link" routerLink="org-projects">{{'PROJECTS' | translate}}</a>
               </li>
               <!-- <li class="nav-item1" routerLinkActive="active-link">
                 <a class="nav-link" routerLink="org-languages">Languages</a>
               </li> -->
-              <li class="nav-item1" routerLinkActive="active-link">
-                <a class="nav-link" routerLink="org-contributors">Contributors</a>
+              <li class="nav-item" routerLinkActive="active-link">
+                <a class="nav-link" routerLink="org-contributors">{{'CONTRIBUTORS' | translate}}</a>
               </li>
-              <li class="nav-item1" routerLinkActive="active-link">
-                  <a class="nav-link" [routerLink]="['org-glossary']">Glossary</a>
+              <li class="nav-item" routerLinkActive="active-link">
+                  <a class="nav-link" [routerLink]="['org-glossary']">{{'GLOSSARY' | translate}}</a>
               </li>
             </ul>   
           </div>

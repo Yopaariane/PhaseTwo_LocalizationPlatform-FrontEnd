@@ -6,10 +6,11 @@ import { ActivatedRoute, RouterLink, RouterLinkActive, RouterModule, RouterOutle
 import { Project } from '../../core/models/project.model';
 import { CommonModule } from '@angular/common';
 import { LoadingService } from '../../core/loading.service';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-project',
-  imports: [NavBarLayoutComponent, RouterOutlet, RouterLinkActive, RouterLink, RouterModule, CommonModule],
+  imports: [NavBarLayoutComponent, RouterOutlet, RouterLinkActive, RouterLink, RouterModule, CommonModule, TranslateModule],
   templateUrl: './project.component.html',
   styleUrls: ['./project.component.css', '../organization-projects/organization-projects.component.css']
 })

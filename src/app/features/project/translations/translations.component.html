@@ -17,7 +17,7 @@
             <div class="right-side">
                 <div class="btn-group">
                     <button class="btn btn-light dropdown-toggle" type="button" id="exportDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                      <i class="fas fa-file-export me-2"></i> Export
+                      <i class="fas fa-file-export me-2"></i> {{'EXPORT' | translate}}
                     </button>
                     <ul class="dropdown-menu file-format" aria-labelledby="exportDropdown">
                       <li *ngFor="let format of formats">
@@ -34,19 +34,19 @@
                     <button class="btn add-project dropdown-toggle" type="button" id="aiTranslateDropdown" data-bs-toggle="dropdown" aria-expanded="false" [disabled]="isTranslating">
                       <i class="fas fa-robot me-2"></i> 
                         <span *ngIf="isTranslating" class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="color: white; border-width: 2px;"></span>
-                      {{ isTranslating ? 'Translating...' : 'AI Translate' }}
+                        {{ isTranslating ? ('TRANSLATING' | translate) : ('AI_TRANSLATION' | translate) }}
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="aiTranslateDropdown" style="width: 300px;">
                         <li>
                             <div class="px-3 py-2">
-                                <label for="translationContext" class="form-label">Translation Context</label>
-                                <input type="text" class="form-control" id="translationContext" [(ngModel)]="translationContext" placeholder="Enter context">
+                                <label for="translationContext" class="form-label">{{'TRANSLAT_CONTEXT' | translate}}</label>
+                                <input type="text" class="form-control" id="translationContext" [(ngModel)]="translationContext" placeholder="{{'ENTER_CONTEXT' | translate}}">
                             </div>
                         </li>
                         <li>
                             <div class="px-3 py-2">
-                                <label for="otherSpecifications" class="form-label">Other Specifications</label>
-                                <input type="text" class="form-control" id="otherSpecifications" [(ngModel)]="otherSpecifications" placeholder="Enter specifications">
+                                <label for="otherSpecifications" class="form-label">{{'ORTHER_SPECIFICATIONS' | translate}}</label>
+                                <input type="text" class="form-control" id="otherSpecifications" [(ngModel)]="otherSpecifications" placeholder="{{'ENTER_SPECIFICATIONS' | translate}}">
                             </div>
                         </li>
                         <li class="text-center" style="width: 90%; margin: auto;">
@@ -83,7 +83,7 @@
                         (input)="onInput(term.id)"
                         rows="2">
                       </textarea>
-                      <button class="btn btn-success" (click)="updateTranslation(term.id)">Update</button>
+                      <button class="btn btn-success" (click)="updateTranslation(term.id)">{{'Update' | translate}}</button>
                     </ng-container>
               
                     <ng-template #noTranslation>

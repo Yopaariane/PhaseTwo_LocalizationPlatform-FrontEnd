@@ -1,7 +1,7 @@
 <div class="row terms-list">
     <!-- No language -->
     <div class="col no-project" *ngIf="projectLanguages.length === 0">
-      <h3>Click on the plus button to Add your first language !</h3>
+      <h3>{{'ADD_LANGUAGE_MASSAGE' | translate}}</h3>
       <div class="btn-group">
         <button class="btn add-project dropdown-toggle" type="button" id="aiTranslateDropdown" data-bs-toggle="dropdown" aria-expanded="false">
           <i class="fas fa-plus"></i>
@@ -17,7 +17,7 @@
             </div>
           </li>
           <li class="text-center button">
-            <button class="btn mt-2" style="background-color: #46B24D; color: white;" (click)="saveLanguages()">ADD</button>
+            <button class="btn mt-2" style="background-color: #46B24D; color: white;" (click)="saveLanguages()">{{'ADD' | translate}}</button>
           </li>
         </ul>
     </div>
@@ -40,7 +40,7 @@
                 <!-- Add new Languages -->
                 <div class="btn-group">
                     <button class="btn add-project dropdown-toggle" type="button" id="aiTranslateDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                      <i class="fas fa-plus"></i> Add Language
+                      <i class="fas fa-plus"></i> {{'ADD_LANGUAGE' | translate}}
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="aiTranslateDropdown" style="width: 120px;">
                       <li>
@@ -53,7 +53,7 @@
                         </div>
                       </li>
                       <li class="text-center button">
-                        <button class="btn mt-2" style="background-color: #46B24D; color: white;" (click)="saveLanguages()">ADD</button>
+                        <button class="btn mt-2" style="background-color: #46B24D; color: white;" (click)="saveLanguages()">{{'ADD' | translate}}</button>
                       </li>
                     </ul>
                 </div>
@@ -64,9 +64,9 @@
         <table class="table table-hover">
             <thead>
               <tr class="table-light">
-                <th scope="col" class="terms"><span class="badge badge-custom">{{projectLanguages.length}} Languages</span></th>
-                <th scope="col" class="term-title">Progress</th>
-                <th scope="col" class="term-title" style="text-align: end;">Action</th>
+                <th scope="col" class="terms"><span class="badge badge-custom">{{projectLanguages.length}} {{'LANGUAGES' | translate}}</span></th>
+                <th scope="col" class="term-title">{{'PROGRESS' | translate}}</th>
+                <th scope="col" class="term-title" style="text-align: end;">{{'ACTION' | translate}}</th>
               </tr>
             </thead>
             <tbody>

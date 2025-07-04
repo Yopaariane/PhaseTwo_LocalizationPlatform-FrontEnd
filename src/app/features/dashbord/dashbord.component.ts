@@ -17,11 +17,14 @@ import { SortDropdownComponent } from '../../shared/sort-dropdown/sort-dropdown.
 import { Organization } from '../../core/models/organization.model';
 import { OrganizationService } from '../../core/organization.service';
 import { LoadingService } from '../../core/loading.service';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { StorageService } from '../../core/storage.service';
 
 
 @Component({
   selector: 'app-dashbord',
-  imports: [NavBarLayoutComponent, MatGridListModule, ProgressCircleComponent, CommonModule, RouterLink, NgbPaginationModule, SortDropdownComponent],
+  imports: [NavBarLayoutComponent, MatGridListModule, ProgressCircleComponent, CommonModule, 
+    RouterLink, NgbPaginationModule, SortDropdownComponent, TranslateModule],
   templateUrl: './dashbord.component.html',
   styleUrl: './dashbord.component.css'
 })
@@ -44,6 +47,7 @@ export class DashbordComponent implements OnInit {
   paginatedProjects: Project[] = [];
 
   sortOrder: string = 'Date Asc';
+  isLoading: boolean = false;
 
   constructor(
     private projectService: ProjectService,
@@ -55,6 +59,8 @@ export class DashbordComponent implements OnInit {
     private sortingService: SortingService,
     private organizationService: OrganizationService,
     private loadingService: LoadingService,
+    private translate: TranslateService,
+    private localStorage: StorageService,
   ) {}
 
   ngOnInit(): void {
@@ -92,11 +98,13 @@ export class DashbordComponent implements OnInit {
   loadProjects(): void {
     const userId = this.getUserId();
     if (userId !== null) {
-      this.loadingService.show('Loading projects...');
+      // this.loadingService.show('Loading projects...');
+      this.isLoading = true;
       this.adminId = userId; 
 
       this.projectService.getUserProjects(userId).subscribe((projects) => {
-        this.loadingService.hide();
+        // this.loadingService.hide();
+        this.isLoading = false;
         this.projects = projects;
         console.log('Projects', projects);
 

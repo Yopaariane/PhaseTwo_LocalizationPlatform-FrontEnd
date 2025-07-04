@@ -12,10 +12,11 @@ import { Language, Project } from '../../core/models/project.model';
 import { ProjectService } from '../../core/project.service';
 import { TranslationService } from '../../core/translation.service';
 import { LoadingService } from '../../core/loading.service';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-organization',
-  imports: [NavBarLayoutComponent, SortDropdownComponent, RouterLink, CommonModule],
+  imports: [NavBarLayoutComponent, SortDropdownComponent, RouterLink, CommonModule, TranslateModule],
   templateUrl: './organization.component.html',
   styleUrls: ['./organization.component.css','../dashbord/dashbord.component.css']
 })
@@ -24,6 +25,7 @@ export class OrganizationComponent implements OnInit {
   organizationId!: number;
   defaultLanguage: string | undefined;
   newOrganization: string = 'newOrganization';
+  isLoading: boolean = false;
 
   constructor(
     private organizationService: OrganizationService,
@@ -51,11 +53,13 @@ export class OrganizationComponent implements OnInit {
   }
 
   loadOrganizations(): void {
-    this.loadingService.show('Loading organizations...');
+    // this.loadingService.show('Loading organizations...');
+    this.isLoading = true;
     const userId = this.getUserId();
     if (userId !== null) {
       this.organizationService.getOrganizationsByUser(userId).subscribe((organizations) => {
-        this.loadingService.hide();
+        // this.loadingService.hide();
+        this.isLoading = false;
         this.organizations = organizations;
 
         console.log('Organizations', this.organizations);
@@ -70,7 +74,8 @@ export class OrganizationComponent implements OnInit {
 
       });
     } else {
-      this.loadingService.hide();
+      // this.loadingService.hide();
+      this.isLoading = false;
       console.log('User not found');
     }
   } 

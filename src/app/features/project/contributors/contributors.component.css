@@ -1,3 +1,6 @@
+.col{
+    min-height: 610px;
+}
 .list-group-item{
     cursor: pointer;
 }
@@ -49,4 +52,7 @@
         font-size: 14px !important;
         font-weight: 500;
     }
+}
+tbody tr:last-child td {
+    border-bottom: none;
 }

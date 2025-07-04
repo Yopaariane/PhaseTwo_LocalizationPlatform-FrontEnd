@@ -1,11 +1,13 @@
 <nav class="navbar navbar-expand-lg">
     <div class="container-fluid">
-    <button class="navbar-toggler toggel" type="button" (click)="toggleDropdownSidebar()">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <button class="btn" type="button">
-      <i class="bi bi-search"></i>
-    </button>
+      <div class="left-side">
+        <button class="navbar-toggler toggel" type="button" (click)="toggleDropdownSidebar()">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <button class="btn" type="button">
+          <i class="bi bi-search"></i>
+        </button>
+      </div>
 
       <div class="ms-auto d-flex right-side">
         <button class="btn" type="button" (click)="toggleAiAssistant()">
@@ -20,6 +22,22 @@
             </i>
         </button>
 
+        <!-- Language Switcher -->
+        <div class="dropdown language-switcher">
+          <button class="btn btn-light dropdown-toggle d-flex align-items-center" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <img [src]="selectedLang.flag" alt="{{selectedLang.code}}" width="20" class="me-1" />
+            <span class="me-1">{{ selectedLang.code.toUpperCase() }}</span>
+          </button>
+          <ul class="dropdown-menu">
+            <li *ngFor="let lang of languages" (click)="switchLanguage(lang)">
+              <a class="dropdown-item d-flex align-items-center">
+                <img [src]="lang.flag" alt="{{lang.code}}" width="20" class="me-2" />
+                {{ lang.name }} ({{ lang.code.toUpperCase() }})
+              </a>
+            </li>
+          </ul>
+        </div>
+
         <div class="dropdown-avatar">
           <button class="btn no-bg" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="align-items: center; display: flex; gap: 5px;">
             <div
@@ -33,13 +51,13 @@
           </button>
           <ul class="dropdown-menu dropdown-menu-end">
             <li>
-              <a class="dropdown-item" [routerLink]="['/settings']">My profile</a>
+              <a class="dropdown-item" [routerLink]="['/settings']">{{'PROFILE' | translate}}</a>
             </li>
             <li>
-              <a class="dropdown-item" [routerLink]="['/settings']">Settings</a>
+              <a class="dropdown-item" [routerLink]="['/settings']">{{'SETTINGS' | translate}}</a>
             </li>
             <li>
-              <a class="dropdown-item" (click)="logout()">Logout</a>
+              <a class="dropdown-item" (click)="logout()">{{'LOGOUT' | translate}}</a>
             </li>
           </ul>
         </div>

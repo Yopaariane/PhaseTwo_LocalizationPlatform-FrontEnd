@@ -8,10 +8,11 @@ import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { StorageService } from '../../core/storage.service';
 import { LoadingService } from '../../core/loading.service';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-log-in',
-    imports: [AuthLayoutComponent, InputFieldComponent, ReactiveFormsModule, RouterOutlet, RouterLink, CommonModule],
+    imports: [AuthLayoutComponent, InputFieldComponent, ReactiveFormsModule, RouterOutlet, RouterLink, CommonModule, TranslateModule],
     templateUrl: './log-in.component.html',
     styleUrls: ['./log-in.component.css',
                 '../../features/sign-in/sign-in.component.css'
@@ -20,6 +21,7 @@ import { LoadingService } from '../../core/loading.service';
 export class LogInComponent {
     logInForm!: FormGroup;
     loginError: string = '';
+    isLoading: boolean = false;
 
   constructor(private fb: FormBuilder, 
     private authService: AuthService, 
@@ -44,18 +46,29 @@ export class LogInComponent {
 
     onSubmit() {
         if (this.logInForm.valid) {
-          this.loadingService.show('Loging In...');
+          // this.loadingService.show('Loging In...');
+          this.isLoading = true;
           this.authService.login(this.logInForm.value).subscribe({
             next: (data: UserResponse) => {
-              this.loadingService.hide();
+              // this.loadingService.hide();
+              this.isLoading = false;
               console.log('User logged in successfully:', data);
               this.localStorage.setitem('user', JSON.stringify(data));
               this.router.navigate(['/dashboard']);
             },
             error: (error) => {
-              this.loadingService.hide();
+              // this.loadingService.hide();
+              this.isLoading = false;
               console.error('Error:', error);
-              this.loginError = 'Login failed: ' + (error.error || error.message || 'Unknown error');
+                if (error.status === 0) {
+                this.loginError = 'Connection issue. Please check your internet and try again.';
+                } else if (error.status >= 500) {
+                this.loginError = 'Server error. Please try again later.';
+                } else if (error.status === 401 || error.status === 403) {
+                this.loginError = 'Wrong name or password. Please try again.';
+                } else {
+                this.loginError = 'Something went wrong. Please try again later.';
+                }
             }
           });
         }

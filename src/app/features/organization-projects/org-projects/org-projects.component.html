@@ -1,6 +1,6 @@
 <!-- No project -->
 <div class="col no-project" *ngIf="projects.length === 0">
-    <h3>Click on the plus button to create your first project !</h3>
+    <h3>{{'NO_PROJECTS' | translate}}</h3>
     <button class="btn add-project" [routerLink]="['/projectsForm']" [queryParams]="{ orgId: organizationId }">
       <i class="fas fa-plus"></i>
     </button>
@@ -21,7 +21,7 @@
                   <app-sort-dropdown></app-sort-dropdown>
               </div>
               <button class="btn add-project" [routerLink]="['/projectsForm']" [queryParams]="{ orgId: organizationId }">
-                  <i class="fas fa-plus"></i> Add Project
+                  <i class="fas fa-plus"></i> {{'ADD_PROJECT' | translate}}
               </button>
           </div>
       </div>
@@ -31,12 +31,12 @@
             <tr class="table-light">
               <th scope="col" class="projects">
                   <input type="checkbox" class="form-check-input check-box" id="selectAll">
-                  <label class="form-check-label" for="selectAll">Projects</label>
+                  <label class="form-check-label" for="selectAll">{{'PROJECTS' | translate}}</label>
               </th>
-              <th scope="col">Strings</th>
-              <th scope="col">Languages</th>
-              <th scope="col">Progress</th>
-              <th scope="col" class="status">Status</th>
+              <th scope="col">{{'STRINGS' | translate}}</th>
+              <th scope="col">{{'LANGUAGES' | translate}}</th>
+              <th scope="col">{{'PROGRESS' | translate}}</th>
+              <th scope="col" class="status">{{'STATUS' | translate}}</th>
             </tr>
           </thead>
           <tbody>
@@ -48,7 +48,7 @@
                   <span *ngIf="project.roleName" class="badge bg-info custom-badge">{{ project.roleName }}</span>
                 </label>
               </td>
-              <td>{{project.strings}} strings</td>
+              <td>{{project.strings}} {{'STRINGS' | translate}}</td>
               <td *ngIf="project.languages">
               <ng-container *ngFor="let language of project.languages">
                   <span [class]="getFlagClass(language.code)" style="margin-left: 5px;"></span>
@@ -61,7 +61,7 @@
               <small>{{ project.progress }}%</small>
               </td>
               <td class="status">
-                  <span>pending</span>
+                  <span>{{'PENDING' | translate}}</span>
               </td>
             </tr>
           </tbody>

@@ -19,10 +19,11 @@ import { SortingService } from '../../../core/sorting.service';
 import { SortDropdownComponent } from '../../../shared/sort-dropdown/sort-dropdown.component';
 import { TranslationTaskService } from '../../../core/translation-task.service';
 import { LoadingService } from '../../../core/loading.service';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-translations',
-  imports: [NgbPagination, NgClass, CommonModule, FormsModule, SortDropdownComponent],
+  imports: [NgbPagination, NgClass, CommonModule, FormsModule, SortDropdownComponent, TranslateModule],
   templateUrl: './translations.component.html',
   styleUrls: ['./translations.component.css', '../terms/terms.component.css', '../../dashbord/dashbord.component.css']
 })

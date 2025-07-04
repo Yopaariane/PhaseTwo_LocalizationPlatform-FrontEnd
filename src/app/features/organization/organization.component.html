@@ -2,33 +2,33 @@
     <div class="col d-flex flex-column custom-container">
         <div class="action-button d-flex justify-content-between mb-2">
             <div class="left-side d-flex justify-content-between">
-                <H3>Organization</H3>
+                <H3>{{'ORGANIZATION' | translate}}</H3>
             </div>
             <div class="right-side">
                 <div class="dropdown">
                     <app-sort-dropdown></app-sort-dropdown>
                 </div>
                 <button class="btn add-project" [routerLink]="['/projectsForm']" [queryParams]="{ orgText: newOrganization }">
-                    <i class="fas fa-plus"></i> Add Organization
+                    <i class="fas fa-plus"></i> {{'ADD_ORGANIZATION' | translate}}
                 </button>
             </div>
         </div>
           <div class="custom-card card-header">
             <th scope="col" class="organizations">
                 <input type="checkbox" class="form-check-input check-box" id="selectAll">
-                <label class="form-check-label" for="selectAll">Organizations</label>
+                <label class="form-check-label" for="selectAll">{{'ORGANIZATION' | translate}}</label>
             </th>
-            <th scope="col" class="strings">Strings</th>
-            <th scope="col" class="languages">Languages</th>
-            <th scope="col" class="progress-sec">Progress</th>
-            <th scope="col" class="action">Action</th>
+            <th scope="col" class="strings">{{'STRINGS' | translate}}</th>
+            <th scope="col" class="languages">{{'LANGUAGES' | translate}}</th>
+            <th scope="col" class="progress-sec">{{'PROGRESS' | translate}}</th>
+            <th scope="col" class="action">{{'ACTION' | translate}}</th>
           </div>
           <div class="custom-card card-body" *ngFor="let organization of organizations">
             <td class="organizations">
                 <input type="checkbox" class="form-check-input check-box" id="project1">
                 <label class="form-check-label" for="project1"><a [routerLink]="['/organization', organization.id]" class="link-dark">{{ organization.name }}</a></label>
             </td>
-            <td class="strings"> strings</td>
+            <td class="strings"> {{'STRINGS' | translate}} </td>
             <td class="languages">
                 <ng-container *ngIf="organization.defaultLangCode">
                   <span [class]="getFlagClass(organization.defaultLangCode)" style="margin-left: 5px;"></span>
@@ -50,6 +50,12 @@
                     </button>
                 </div>
             </td>
+          </div>
+          <div class="col" *ngIf="isLoading">
+            <span class="loader"></span>
+          </div>
+          <div class="col" *ngIf="!isLoading && organizations.length === 0">
+            <span class="no-organization">{{'NO_ORGANIZATIONS' | translate}}</span>
           </div>
     </div>
 </app-nav-bar-layout>

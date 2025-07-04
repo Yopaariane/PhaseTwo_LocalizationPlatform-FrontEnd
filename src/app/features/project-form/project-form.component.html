@@ -24,7 +24,7 @@
                 <input
                     type="text"
                     class="form-control"
-                    placeholder="Choose a language"
+                    placeholder="{{'Choose_Language' | translate}}"
                     [value]="selectedLanguage?.name || 'English'"
                     (focus)="showDropdown = true"
                     (blur)="hideDropdown()"
@@ -49,7 +49,7 @@
             </div>
             <div class="mb-3" *ngIf="!orgText">
                 <label for="description" class="form-label">
-                    Project Description
+                    {{'DESCRIPTION' | translate}}
                 </label>
                 <textarea
                     class="form-control"
@@ -59,7 +59,7 @@
                 ></textarea>
                 <div *ngIf="projectForm.get('description')?.touched && projectForm.get('description')?.invalid">
                     <small class="text-danger">
-                        Project description is required.
+                        {{'MISSING_DESCRIPTION' | translate}}
                     </small>
                 </div>
             </div>

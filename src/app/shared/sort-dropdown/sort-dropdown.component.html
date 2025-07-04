@@ -1,11 +1,11 @@
 <div class="dropdown">
     <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-      <i class="fas fa-filter"></i> Order by
+      <i class="fas fa-filter"></i> {{'ORDER_BY' | translate}}
     </button>
     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-      <li><a class="dropdown-item" (click)="updateSortOrder('Date Asc')">Date Asc</a></li>
-      <li><a class="dropdown-item" (click)="updateSortOrder('Date Desc')">Date Desc</a></li>
-      <li><a class="dropdown-item" (click)="updateSortOrder('Name Asc')">Name Asc</a></li>
-      <li><a class="dropdown-item" (click)="updateSortOrder('Name Desc')">Name Desc</a></li>
+      <li><a class="dropdown-item" (click)="updateSortOrder('Date Asc')">{{'ORDER_BY_Date_Asc' | translate}}</a></li>
+      <li><a class="dropdown-item" (click)="updateSortOrder('Date Desc')">{{'ORDER_BY_Date_Desc' | translate}}</a></li>
+      <li><a class="dropdown-item" (click)="updateSortOrder('Name Asc')">{{'ORDER_BY_NAME_Asc' | translate}}</a></li>
+      <li><a class="dropdown-item" (click)="updateSortOrder('Name Desc')">{{'ORDER_BY_NAME_Desc' | translate}}</a></li>
     </ul>
   </div>

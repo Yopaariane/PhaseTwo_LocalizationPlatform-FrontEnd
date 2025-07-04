@@ -1,0 +1,39 @@
+.info-grids{
+    margin: 22px;
+    gap: 58px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    .col{
+        height: 210px;
+        min-width: 247px;
+        max-width: 400px;
+        background-color: #ffff;
+        border-radius: 5px;
+        padding: 15px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        img{
+            width: 34px;
+            height: 34px;
+        }
+        h4{
+            padding: 0;
+            font-size: 16px;
+        }
+        p{
+            margin: 0;
+            font-size: 12px;
+            color: #000000;
+        }
+    }
+
+    .col:hover{
+        cursor: pointer;
+        background-color: #86c48a;
+        color: white;
+        p{
+            color: white;
+        }
+    }
+}

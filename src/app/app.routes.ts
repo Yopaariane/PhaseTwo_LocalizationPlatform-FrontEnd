@@ -25,6 +25,8 @@ import { OrgGlossaryComponent } from './features/organization-projects/org-gloss
 import { FilesComponent } from './features/project/files/files.component';
 import { ProjectLanguageResolverService } from './core/resolver/project-language-resolver.service';
 import { ContributorsResolverService } from './core/resolver/contributors-resolver.service';
+import { IntegrationComponent } from './features/integration/integration.component';
+import { HelpCenterComponent } from './features/help-center/help-center.component';
 
 export const AppRoutes: Routes = [
     {path: 'signup', component: SignInComponent},
@@ -60,6 +62,8 @@ export const AppRoutes: Routes = [
 
         {path: '', redirectTo: 'org-projects', pathMatch: 'full'}
     ]},
+    {path: 'integration', component: IntegrationComponent},
+    {path: 'help-center', component: HelpCenterComponent},
 
     {path: '', redirectTo: 'logIn', pathMatch: 'full'}
 ];

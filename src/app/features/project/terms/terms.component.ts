@@ -13,10 +13,11 @@ import { CommonModule } from '@angular/common';
 import { SortDropdownComponent } from '../../../shared/sort-dropdown/sort-dropdown.component';
 import { SortingService } from '../../../core/sorting.service';
 import { StorageService } from '../../../core/storage.service';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-terms',
-  imports: [NgbPagination, CommonModule, RouterLink, RouterModule, SortDropdownComponent],
+  imports: [NgbPagination, CommonModule, RouterLink, RouterModule, SortDropdownComponent, TranslateModule],
   templateUrl: './terms.component.html',
   styleUrls: ['./terms.component.css', '../../dashbord/dashbord.component.css']
 })
